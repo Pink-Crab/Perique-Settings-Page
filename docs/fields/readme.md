@@ -1,4 +1,4 @@
 
 ## Field Types
-* [text.md](Text <input type=\"text\">)
+* [text.md](Text)
 g
