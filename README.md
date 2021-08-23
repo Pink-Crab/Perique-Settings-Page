@@ -141,7 +141,7 @@ Holds the label used for the setting.
 ```php
 // To set the label
 $field = Text::new('field')
-    ->set_lablel('Some field');
+    ->set_label('Some field');
 
 // To get the label
 $label = $field->get_label(); // Some field
@@ -152,13 +152,30 @@ $label = $field->get_label(); // Some field
 Holds the current value to the option.
 ```php
 // This should not be set during the definition of the settings, as this is populated via the repository when being constructed by container. If you wish to set a default value, please see the sanitization callback below.
+$field->set_value('Whatever is defined');
 
 // Getting the current value.
-$value = $field->get_current(); // Whatever is defined.
+$value = $field->get_value(); // Whatever is defined.
 ```
 
 ---
 
+### protected $description
+> @param string $description  
+> @required false  
+> @default ''
+
+**Holds the description used for the setting.**
+
+```php
+// To set the description
+$field = Text::new('field')
+    ->set_description('This is my field, its magical');
+
+// To get the description
+$label = $field->get_description(); // This is my field, its magical
+```
+---
 
 
 ## Setting Field Types
@@ -169,6 +186,7 @@ A basic `<input type="text">` field
 
 ```php 
 Text::new('setting_key')
+```
 
 ## License ##
 
@@ -177,4 +195,4 @@ Text::new('setting_key')
 http://www.opensource.org/licenses/mit-license.html 
 
 ## Change Log ##
-* 0.1.0 - Migrated from https://github.com/Pink-Crab/Module__Admin_Pages
+* 0.1.0 - Recreation of the old settings page module which made use of the native WP_Settings_API
