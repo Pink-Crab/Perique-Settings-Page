@@ -191,8 +191,7 @@ abstract class Setting_Page implements Page {
 	 * @return Enqueue|null
 	 */
 	public function enqueue_styles(): ?Enqueue {
-		return Enqueue::style( $this->slug() )
-			->src( File_Helper::get_file_url( dirname( __DIR__, 1 ) . '/Form/style.css' ) );
+		return null;
 	}
 
 }

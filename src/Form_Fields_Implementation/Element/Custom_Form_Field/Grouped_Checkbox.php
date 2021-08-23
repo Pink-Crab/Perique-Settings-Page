@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Custom_Form_Field;
 
+use PinkCrab\Form_Fields\Label_Config;
 use PinkCrab\Form_Fields\Abstract_Field;
 use PinkCrab\Form_Fields\Traits\Options;
 use PinkCrab\Perique\Services\View\View;
@@ -91,7 +92,7 @@ class Grouped_Checkbox extends Abstract_Field {
 		$disabled   = $this->render_disabled();
 
 		return <<<HTML
-		<fieldset name="$name" $classes $attributes $disabled>
+		<fieldset name="$name" id="$name" $classes $attributes $disabled>
 			$inputs
 		</fieldset>
 HTML;
@@ -103,33 +104,21 @@ HTML;
 	 * @return string
 	 */
 	protected function generate_checkboxes(): string {
-		return View::print_buffer(
-			function() {
+		$content = '';
 
-				// Checks if the checkbox is selected.
-				$is_checked = function( $key ): bool {
-					return array_key_exists( $key, $this->current );
-				};
+		// Loops thorough each item and creates the checkboxes.
+		foreach ( $this->get_options() as $key => $option ) {
+			// Create the input and concatenate to return string.
+			$content .= Input_Checkbox::create( "{$this->get_key()}[{$key}]" )
+				->checked( is_array( $this->current ) && array_key_exists( $key, $this->current ) )
+				->current( $this->checked_value )
+				->show_label()
+				->label( $option )
+				->label_position( Label_Config::AFTER_INPUT )
+				->as_string();
+		}
 
-				// Loops thorugh each item and creates the checkboxes.
-				foreach ( $this->get_options() as $key => $option ) {
-					// Create the input.
-					$input = new Input_Checkbox( "{$this->get_key()}[{$key}]" );
-
-					$input->checked( $is_checked( $key ) )
-						->attribute( 'value', $this->checked_value )
-						->label( $option )
-						->show_label();
-
-					// Configure the label to show after input.
-					$input->label_config()->position_before( false );
-
-					// Render the input.
-					$input->render();
-
-				}
-			}
-		);
+		return $content;
 	}
 
 }

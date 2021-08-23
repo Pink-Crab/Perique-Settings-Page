@@ -114,7 +114,7 @@ class Valid_Settings extends Abstract_Settings {
 				->set_option( 'fgfdg', 'Option B' )
 				->set_option( 'ffgsdfsdgdfg', 'Option C' )
 				->set_option( 'fgfdgdfgdfgdfgfd', 'Option D' )
-				->set_attribute( 'data-placeholder', 'Enter a number' )
+				->set_data( 'placeholder', 'Enter a number' )
 		);
 	}
 

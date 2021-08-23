@@ -102,7 +102,7 @@ class Form_Handler {
 	 */
 	private function update_setting( string $key ): void {
 
-		$raw_value = array_key_exists( $key, $_POST ) ? $_POST[ $key ] : '';
+		$raw_value = array_key_exists( $key, $_POST ?: '' ) ? $_POST[ $key ] : '';
 		$field     = $this->settings->find( $key );
 		if ( is_a( $field, Field::class ) && $field->validate( $raw_value ) ) {
 

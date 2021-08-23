@@ -39,13 +39,29 @@ use PinkCrab\Perique_Settings_Page\Application\Form_Handler;
 
 class Setting_Page_Controller implements Hookable {
 
-	public const PAGE_GLOBALS_SCRIPTS = 'pc_setting_page-scripts';
-	public const PAGE_GLOBALS_STYLES  = 'pc_setting_page-styles';
+	/**
+	 * Global scripts handle.
+	 */
+	public const PAGE_GLOBALS_SCRIPTS = 'pc_setting_page_scripts';
 
+	/**
+	 * Global styles handle.
+	 */
+	public const PAGE_GLOBALS_STYLES = 'pc_setting_page_styles';
+
+	/**
+	 * View Generator
+	 *
+	 * @var Setting_View
+	 */
 	protected $setting_view_generator;
+
+	/**
+	 * DI Container
+	 *
+	 * @var DI_Container
+	 */
 	protected $di_container;
-
-
 
 	public function __construct(
 		Setting_View $setting_view_generator,
@@ -69,18 +85,13 @@ class Setting_Page_Controller implements Hookable {
 	/**
 	 * Registers the primary page.
 	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
+	 * @param Setting_Page $page
 	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
 	 * @throws Page_Exception (204) If page fails to be created.
 	 * @throws TypeError If not group passed.
 	 */
-	public function register_primary_page( Page $page, ?Abstract_Group $group ): void {
-
-		// Bail if a none setting page passed.
-		if ( ! is_a( $page, Setting_Page::class ) ) {
-			return;
-		}
+	public function register_primary_page( Setting_Page $page, ?Abstract_Group $group ): void {
 
 		if ( $group === null ) {
 			throw new TypeError( 'Valid group must be passed to create Setting_Page' );
@@ -105,22 +116,19 @@ class Setting_Page_Controller implements Hookable {
 
 		// Register callback for handling the settings page form.
 		add_action( "load-{$result}", $this->load_page_callback_generator( $page ) );
+		add_action( 'admin_enqueue_scripts', $this->enqueue_scripts( $page ) );
 	}
 
 	/**
 	 * Registers the sub page.
 	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
+	 * @param Setting_Page $page
 	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
 	 * @throws Page_Exception (204) If page fails to be created.
 	 * @throws TypeError If not group passed.
 	 */
-	public function register_sub_page( Page $page, string $parent_slug ): void {
-		// Bail if a none setting page passed.
-		if ( ! is_a( $page, Setting_Page::class ) ) {
-			return;
-		}
+	public function register_sub_page( Setting_Page $page, string $parent_slug ): void {
 
 		$page->construct_settings( $this->di_container );
 
