@@ -165,7 +165,8 @@ protected function settings_class_name(): string{
 
 ### enqueue_scripts(): ?Enqueue
 > @return Enqueue|null  
-> @required false (optional)
+> @required false  
+> @default `return null;`
 
 ```php
 /**
@@ -188,7 +189,8 @@ public function enqueue_scripts(): ?Enqueue {
 
 ### enqueue_styles(): ?Enqueue
 > @return Enqueue|null  
-> @required false (optional)
+> @required false  
+> @default `return null;`
 
 ```php
 /**
