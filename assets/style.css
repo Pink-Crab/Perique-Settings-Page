@@ -1,0 +1,105 @@
+.settings-page__fields {
+    padding: 1em;
+    background-color: #fbfbfb;
+    border-radius: 1px;
+    box-shadow: 1px 1px 1px 1px #d6bdcb;
+    margin-top: 1em;
+}
+
+.settings-page-field__title {
+    color: pink;
+}
+
+.settings-page-field__icon img {
+    max-width: 25px;
+    max-height: 25px;
+}
+
+.settings-page-field {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    padding: 1em 0;
+    border-bottom: 1px solid #d9c2d0;
+}
+
+.settings-page-field:nth-last-child() {
+    border-bottom: 0px solid transparent;
+}
+
+.settings-page-field:hover {
+    background-color: azure;
+}
+
+.settings-page-field__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 20px;
+    font-weight: 500;
+    color: #999;
+}
+
+span.settings-page-field__icon {
+    display: flex;
+}
+
+.settings-page-field__input input {
+    width: 100%;
+}
+
+.settings-page-field__input input[type=checkbox] {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+.settings-page-field__input input[type=checkbox]:checked::before {
+    width: 22px;
+    height: 22px;
+    margin: 0 0;
+}
+
+
+/** Inputs */
+
+.settings-page-field__input .media-upload {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.settings-page-field.checkbox div.settings-page-field__input {
+    display: flex;
+    flex-direction: row;
+}
+
+.settings-page-field.checkbox div.settings-page-field__input .description {
+    max-height: 25px;
+    margin: 0.25em;
+}
+
+.media_upload__preview,
+.media_upload__upload,
+.media_upload__preview figure {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.media_upload__upload button {
+    width: 75%;
+    margin: 1em !important;
+}
+
+.media_upload__preview figcaption {
+    padding: 1em;
+}
+
+.settings-page-field.checkbox_group .settings-page-field__input label {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em 0;
+}
