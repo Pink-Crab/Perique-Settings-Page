@@ -6,7 +6,9 @@ Each setting type has an associated class, each with its own and shared properti
 
 * [Text `<input type="text">`](text.md)
 * [Number `<input type="number">`](text.md)
-* [Select `<select></select>`](text.md)
+* [Select](text.md)
+* [Checkbox (Single)](text.md)
+* [Checkbox (Group)](text.md)
 
 ## Shared Traits
 
