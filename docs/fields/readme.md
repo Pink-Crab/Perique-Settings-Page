@@ -12,4 +12,5 @@ Each setting type has an associated class, each with its own and shared properti
 
 ## Shared Traits
 
-* [Placeholder](placeholder.md)
+* [Placeholder](placeholder.md) - Allows the use of placeholders in \<input> fields
+* [Data](data.md) Allows for the use of data attributes in fields (for use in JS)
