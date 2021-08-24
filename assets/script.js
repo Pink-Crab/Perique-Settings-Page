@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
      */
     function reloadPreviewImage(mediaId, key) {
         $.get(
-            pc_setting_page.mediaLibraryPreviewEndPoint + '/' + mediaId, {},
+            pc_setting_page_scripts.mediaLibraryPreviewEndPoint + '/' + mediaId, {},
             function(response) {
                 console.log(response);
                 if (typeof response.media_details !== 'undefined' && response.media_details.sizes.medium.source_url) {
@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
         var key = $(this).data('key');
         e.preventDefault();
 
-        $('#media_upload_' + key + ' .media_upload__preview img').attr("src", pc_setting_page.mediaLibraryNoImagePlaceholder);
+        $('#media_upload_' + key + ' .media_upload__preview img').attr("src", pc_setting_page_scripts.mediaLibraryNoImagePlaceholder);
         $('#' + key).val('');
     });
 });

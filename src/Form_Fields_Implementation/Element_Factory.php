@@ -24,15 +24,18 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Form_Fields_Implementation;
 
+use PinkCrab\Form_Fields\Label_Config;
 use PinkCrab\Form_Fields\Abstract_Field;
 use PinkCrab\Form_Fields\Fields\Raw_HTML;
 use PinkCrab\Form_Fields\Fields\Input_Text;
+use PinkCrab\Form_Fields\Fields\Input_Radio;
 use PinkCrab\Form_Fields\Fields\Input_Number;
 use PinkCrab\Perique_Settings_Page\Util\Hooks;
 use PinkCrab\Form_Fields\Fields\Input_Checkbox;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
 use PinkCrab\Form_Fields\Fields\Select as FieldsSelect;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Radio;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox;
@@ -111,6 +114,16 @@ class Element_Factory {
 				return Grouped_Checkbox::create( $field->get_key() )
 					->options( $field->get_options() )
 					->checked_value( $field->get_checked_value() );
+
+			case Radio::class:
+				dump($field);
+				$r = Input_Radio::create( $field->get_key() )
+					->options( $field->get_options() )
+					->show_label()
+					->label_position( Label_Config::AFTER_INPUT )
+					->current($field->get_value());
+				dump($r);
+				return $r;
 
 			default:
 				$element = Raw_HTML::create( $field->get_key() );

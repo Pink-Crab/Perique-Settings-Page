@@ -28,6 +28,7 @@ namespace PinkCrab\Perique_Settings_Page\Tests\Fixtures\Valid_Settings;
 
 use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Radio;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox;
@@ -114,7 +115,15 @@ class Valid_Settings extends Abstract_Settings {
 				->set_option( 'fgfdg', 'Option B' )
 				->set_option( 'ffgsdfsdgdfg', 'Option C' )
 				->set_option( 'fgfdgdfgdfgdfgfd', 'Option D' )
-				->set_data( 'placeholder', 'Enter a number' )
+				->set_data( 'placeholder', 'Enter a number' ),
+			//
+			Radio::new( 'radio' )
+				->set_label( 'Pick any radio' )
+				->set_description( 'You can pick as many or as little as you like' )
+				->set_option( 'a', 'Option A' )
+				->set_option( 'b', 'Option B' )
+				->set_option( 'c', 'Option C' )
+				->set_option( 'd', 'Option D' )
 		);
 	}
 
