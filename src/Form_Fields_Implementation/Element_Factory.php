@@ -116,13 +116,11 @@ class Element_Factory {
 					->checked_value( $field->get_checked_value() );
 
 			case Radio::class:
-				dump($field);
 				$r = Input_Radio::create( $field->get_key() )
 					->options( $field->get_options() )
 					->show_label()
 					->label_position( Label_Config::AFTER_INPUT )
-					->current($field->get_value());
-				dump($r);
+					->current( $field->get_value() );
 				return $r;
 
 			default:
