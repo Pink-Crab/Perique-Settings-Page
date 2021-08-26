@@ -43,6 +43,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\WP_Editor;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Media_Library;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Selector;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group;
+use PinkCrab\Form_Fields\Fields\Checkbox_Group as Field_Checkbox_Group;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element_Default;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Query_Selector;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\WP_Editor as Element_WP_Editor;
@@ -62,6 +63,7 @@ class Element_Factory {
 
 		$form_element = $factory->create_element( $field );
 		$form_element = $factory->shared_attributes( $field, $form_element );
+		// dump($form_element);
 		return $form_element->as_string();
 
 	}
@@ -111,9 +113,10 @@ class Element_Factory {
 				return $this->maybe_multiple( $field, $element );
 
 			case Checkbox_Group::class:
-				return Grouped_Checkbox::create( $field->get_key() )
+				return Field_Checkbox_Group::create( $field->get_key() )
 					->options( $field->get_options() )
-					->checked_value( $field->get_checked_value() );
+					->checked_value( $field->get_checked_value() )
+					->current( array_keys( $field->get_value() ) );
 
 			case Radio::class:
 				$r = Input_Radio::create( $field->get_key() )
@@ -152,7 +155,7 @@ class Element_Factory {
 		// Maybe add all data attributes.
 		$element = $this->add_data_attributes( $field, $element );
 
-		if ( ! is_a( $field, Checkbox::class ) ) {
+		if ( ! is_a( $field, Checkbox::class ) && ! is_a( $field, Checkbox_Group::class ) ) {
 			$element = $element->current( $field->get_value() );
 		}
 
