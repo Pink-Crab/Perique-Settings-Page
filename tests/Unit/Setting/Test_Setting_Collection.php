@@ -46,7 +46,6 @@ class Test_Setting_Collection extends WP_UnitTestCase {
 
 		// Check add
 		$collection->set( 'invalid', 'not a field' );
-        dump($collection);
 		$this->assertCount( 1, $collection );
 	}
 }
