@@ -36,6 +36,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
 use PinkCrab\Form_Fields\Fields\Select as FieldsSelect;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Radio;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Colour;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox;
@@ -119,12 +120,14 @@ class Element_Factory {
 					->current( array_keys( $field->get_value() ) );
 
 			case Radio::class:
-				$r = Input_Radio::create( $field->get_key() )
+				return Input_Radio::create( $field->get_key() )
 					->options( $field->get_options() )
 					->show_label()
 					->label_position( Label_Config::AFTER_INPUT )
 					->current( $field->get_value() );
-				return $r;
+
+			case Colour::class:
+				return $this->maybe_input_attributes( $field, Input_Color::create( $field->get_key() ) );
 
 			default:
 				$element = Raw_HTML::create( $field->get_key() );

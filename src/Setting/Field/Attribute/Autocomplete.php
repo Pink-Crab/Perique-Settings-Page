@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Interface for a settings repository
+ * Autocomplete attribute
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,47 +22,38 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Settings_Page
  */
 
-namespace PinkCrab\Perique_Settings_Page\Setting;
+namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
-interface Setting_Repository {
+trait Autocomplete {
 
 	/**
-	 * Sets a value to the repository
+	 * Sets the autocomplete for this input.
 	 *
-	 * @param string $key
-	 * @param mixed $data
-	 * @return bool
+	 * @param string $autocomplete
+	 * @return self
 	 */
-	public function set( string $key, $data): bool;
+	public function set_autocomplete( string $autocomplete ):self {
+		$this->set_attribute( 'autocomplete', $autocomplete );
+		return $this;
+	}
 
 	/**
-	 * Gets a value from the repository
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function get( string $key);
-
-	/**
-	 * Deletes and item from the repository
-	 *
-	 * @param string $key
-	 * @return bool
-	 */
-	public function delete( string $key): bool;
-
-	/**
-	 * Checks if key exists in repository
-	 *
-	 * @param string $key
-	 * @return bool
-	 */
-	public function has( string $key): bool;
-
-	/**
-	 * Does repository allow grouped data.
+	 * Checks if a autocomplete exists.
 	 *
 	 * @return bool
 	 */
-	public function allow_grouped(): bool;
+	public function has_autocomplete(): bool {
+		return \array_key_exists( 'autocomplete', $this->get_attributes() );
+	}
+
+	/**
+	 * Gets the autocomplete if set.
+	 *
+	 * @return string|null
+	 */
+	public function get_autocomplete(): ?string {
+		return $this->has_autocomplete()
+			? $this->get_attributes()['autocomplete']
+			: null;
+	}
 }

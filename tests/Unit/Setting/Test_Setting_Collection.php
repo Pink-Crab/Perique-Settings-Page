@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Interface for a settings repository
+ * Unit tests for the parent functionality of the Settings Collection
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,49 +20,33 @@ declare(strict_types=1);
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Perique_Settings_Page
+ *
+ * @group Unit
+ * @group Settings
  */
 
-namespace PinkCrab\Perique_Settings_Page\Setting;
+namespace PinkCrab\Perique_Settings_Page\Tests\Unit\Setting;
 
-interface Setting_Repository {
+use stdClass;
+use WP_UnitTestCase;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
+use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
 
-	/**
-	 * Sets a value to the repository
-	 *
-	 * @param string $key
-	 * @param mixed $data
-	 * @return bool
-	 */
-	public function set( string $key, $data): bool;
+class Test_Setting_Collection extends WP_UnitTestCase {
 
-	/**
-	 * Gets a value from the repository
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function get( string $key);
+	public function test_is_typed_collection(): void {
+		$field      = Text::new( 'foo' );
+		$collection = new Setting_Collection( array( $field, 'invalid', new stdClass ) );
+		$this->assertCount( 1, $collection );
+		$this->assertTrue( $collection->contains( $field ) );
 
-	/**
-	 * Deletes and item from the repository
-	 *
-	 * @param string $key
-	 * @return bool
-	 */
-	public function delete( string $key): bool;
+		// Check Push
+		$collection->push( new stdClass );
+		$this->assertCount( 1, $collection );
 
-	/**
-	 * Checks if key exists in repository
-	 *
-	 * @param string $key
-	 * @return bool
-	 */
-	public function has( string $key): bool;
-
-	/**
-	 * Does repository allow grouped data.
-	 *
-	 * @return bool
-	 */
-	public function allow_grouped(): bool;
+		// Check add
+		$collection->set( 'invalid', 'not a field' );
+        dump($collection);
+		$this->assertCount( 1, $collection );
+	}
 }

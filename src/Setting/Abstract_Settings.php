@@ -96,9 +96,9 @@ abstract class Abstract_Settings {
 	 * Finds a setting from the repository.
 	 *
 	 * @param string $key
-	 * @return mixed
+	 * @return Field|null
 	 */
-	public function find( string $key ) {
+	public function find( string $key ): ?Field {
 		return $this->settings->has( $key )
 			? $this->settings->get( $key )
 			: null;
@@ -189,7 +189,7 @@ abstract class Abstract_Settings {
 	protected function delete_single( string $key ): void {
 		$removed = $this->settings_repository->delete( $this->prefix_key( $key ) );
 		if ( $removed ) {
-			$this->settings->remove( $key );
+			$this->settings->set_value( $key, null );
 		}
 	}
 
@@ -200,7 +200,7 @@ abstract class Abstract_Settings {
 	 * @return void
 	 */
 	protected function delete_grouped( string $key ): void {
-		$this->settings->remove( $key );
+		$this->settings->set_value( $key, null );
 			$this->store_grouped();
 			$this->refresh_settings();
 	}

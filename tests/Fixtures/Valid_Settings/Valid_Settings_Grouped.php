@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 /**
  * A valid settings class
+ * Is grouped
+ * Covers setting properties relating to the form.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,8 +22,6 @@ declare(strict_types=1);
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Perique_Settings_Page
- *
- * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
  */
 
 namespace PinkCrab\Perique_Settings_Page\Tests\Fixtures\Valid_Settings;
@@ -29,6 +29,7 @@ namespace PinkCrab\Perique_Settings_Page\Tests\Fixtures\Valid_Settings;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Radio;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Colour;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox;
@@ -39,7 +40,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\Media_Library;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Selector;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group;
 
-class Valid_Settings extends Abstract_Settings {
+class Valid_Settings_Grouped extends Abstract_Settings {
 
 	/**
 	 * Sets all the fields.
@@ -123,7 +124,12 @@ class Valid_Settings extends Abstract_Settings {
 				->set_option( 'a', 'Option A' )
 				->set_option( 'b', 'Option B' )
 				->set_option( 'c', 'Option C' )
-				->set_option( 'd', 'Option D' )
+				->set_option( 'd', 'Option D' ),
+			//
+			Colour::new('colour_picker')
+				->set_label('Colourful')
+				->set_description('This allows you to pick a colour')
+				->set_autocomplete('#fff')
 		);
 	}
 
@@ -142,6 +148,6 @@ class Valid_Settings extends Abstract_Settings {
 	 * @return string
 	 */
 	public function group_key(): string {
-		return 'Valid_Settings';
+		return 'Valid_Settings_Not_Grouped';
 	}
 }

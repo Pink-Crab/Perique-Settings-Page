@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Helper/Renderer for all grouped sets of fields.
+ * Colour field
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,22 +22,34 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Settings_Page
  */
 
-namespace PinkCrab\Perique_Settings_Page\Form\Element;
+namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 
-use PinkCrab\Form_Fields\Abstract_Field;
-use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
-use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Placeholder;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Autocomplete;
 
-class Grouped_Element {
+class Colour extends Field {
 
 	/**
-	 * Renders a grouped checkbox as custom HTML.
-	 *
-	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group $field
-	 * @return \PinkCrab\Form_Fields\Abstract_Field
+	 * The type of field.
 	 */
-	public function render_grouped_checkboxes( Checkbox_Group $field ):Abstract_Field {
-		dump( $field );
-		return new Select( $field->get_key() );
+	public const TYPE = 'colour';
+
+	// Attributes.
+	use Placeholder, Data, Autocomplete;
+
+	/**
+	 * Static constructor for field.
+	 *
+	 * @param string $key
+	 * @return static
+	 */
+	public static function new( string $key ): Colour {
+		return new self( $key );
+	}
+
+	public function __construct( string $key ) {
+		parent::__construct( $key, self::TYPE );
 	}
 }

@@ -90,4 +90,15 @@ class Setting_Collection extends Collection {
 		}
 		return $this;
 	}
+
+	/**
+	 * Sets a value at a defined index
+	 *
+	 * @param int|string $index
+	 * @param mixed $value
+	 * @return self
+	 */
+	public function set( $index, $value ): self {
+		return $this->push( $value );
+	}
 }
