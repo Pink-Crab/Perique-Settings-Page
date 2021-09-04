@@ -57,7 +57,9 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 				->set_attribute( 'placeholder', 'Enter a number' )
 				->set_min( 0 )
 				->set_max( 10 )
-				->set_step( 2 ),
+				->set_step( 2 )
+				->set_option( '0123456789', 'Some number' )
+				->set_option( '2345434', '' ),
 			//
 			Text::new( 'text' )
 				->set_label( 'String' )
@@ -67,7 +69,9 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 				->set_data( 'foo', 'bar' )
 				->set_pattern( '[az]' )
 				->set_attribute( 'title', 'Value can only be a single "a" or "z"' )
-				->set_icon( 'https://miro.medium.com/max/1400/1*44799UW8y4KGlJb36fTD7Q.gif' ),
+				->set_icon( 'https://miro.medium.com/max/1400/1*44799UW8y4KGlJb36fTD7Q.gif' )
+				->set_option( 'pre selected', '' )
+				->set_option( 'with optional', 'label' ),
 			//
 			Select::new( 'select' )
 				->set_label( 'Multiple Select' )
@@ -77,6 +81,12 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 				->set_data( 'foo', 'bar' )
 				->set_option( 'Z', 'Zurp' )
 				->set_multiple(),
+			Select::new( 'select2' )
+				->set_label( 'Select2' )
+				->set_data( 'foo', 'bar' )
+				->set_option( 'Z', 'Zurp' )
+				->set_option( 'A', 'Add' )
+				->use_select2(),
 			//
 			Media_Library::new( 'media_upload' )
 				->set_label( 'Some Upload' )
@@ -109,6 +119,17 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 				)
 				->set_data( 'foo', 'bar' ),
 			//
+			Post_Selector::new( 'posts_select2' )
+				->set_label( 'Select a post with Select2' )
+				->set_description( 'You can pick a post from the selection.' )
+				->set_query_args(
+					array(
+						'post_type' => array( 'page' ),
+					)
+				)
+				->set_data( 'foo', 'bar' )
+				->use_select2(),
+			//
 			Checkbox_Group::new( 'checkbox_group' )
 				->set_label( 'Pick any checkboxes' )
 				->set_description( 'You can pick as many or as little as you like' )
@@ -126,10 +147,10 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 				->set_option( 'c', 'Option C' )
 				->set_option( 'd', 'Option D' ),
 			//
-			Colour::new('colour_picker')
-				->set_label('Colourful')
-				->set_description('This allows you to pick a colour')
-				->set_autocomplete('#fff')
+			Colour::new( 'colour_picker' )
+				->set_label( 'Colourful' )
+				->set_description( 'This allows you to pick a colour' )
+				->set_autocomplete( '#fff' )
 		);
 	}
 

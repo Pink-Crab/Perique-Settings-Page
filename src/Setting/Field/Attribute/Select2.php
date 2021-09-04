@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Multiple attribute
+ * The Select2 Attribute
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,33 +24,63 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
-trait Multiple {
+trait Select2 {
 
 	/**
-	 * Sets the multiple for this input/select.
+	 * The script used to register select2
 	 *
-	 * @param string $multiple
+	 * @var string|null $select2_script
+	 */
+	protected $select2_script = null;
+
+	/**
+	 * Sets the select2 for this input/select.
+	 *
+	 * @param string $select2
 	 * @return self
 	 */
-	public function set_multiple( bool $multiple = true ):self {
+	public function use_select2( bool $select2 = true ):self {
 
 		// Remove if set to false.
-		if ( false === $multiple && $this->is_multiple() ) {
-			$key = array_search( 'multiple', $this->flags, true );
+		if ( false === $select2 && $this->is_select2() ) {
+			$key = array_search( 'select2', $this->flags, true );
 			unset( $this->flags[ $key ] );
 			return $this;
 		}
 
-		$this->flags[] = 'multiple';
+		$this->flags[] = 'select2';
 		return $this;
 	}
 
 	/**
-	 * Checks if a multiple exists.
+	 * Checks if a select2 exists.
 	 *
 	 * @return bool
 	 */
-	public function is_multiple(): bool {
-		return \in_array( 'multiple', $this->get_flags() );
+	public function is_select2(): bool {
+		return \in_array( 'select2', $this->get_flags(), true );
+	}
+
+	/**
+	 * Sets the script used to register the select2 initialisation script
+	 *
+	 * @param string|null $script
+	 * @return void
+	 */
+	public function set_select2_script( ?string $script = null ) {
+		$this->select2_script = $script;
+	}
+
+	/**
+	 * Get string|null
+	 *
+	 * @return $string
+	 */
+	public function get_select2_script(): string {
+		return $this->select2_script ?? \sprintf( 'jQuery(document).ready(function($) {$(\'.%s\').select2({width: \'100%%\',});});', \esc_attr( $this->select2_class() ) );
+	}
+
+	public function select2_class(): string {
+		return $this->is_select2() ? apply_filters( 'ccc', 'pc_select2', $this ) : '';
 	}
 }

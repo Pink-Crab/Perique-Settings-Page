@@ -54,4 +54,13 @@ class Checkbox_Group extends Field {
 		parent::__construct( $key, self::TYPE );
 	}
 
+	/**
+	 * Get the data for this option.
+	 *
+	 * @return mixed
+	 */
+	public function get_value() {
+		return is_array( $this->value ) ? $this->value : array( $this->value );
+	}
+
 }

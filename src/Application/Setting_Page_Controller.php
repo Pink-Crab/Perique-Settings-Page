@@ -188,6 +188,10 @@ class Setting_Page_Controller implements Hookable {
 				$this->global_page_styles();
 			}
 
+			// Include select2
+			wp_enqueue_style( 'select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), '4.1.0-rc.0' );
+			wp_enqueue_script( 'select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', 'jquery', '4.1.0-rc.0', false );
+
 			// Render all page scripts
 			if ( ! is_null( $page->enqueue_scripts() ) ) {
 				$page->enqueue_scripts()->register();

@@ -151,6 +151,7 @@ class Form_Fields_Renderer implements Setting_View {
 				$icon            = $this->render_icon( $field );
 				$label           = $field->get_label();
 				$description     = $this->render_description( $field );
+				$inline_js       = $this->render_inline_js( $field );
 
 				// Generate the element.
 				return <<<HTML
@@ -161,8 +162,8 @@ class Form_Fields_Renderer implements Setting_View {
                     <div class="settings-page-field__input">
                         $input
                         $description
+                        $inline_js
                     </div>
-
                 </div>
 
     HTML;
@@ -179,6 +180,9 @@ class Form_Fields_Renderer implements Setting_View {
 	 */
 	protected function render_wrapper_classes( Field $field ) {
 		$classes = apply_filters( Hooks::ELEMENT_WRAPPER_CLASS, Element_Default::WRAPPER_CLASSES, $field );
+		// if ( \method_exists( $field, 'is_select2' ) ) {
+		// 	$classes = array_merge( $classes, array( $field->select2_class() ) );
+		// }
 		return join( ' ', array_merge( $classes, array( $field->get_type() ) ) );
 	}
 
@@ -210,5 +214,20 @@ class Form_Fields_Renderer implements Setting_View {
 			return \sprintf( "<p class='description'>%s</p>", $field->get_description() );
 		}
 		return '';
+	}
+
+	/**
+	 * Renders the field description.
+	 *
+	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Field $field
+	 * @return string
+	 */
+	public function render_inline_js( Field $field ): string {
+		$return = '';
+		// Maybe render selec2
+		if ( \method_exists( $field, 'is_select2' ) ) {
+			$return .= \sprintf( '<script>%s</script>', $field->get_select2_script() );
+		}
+		return $return;
 	}
 }

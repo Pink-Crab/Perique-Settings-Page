@@ -3,9 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Pattern attribute
- *
- * The pattern attribute is an attribute of the text, tel, email, url, password, and search input types.
+ * Range attribute
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT

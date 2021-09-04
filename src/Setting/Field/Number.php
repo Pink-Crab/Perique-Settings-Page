@@ -27,6 +27,7 @@ namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Range;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Placeholder;
 
 class Number extends Field {
@@ -37,7 +38,7 @@ class Number extends Field {
 	public const TYPE = 'number';
 
 	// Attributes.
-	use Placeholder, Data, Range;
+	use Placeholder, Data, Range, Options;
 
 	/**
 	 * Static constructor for text input.
