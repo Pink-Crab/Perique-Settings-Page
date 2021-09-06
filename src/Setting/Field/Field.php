@@ -161,7 +161,7 @@ class Field {
 	 * @return self
 	 */
 	public function set_value( $value ): self {
-		$this->value = $this->sanitize( $value );
+		$this->value = $value;
 		return $this;
 	}
 
