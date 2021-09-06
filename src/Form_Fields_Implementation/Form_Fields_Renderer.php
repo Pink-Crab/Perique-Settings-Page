@@ -157,18 +157,18 @@ class Form_Fields_Renderer implements Setting_View {
 
 				// Generate the element.
 				return <<<HTML
-                <div class="$wrapper_classes">
-                    <div class="$label_class">
-                        $icon $label
-                    </div>
-                    <div class="settings-page-field__input">
-                        $input
-                        $description
-                        $inline_js
-                    </div>
-                </div>
+<div class="$wrapper_classes">
+	<div class="$label_class">
+		$icon $label
+	</div>
+	<div class="settings-page-field__input">
+		$input
+		$description
+		$inline_js
+	</div>
+</div>
 
-    HTML;
+HTML;
 			},
 			$page->settings()->export()
 		);
