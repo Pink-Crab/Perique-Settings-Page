@@ -100,7 +100,7 @@ class Setting_Collection extends Collection {
 	 * @return self
 	 */
 	//phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
-	public function set( $index, $value ): self {
+	public function set( $index, $value ): Collection {
 		return $this->push( $value );
 	}
 }
