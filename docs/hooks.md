@@ -94,26 +94,26 @@ Every Settings page that is rendered will make use of a global script which hand
 use PinkCrab\Enqueue\Enqueue;
 use PinkCrab\Perique_Settings_Page\Util\Hooks;
 
-    add_filter(
-        Hooks::PAGE_GLOBAL_SCRIPT, 
-        /**
-		 * Filters the Enqueue object definition to manipulate the pages scripts
-		 *
-		 * @param Enqueue       $script  The current Enqueue class for the pages
-		 * @param Setting_Page  $page    The current page.
-		 * @return Enqueue|null Wrapper classes.
-		 */
-        function( Enqueue $script, Setting_Page $page ): ?Enqueue {
-            
-            // If page should have no scripts loaded.
-            if($page->get_key() === 'my_key'){
-                return null; // Will not enqueue any scripts for this specific page.
-            }
-            
-            // As we use a fluent API, you can return when setting src (or any other properties.)
-            return $script->src('some/custom/script.js')->footer(true); 
-        }, 2, 10
-    );
+add_filter(
+    Hooks::PAGE_GLOBAL_SCRIPT, 
+    /**
+     * Filters the Enqueue object definition to manipulate the pages scripts
+     *
+     * @param Enqueue       $script  The current Enqueue class for the pages
+     * @param Setting_Page  $page    The current page.
+     * @return Enqueue|null Wrapper classes.
+     */
+    function( Enqueue $script, Setting_Page $page ): ?Enqueue {
+        
+        // If page should have no scripts loaded.
+        if($page->get_key() === 'my_key'){
+            return null; // Will not enqueue any scripts for this specific page.
+        }
+        
+        // As we use a fluent API, you can return when setting src (or any other properties.)
+        return $script->src('some/custom/script.js')->footer(true); 
+    }, 2, 10
+);
 ```
 
 
@@ -125,24 +125,24 @@ Like the global page scripts, there are custom styles which are applied to every
 use PinkCrab\Enqueue\Enqueue;
 use PinkCrab\Perique_Settings_Page\Util\Hooks;
 
-    add_filter(
-        Hooks::PAGE_GLOBAL_SCRIPT, 
-        /**
-		 * Filters the Enqueue object definition to manipulate the pages styles
-		 *
-		 * @param Enqueue       $style  The current Enqueue class for the pages
-		 * @param Setting_Page  $page   The current page.
-		 * @return Enqueue|null Wrapper classes.
-		 */
-        function( Enqueue $style, Setting_Page $page ): ?Enqueue {
-            
-            // If page should have no scripts loaded.
-            if($page->get_key() === 'my_key'){
-                return null; // Will not enqueue any default styles for this specific page.
-            }
-            
-            // As we use a fluent API, you can return when setting the src (or any other properties.)
-            return $style->src('some/custom/script.css'); 
-        }, 2, 10
-    );
+add_filter(
+    Hooks::PAGE_GLOBAL_SCRIPT, 
+    /**
+     * Filters the Enqueue object definition to manipulate the pages styles
+     *
+     * @param Enqueue       $style  The current Enqueue class for the pages
+     * @param Setting_Page  $page   The current page.
+     * @return Enqueue|null Wrapper classes.
+     */
+    function( Enqueue $style, Setting_Page $page ): ?Enqueue {
+        
+        // If page should have no scripts loaded.
+        if($page->get_key() === 'my_key'){
+            return null; // Will not enqueue any default styles for this specific page.
+        }
+        
+        // As we use a fluent API, you can return when setting the src (or any other properties.)
+        return $style->src('some/custom/script.css'); 
+    }, 2, 10
+);
 ```
