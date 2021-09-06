@@ -48,20 +48,20 @@ class Media_Library {
 		$src   = $media ? esc_url( $media[0] ) : File_Helper::get_file_url( dirname( __DIR__, 3 ) . '/assets/no-image.png' );
 
 		return <<<HTML
-                <div id="media_upload_$key" class="settings-page-field__input media-upload">
-                    <div class="media_upload__preview">
-                        <figure>
-                            <img src="$src" alt="$title" data-media-library-preview="$key">
-                            <figcaption id="{$key}_title">$title</figcaption>
-                        </figure>
-                    </div>
-                    <div class="media_upload__upload">
-                        <input type="hidden" name="$key" id="$key" data-media-library-file-name="$key" value="$value">
-                        <button class="button access_media_library" data-key="$key" >Select</button>
-                        <button class="button media_upload_clear" data-key="$key" >Clear</button>
-                    </div>
-                </div>
+<div id="media_upload_$key" class="settings-page-field__input media-upload">
+	<div class="media_upload__preview">
+		<figure>
+			<img src="$src" alt="$title" data-media-library-preview="$key">
+			<figcaption id="{$key}_title">$title</figcaption>
+		</figure>
+	</div>
+	<div class="media_upload__upload">
+		<input type="hidden" name="$key" id="$key" data-media-library-file-name="$key" value="$value">
+		<button class="button access_media_library" data-key="$key" >Select</button>
+		<button class="button media_upload_clear" data-key="$key" >Clear</button>
+	</div>
+</div>
 
-    HTML;
+HTML;
 	}
 }
