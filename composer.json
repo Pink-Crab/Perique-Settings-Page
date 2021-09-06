@@ -37,7 +37,7 @@
         "gin0115/wpunit-helpers": "dev-main"
     },
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.1.0",
         "pinkcrab/perique-admin-menu": "0.1.*",
         "pinkcrab/collection": "^0.2.0",
         "pinkcrab/form_fields": "^0.1.0",
