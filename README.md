@@ -112,7 +112,7 @@ protected function fields( Setting_Collection $settings): Setting_Collection{
 
 The settings page, needs a few properties defining, most of these are documented in the Admin_Menu module
 ---
-
+g
 ```php
 class My_Settings_Page extends Setting_Page{
 	
