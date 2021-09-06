@@ -20,20 +20,20 @@ Each element which is rendered is given a wrapper class, this can be moderated u
 ```php
 use PinkCrab\Perique_Settings_Page\Util\Hooks;
 
-    add_filter(
-        Hooks::ELEMENT_WRAPPER_CLASS, 
-        /**
-		 * @param string[]  $classes  Current wrapper classes.
-		 * @param Field     $field    The current field being processed.
-		 * @return string[] Wrapper classes.
-         */
-        function(array $classes, array $classes, Field $field): array {
-            $classes[] = 'some-custom-wrapper';
-            return $classes;
-        },
-        10,
-        3
-    );
+add_filter(
+    Hooks::ELEMENT_WRAPPER_CLASS, 
+    /**
+     * @param string[]  $classes  Current wrapper classes.
+     * @param Field     $field    The current field being processed.
+     * @return string[] Wrapper classes.
+     */
+    function(array $classes, array $classes, Field $field): array {
+        $classes[] = 'some-custom-wrapper';
+        return $classes;
+    },
+    10,
+    3
+);
 ```
 
 ### ELEMENT LABEL CLASS
@@ -44,20 +44,20 @@ Each element which is rendered is given a label, this can be moderated using the
 ```php
 use PinkCrab\Perique_Settings_Page\Util\Hooks;
 
-    add_filter(
-        Hooks::ELEMENT_LABEL_CLASS, 
-        /**
-         * @param string  $class  The current classes
-         * @param Field   $field  The field being rendered
-         * @param Page    $page   The page being rendered
-         * @return string The class to display
-         */
-        function(string $class, Field $field, Page $page): string {
-            return 'acme-label';
-        },
-        10,
-        3
-    );
+add_filter(
+    Hooks::ELEMENT_LABEL_CLASS, 
+    /**
+     * @param string  $class  The current classes
+     * @param Field   $field  The field being rendered
+     * @param Page    $page   The page being rendered
+     * @return string The class to display
+     */
+    function(string $class, Field $field, Page $page): string {
+        return 'acme-label';
+    },
+    10,
+    3
+);
 ```
 
 ### ELEMENT INPUT CLASS
@@ -68,22 +68,22 @@ Each elements input field is rendered with classes based on the type and custom 
 ```php
 use PinkCrab\Perique_Settings_Page\Util\Hooks;
 
-    add_filter(
-        Hooks::ELEMENT_INPUT_CLASS, 
-        /**
-		 * Filters the element wrapper classes.
-		 *
-		 * @param string[]  $classes  Current wrapper classes.
-		 * @param Field     $field    The current field being processed.
-		 * @return string[] Wrapper classes.
-		 */
-        function(array $classes, Field $field): array {
-            $classes[] = 'some-custom-class';
-            return $classes;
-        },
-        10,
-        2
-    );
+add_filter(
+    Hooks::ELEMENT_INPUT_CLASS, 
+    /**
+     * Filters the element wrapper classes.
+     *
+     * @param string[]  $classes  Current wrapper classes.
+     * @param Field     $field    The current field being processed.
+     * @return string[] Wrapper classes.
+     */
+    function(array $classes, Field $field): array {
+        $classes[] = 'some-custom-class';
+        return $classes;
+    },
+    10,
+    2
+);
 ```
 
 ### PAGE GLOBAL SCRIPTS
