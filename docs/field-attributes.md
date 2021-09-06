@@ -190,24 +190,6 @@ $field->get_icon(); // 'https://www.some.url/icon.jpg'
 
 ---
 
-### protected $icon
-
-> @param string $icon  
-> @required false  
-> @default null
-
-**Denotes the icon to use next to the label**
-
-```php
-// To set the fields icon url
-$field = Text::new('field')->set_icon('https://www.some.url/icon.jpg');
-
-// Get the icon url
-$field->get_icon(); // 'https://www.some.url/icon.jpg'
-```
-
----
-
 ### protected $sanitize
 
 > @param callable $func  
