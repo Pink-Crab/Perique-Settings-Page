@@ -28,13 +28,14 @@ use TypeError;
 use PinkCrab\Enqueue\Enqueue;
 use PinkCrab\Loader\Hook_Loader;
 use PinkCrab\Perique\Interfaces\Hookable;
-use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique\Interfaces\DI_Container;
+use PinkCrab\Perique_Settings_Page\Util\Hooks;
 use PinkCrab\Perique_Settings_Page\Util\File_Helper;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Settings_Page\Page\Setting_Page;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_View;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
+use PinkCrab\Perique_Admin_Menu\Hooks as Admin_Page_Hooks;
 use PinkCrab\Perique_Settings_Page\Application\Form_Handler;
 
 class Setting_Page_Controller implements Hookable {
@@ -48,6 +49,11 @@ class Setting_Page_Controller implements Hookable {
 	 * Global styles handle.
 	 */
 	public const PAGE_GLOBALS_STYLES = 'pc_setting_page_styles';
+
+	/**
+	 * Script/style handle for select2.
+	 */
+	public const SELECT2_HANDLE = 'pc_select_2';
 
 	/**
 	 * View Generator
@@ -78,8 +84,8 @@ class Setting_Page_Controller implements Hookable {
 	 * @return void
 	 */
 	public function register( Hook_Loader $loader ): void {
-		$loader->admin_action( \PinkCrab\Perique_Admin_Menu\Hooks::PAGE_REGISTRAR_PRIMARY, array( $this, 'register_primary_page' ), 2 );
-		$loader->admin_action( \PinkCrab\Perique_Admin_Menu\Hooks::PAGE_REGISTRAR_SUB, array( $this, 'register_sub_page' ), 2 );
+		$loader->admin_action( Admin_Page_Hooks::PAGE_REGISTRAR_PRIMARY, array( $this, 'register_primary_page' ), 2 );
+		$loader->admin_action( Admin_Page_Hooks::PAGE_REGISTRAR_SUB, array( $this, 'register_sub_page' ), 2 );
 	}
 
 	/**
@@ -180,17 +186,18 @@ class Setting_Page_Controller implements Hookable {
 
 			// Render global scripts.
 			if ( ! wp_script_is( self::PAGE_GLOBALS_SCRIPTS ) ) {
-				$this->global_page_scripts();
+				$this->global_page_scripts( $page );
 			}
 
 			// Render global styles.
 			if ( ! \wp_style_is( self::PAGE_GLOBALS_STYLES ) ) {
-				$this->global_page_styles();
+				$this->global_page_styles( $page );
 			}
 
-			// Include select2
-			wp_enqueue_style( 'select2-css', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), '4.1.0-rc.0' );
-			wp_enqueue_script( 'select2-js', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', 'jquery', '4.1.0-rc.0', false );
+			// If the page uses select2 and the global scripts have not been enabled.
+			if ( $page->use_select2() && ! \wp_script_is( self::SELECT2_HANDLE ) ) {
+				$this->global_select2( $page );
+			}
 
 			// Render all page scripts
 			if ( ! is_null( $page->enqueue_scripts() ) ) {
@@ -208,11 +215,12 @@ class Setting_Page_Controller implements Hookable {
 	/**
 	 * Registers the global scripts for the page.
 	 *
+	 * @param Setting_Page $page
 	 * @return void
 	 */
-	protected function global_page_scripts(): void {
+	protected function global_page_scripts( $page ): void {
 		// Include setting page JS.
-		Enqueue::script( self::PAGE_GLOBALS_SCRIPTS )
+		$script = Enqueue::script( self::PAGE_GLOBALS_SCRIPTS )
 			->src( File_Helper::assets_url() . '/script.js' )
 			->deps( 'jquery' )
 			->localize(
@@ -220,18 +228,56 @@ class Setting_Page_Controller implements Hookable {
 					'mediaLibraryPreviewEndPoint'    => get_rest_url( null, 'wp/v2/media' ),
 					'mediaLibraryNoImagePlaceholder' => File_Helper::assets_url() . '/no-image.png',
 				)
-			)
-			->register();
+			);
+
+		// Filter for attributes.
+		$script = \apply_filters( Hooks::PAGE_GLOBAL_SCRIPT, $script, $page );
+
+		// If we still have a valid enqueue script.
+		if ( \is_a( $script, Enqueue::class ) ) {
+			$script->register();
+		}
 	}
 
 	/**
 	 * Registers the global styles for the page.
 	 *
+	 * @param Setting_Page $page
 	 * @return void
 	 */
-	protected function global_page_styles() {
-		Enqueue::style( self::PAGE_GLOBALS_STYLES )
-			->src( File_Helper::assets_url() . '/style.css' )
-			->register();
+	protected function global_page_styles( $page ) {
+		$style = Enqueue::style( self::PAGE_GLOBALS_STYLES )->src( File_Helper::assets_url() . '/style.css' );
+
+		// Filter for attributes.
+		$style = \apply_filters( Hooks::PAGE_GLOBAL_STYLE, $style, $page );
+
+		// If we still have a valid enqueue style.
+		if ( \is_a( $style, Enqueue::class ) ) {
+			$style->register();
+		}
+	}
+
+	/**
+	 * Registers the global select2 scripts and styles.
+	 *
+	 * @param Setting_Page $page
+	 * @return void
+	 */
+	protected function global_select2( $page ): void {
+		$script = Enqueue::script( self::SELECT2_HANDLE )
+			->src( 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js' )
+			->deps( 'jquery' )
+			->footer( false );
+		$script = \apply_filters( Hooks::PAGE_SELECT2_SCRIPT, $script, $page );
+		if ( \is_a( $script, Enqueue::class ) ) {
+			$script->register();
+		}
+
+		$style = Enqueue::style( self::SELECT2_HANDLE )
+			->src( 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css' );
+		$style = \apply_filters( Hooks::PAGE_SELECT2_STYLE, $style, $page );
+		if ( \is_a( $style, Enqueue::class ) ) {
+			$style->register();
+		}
 	}
 }

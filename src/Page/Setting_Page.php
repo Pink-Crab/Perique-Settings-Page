@@ -25,6 +25,8 @@ declare(strict_types=1);
 namespace PinkCrab\Perique_Settings_Page\Page;
 
 use PinkCrab\Enqueue\Enqueue;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+
 use Exception;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
@@ -174,6 +176,22 @@ abstract class Setting_Page implements Page {
 		return function() {
 			throw new Exception( 'SETTINGS PAGE render_view() CALLED INCORRECTLY.' );
 		};
+	}
+
+	/**
+	 * Verifies if the page uses select2.
+	 *
+	 * @return bool
+	 */
+	public function use_select2(): bool {
+		$uses = array_filter(
+			$this->settings->export(),
+			function( Field $field ): bool {
+				return \method_exists( $field, 'is_select2' );
+			}
+		);
+
+		return ! empty( $uses );
 	}
 
 	/**
