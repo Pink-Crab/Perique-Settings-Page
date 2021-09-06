@@ -100,7 +100,7 @@ class Valid_Settings_Not_Grouped extends Abstract_Settings {
 				->set_sanitize( Func\always( 15 ) ),
 			//
 			Colour::new( self::FIELD_KEYS['Colour'] )
-				->set_sanitize( Func\always( 15 ) ),
+				->set_sanitize( Func\always( 15 ) )
 		);
 	}
 
