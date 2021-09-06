@@ -32,10 +32,10 @@ There are a minimum of 2 classes which must be made to register a settings page 
 
 ---
 ## Settings
----
+
 
 The settings class, is extended form the `Abstract_Settings` class and has 3 methods which much be implemented.
-
+---
 
 ### is_grouped(): bool
 
@@ -96,7 +96,7 @@ protected function fields( Setting_Collection $settings): Setting_Collection{
             ->set_option( 'A', 'Apple', 'Fruit' )
             ->set_option( 'B', 'Banana', 'Fruit' )
             ->set_option( 'F', 'Fish', 'Animal' )
-			->set_multiple(),
+            ->set_multiple(),
        //... Add as many fields as needed
     );
 }
@@ -109,9 +109,9 @@ protected function fields( Setting_Collection $settings): Setting_Collection{
 
 ---
 ## Page   
----
 
 The settings page, needs a few properties defining, most of these are documented in the Admin_Menu module
+---
 
 ```php
 class My_Settings_Page extends Setting_Page{
@@ -119,21 +119,21 @@ class My_Settings_Page extends Setting_Page{
     // Defined if a child page (See Admin_Menu Modules docs)
     protected $parent_slug = 'tools.php';
 
-	// Denotes the page slug (See Admin_Menu Modules docs)
-	protected $page_slug = 'my_settings_page';
+    // Denotes the page slug (See Admin_Menu Modules docs)
+    protected $page_slug = 'my_settings_page';
 
-	// Denotes the menu title (See Admin_Menu Modules docs)
-	protected $menu_title = 'Achme Settings';
+    // Denotes the menu title (See Admin_Menu Modules docs)
+    protected $menu_title = 'Achme Settings';
 
-	// Denotes the pages title (See Admin_Menu Modules docs)
-	protected $page_title = 'Achme Plugin Settings';
+    // Denotes the pages title (See Admin_Menu Modules docs)
+    protected $page_title = 'Achme Plugin Settings';
 
-	// Denotes the menu position (See Admin_Menu Modules docs)
-	protected $position = 1;
+    // Denotes the menu position (See Admin_Menu Modules docs)
+    protected $position = 1;
 
     // Returns the name of the class which holds our settings.
-	public function settings_class_name(): string {
-		return 'Namespace\My_Settings_Class';
+    public function settings_class_name(): string {
+		return 'Namespace\My_Settings_Class'; // or My_Setting_Class:class
 	}
 }
 ```
