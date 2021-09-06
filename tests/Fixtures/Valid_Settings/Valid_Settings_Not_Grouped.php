@@ -54,7 +54,7 @@ class Valid_Settings_Not_Grouped extends Abstract_Settings {
 		'Post_Selector'  => 'posts',
 		'Checkbox_Group' => 'checkbox_group',
 		'Radio'          => 'radio',
-		'Colour'         => 'colour_picker',
+		'Colour'         => 'colour_picker'
 	);
 
 	/**
