@@ -117,7 +117,7 @@ use PinkCrab\Perique_Settings_Page\Util\Hooks;
 ```
 
 
-### PAGE GLOBAL STY:ES
+### PAGE GLOBAL STYLES
 
 Like the global page scripts, there are custom styles which are applied to every page. Like the other filters, this can used as either the string literal or using the supplied helper class. `pinkcrab/perique-settings/page/global-style` or `PinkCrab\Perique_Settings_Page\Util\Hooks::PAGE_GLOBAL_STYLE`
 
@@ -138,10 +138,10 @@ use PinkCrab\Perique_Settings_Page\Util\Hooks;
             
             // If page should have no scripts loaded.
             if($page->get_key() === 'my_key'){
-                return null; // Will not enqueue any scripts for this specific page.
+                return null; // Will not enqueue any default styles for this specific page.
             }
             
-            // As we use a fluent API, you can return when setting src (or any other properties.)
+            // As we use a fluent API, you can return when setting the src (or any other properties.)
             return $style->src('some/custom/script.css'); 
         }, 2, 10
     );
