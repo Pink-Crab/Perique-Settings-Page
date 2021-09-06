@@ -84,7 +84,7 @@ class Setting_Collection extends Collection {
 	 * @param mixed ...$data
 	 * @return self
 	 */
-	public function push( ...$data ): self {
+	public function push( ...$data ): Collection {
 		foreach ( $this->map_construct( $data ) as $datum ) {
 			$this->data[ $datum->get_key() ] = $datum;
 		}
