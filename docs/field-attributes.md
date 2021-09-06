@@ -73,3 +73,82 @@ $field = Text::new('field')
 $label = $field->get_description(); // This is my field, its magical
 ```
 ---
+
+### protected $attributes
+> @param string $key  
+> @param string $value  
+> @required false  
+> @default []
+
+**Holds the attributes used for the setting.**
+
+```php
+// To set an attribute
+$field = Text::new('field')
+    ->set_attribute('data-foo', 'bar')
+    ->set_attribute('something', 'else');
+
+// To get the attributes
+$field->get_attributes(); // ['data-foo' => 'bar', 'something' => 'else']
+```
+
+---
+
+### protected $flags
+> @param string $flag  
+> @required false  
+> @default []
+
+**Holds the flags used for the setting.**
+
+```php
+// To set an attribute
+$field = Text::new('field')
+    ->set_flag('MULTIPLE');
+
+// To get the flags
+$field->get_flags(); // [0 => 'MULTIPLE']
+```
+---
+
+### protected $disabled
+> @param bool $disabled  
+> @required false  
+> @default true
+
+**Denotes if the field should be disabled**
+
+```php
+// To set a field as disabled
+$field = Text::new('field')->set_disabled();
+
+// Check is if field is disabled
+$field->is_disabled(); // true
+
+// You can turn this off using false.
+$field = Text::new('field')
+    ->set_disabled()       // Enables is disabled
+    ->set_disabled(false); // Turns off is disabled
+```
+---
+
+### protected $read_only
+> @param bool $read_only  
+> @required false  
+> @default true
+
+**Denotes if the field should be read only**
+
+```php
+// To set a field as read only
+$field = Text::new('field')->set_read_only();
+
+// Check is if field is read only
+$field->is_read_only(); // true
+
+// You can turn this off using false.
+$field = Text::new('field')
+    ->set_read_only()       // Enables is read_only
+    ->set_read_only(false); // Turns off is read_only
+```
+---
