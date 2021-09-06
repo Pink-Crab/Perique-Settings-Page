@@ -81,12 +81,12 @@ class Setting_Collection extends Collection {
 	/**
 	 * Allow push to be used for settings by key.
 	 *
-	 * @param mixed ...$datum
+	 * @param mixed ...$data
 	 * @return self
 	 */
-	public function push( ...$datum ): self {
-		foreach ( $this->map_construct( $datum ) as $data ) {
-			$this->data[ $data->get_key() ] = $data;
+	public function push( ...$data ): self {
+		foreach ( $this->map_construct( $data ) as $datum ) {
+			$this->data[ $datum->get_key() ] = $datum;
 		}
 		return $this;
 	}
