@@ -146,47 +146,4 @@ class Form_Handler {
 
 	}
 
-	/**
-	 * Gets a repeater sort order, either from the global post, or based on the number of values from the fields.
-	 *
-	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Repeater $repeater
-	 * @return array
-	 */
-	protected function get_sort_order_for_repeater( Repeater $repeater ): array {
-		# code...
-	}
-
-	/**
-	 * Sorts the values passed from the form, based on the sort order
-	 *
-	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Repeater $repeater
-	 * @param array<string, array<string, string>> $values
-	 * @param int[]|string[] $sort_order
-	 * @return void
-	 */
-	protected function sort_repeater_values( Repeater $repeater, array $values, array $sort_order = array( 1 ) ) {
-		// Sanitize all values, using the sanitize method for field, set a null if value doesnt exists.
-		$sanitized = array();
-		foreach ( $repeater->get_fields()->to_array() as $key => $field ) {
-			$sanitized[ $key ] = array_key_exists( $key, $values )
-				? $field->sanitize( $values[ $key ] )
-				: null;
-		}
-
-		// Create an array with the original keys and null as the values.
-		$new_data = array_fill_keys( array_keys( $sanitized ), null );
-
-		// Create new sub arrays based on the sort order.
-		foreach ( $sort_order as $sort_index ) {
-			foreach ( $sanitized as $key => $value ) {
-				$new_data[ $key ][ (int) $sort_index ] =
-					is_array( $value ) && array_key_exists( (int) $sort_index, $value )
-						? $value[ (int) $sort_index ] : null;
-			}
-		}
-
-		// Reset all keys.
-		return array_map( 'array_values', $new_data );
-	}
-
 }

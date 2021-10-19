@@ -51,13 +51,5 @@ class Test_Form_Handler extends WP_UnitTestCase {
 		// $this->form_handler = new Form_Handler($this->createMock(Abstract_Settings::class), 'mock')
 	}
 
-	/**
-	 * REPEATER FIELD
-	 */
-
-	
-
-    
-
 
 }
