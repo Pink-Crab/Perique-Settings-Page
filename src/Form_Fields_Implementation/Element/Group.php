@@ -45,7 +45,7 @@ class Group {
 	public function render_field( Field $field ): string {
 		return $this->element_factory->shared_attributes(
 			$field,
-			$this->element_factory->create_element( $field ),
+			$this->element_factory->create_element( $field )
 		)->as_string();
 	}
 
