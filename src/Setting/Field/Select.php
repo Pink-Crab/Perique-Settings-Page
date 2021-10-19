@@ -27,6 +27,7 @@ namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Select2;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Multiple;
 
 class Select extends Field {
@@ -37,7 +38,7 @@ class Select extends Field {
 	public const TYPE = 'select';
 
 	// Attributes.
-	use Multiple, Data, Options;
+	use Multiple, Data, Options, Select2;
 
 	/**
 	 * Static constructor for text input.
@@ -51,5 +52,8 @@ class Select extends Field {
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
+
+		// Set the default sanitize method
+		$this->set_sanitize( 'sanitize_text_field' );
 	}
 }

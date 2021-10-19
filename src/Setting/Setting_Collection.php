@@ -81,13 +81,26 @@ class Setting_Collection extends Collection {
 	/**
 	 * Allow push to be used for settings by key.
 	 *
-	 * @param mixed ...$datum
+	 * @param mixed ...$data
 	 * @return self
 	 */
-	public function push( ...$datum ): self {
-		foreach ( $this->map_construct( $datum ) as $data ) {
-			$this->set( $data->get_key(), $data );
+	public function push( ...$data ): Collection {
+		foreach ( $this->map_construct( $data ) as $datum ) {
+			$this->data[ $datum->get_key() ] = $datum;
 		}
 		return $this;
+	}
+
+	/**
+	 * Sets a value at a defined index
+	 * Overrides the original set, where the key is omitted.
+	 *
+	 * @param int|string $index
+	 * @param mixed $value
+	 * @return self
+	 */
+	//phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
+	public function set( $index, $value ): Collection {
+		return $this->push( $value );
 	}
 }

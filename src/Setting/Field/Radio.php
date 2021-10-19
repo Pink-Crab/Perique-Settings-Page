@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Multiple attribute
+ * Radio field
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,35 +22,35 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Settings_Page
  */
 
-namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
+namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 
-trait Multiple {
+use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Disabled;
 
-	/**
-	 * Sets the multiple for this input/select.
-	 *
-	 * @param string $multiple
-	 * @return self
-	 */
-	public function set_multiple( bool $multiple = true ):self {
-
-		// Remove if set to false.
-		if ( false === $multiple && $this->is_multiple() ) {
-			$key = array_search( 'multiple', $this->flags, true );
-			unset( $this->flags[ $key ] );
-			return $this;
-		}
-
-		$this->flags[] = 'multiple';
-		return $this;
-	}
+class Radio extends Field {
 
 	/**
-	 * Checks if a multiple exists.
-	 *
-	 * @return bool
+	 * The type of field.
 	 */
-	public function is_multiple(): bool {
-		return \in_array( 'multiple', $this->get_flags() );
+	public const TYPE = 'radio';
+
+	// Attributes.
+	use Disabled, Data, Options;
+
+	/**
+	 * Static constructor for field.
+	 *
+	 * @param string $key
+	 * @return static
+	 */
+	public static function new( string $key ): Radio {
+		return new self( $key );
 	}
+
+	public function __construct( string $key ) {
+		parent::__construct( $key, self::TYPE );
+	}
+
 }

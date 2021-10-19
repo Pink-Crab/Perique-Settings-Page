@@ -22,11 +22,39 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Settings_Page
  */
 
-namespace PinkCrab\Perique_Settings_Page\Application;
+namespace PinkCrab\Perique_Settings_Page\Tests\Fixtures;
 
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Repository;
 
-class WP_Options_Settings_Repository implements Setting_Repository {
+class Object_Setting_Repository implements Setting_Repository {
+
+	/**
+	 * The key value store.
+	 *
+	 * @var array
+	 */
+	public $store = array();
+
+	/**
+	 * Single use return value
+	 * After each return, this is reset to null.
+	 *
+	 * @var mixed
+	 */
+	public static $return_value = null;
+
+	/**
+	 * Gets the return value, either frm the single use static property, 
+     * or defined in method as a fallback.
+	 *
+	 * @param mixed $fallback
+	 * @return mixed
+	 */
+	public function return_value( $fallback ) {
+		$value       = self::$return_value ?? $fallback;
+		self::$return_value = null;
+		return $value;
+	}
 
 	/**
 	 * Sets an option to the options table
@@ -36,7 +64,8 @@ class WP_Options_Settings_Repository implements Setting_Repository {
 	 * @return bool
 	 */
 	public function set( string $key, $data ): bool {
-		return \update_option( $key, $data, true );
+		$this->store[ $key ] = $data;
+		return $this->return_value( array_key_exists( $key, $this->store ) );
 	}
 
 	/**
@@ -46,7 +75,9 @@ class WP_Options_Settings_Repository implements Setting_Repository {
 	 * @return mixed
 	 */
 	public function get( string $key ) {
-		return \get_option( $key );
+		return $this->return_value(
+			array_key_exists( $key, $this->store ) ? $this->store[ $key ] : false
+		);
 	}
 
 	/**
@@ -56,7 +87,8 @@ class WP_Options_Settings_Repository implements Setting_Repository {
 	 * @return bool
 	 */
 	public function delete( string $key ): bool {
-		return \delete_option( $key );
+		unset( $this->store[ $key ] );
+		return $this->return_value( ! array_key_exists( $key, $this->store ) );
 	}
 
 	/**
@@ -66,9 +98,7 @@ class WP_Options_Settings_Repository implements Setting_Repository {
 	 * @return bool
 	 */
 	public function has( string $key ): bool {
-		$option = \get_option( $key, $this );
-
-		return $option !== $this;
+        return $this->return_value( array_key_exists( $key, $this->store ) );
 	}
 
 	/**
@@ -77,6 +107,6 @@ class WP_Options_Settings_Repository implements Setting_Repository {
 	 * @return bool
 	 */
 	public function allow_grouped(): bool {
-		return true;
+		return $this->return_value( true );
 	}
 }

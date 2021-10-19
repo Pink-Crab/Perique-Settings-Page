@@ -28,6 +28,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Query;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Select2;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Multiple;
 
 class Post_Selector extends Field {
@@ -38,7 +39,7 @@ class Post_Selector extends Field {
 	public const TYPE = 'post_selector';
 
 	// Attributes.
-	use Multiple, Data, Options, Query;
+	use Multiple, Data, Options, Query, Select2;
 
 	/**
 	 * Static constructor for field.

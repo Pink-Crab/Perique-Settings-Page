@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Multiple attribute
+ * Autocomplete attribute
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,33 +24,36 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
-trait Multiple {
+trait Autocomplete {
 
 	/**
-	 * Sets the multiple for this input/select.
+	 * Sets the autocomplete for this input.
 	 *
-	 * @param string $multiple
+	 * @param string $autocomplete
 	 * @return self
 	 */
-	public function set_multiple( bool $multiple = true ):self {
-
-		// Remove if set to false.
-		if ( false === $multiple && $this->is_multiple() ) {
-			$key = array_search( 'multiple', $this->flags, true );
-			unset( $this->flags[ $key ] );
-			return $this;
-		}
-
-		$this->flags[] = 'multiple';
+	public function set_autocomplete( string $autocomplete ):self {
+		$this->set_attribute( 'autocomplete', $autocomplete );
 		return $this;
 	}
 
 	/**
-	 * Checks if a multiple exists.
+	 * Checks if a autocomplete exists.
 	 *
 	 * @return bool
 	 */
-	public function is_multiple(): bool {
-		return \in_array( 'multiple', $this->get_flags() );
+	public function has_autocomplete(): bool {
+		return \array_key_exists( 'autocomplete', $this->get_attributes() );
+	}
+
+	/**
+	 * Gets the autocomplete if set.
+	 *
+	 * @return string|null
+	 */
+	public function get_autocomplete(): ?string {
+		return $this->has_autocomplete()
+			? $this->get_attributes()['autocomplete']
+			: null;
 	}
 }

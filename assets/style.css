@@ -47,7 +47,8 @@ span.settings-page-field__icon {
     width: 100%;
 }
 
-.settings-page-field__input input[type=checkbox] {
+.settings-page-field__input input[type=checkbox],
+.settings-page-field__input input[type=radio] {
     width: 25px;
     height: 25px;
     display: flex;
@@ -56,7 +57,15 @@ span.settings-page-field__icon {
     margin-top: 0;
 }
 
-.settings-page-field__input input[type=checkbox]:checked::before {
+.settings-page-field__input input[type=checkbox]:checked::before,
+.settings-page-field__input input[type=radio]:checked::before {
+    width: 22px;
+    height: 22px;
+    margin: 0 0;
+}
+
+.settings-page-field__input input[type=checkbox]:checked::before,
+.settings-page-field__input input[type=radio]:checked::before {
     width: 22px;
     height: 22px;
     margin: 0 0;
@@ -98,8 +107,10 @@ span.settings-page-field__icon {
     padding: 1em;
 }
 
-.settings-page-field.checkbox_group .settings-page-field__input label {
+.settings-page-field.checkbox_group .settings-page-field__input label,
+.settings-page-field.radio .settings-page-field__input label {
     display: flex;
     flex-direction: row;
     margin: 0.5em 0;
+    align-items: center;
 }

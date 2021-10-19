@@ -24,26 +24,34 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Form_Fields_Implementation;
 
+use PinkCrab\Form_Fields\Label_Config;
 use PinkCrab\Form_Fields\Abstract_Field;
 use PinkCrab\Form_Fields\Fields\Raw_HTML;
 use PinkCrab\Form_Fields\Fields\Input_Text;
+use PinkCrab\Form_Fields\Fields\Input_Color;
+use PinkCrab\Form_Fields\Fields\Input_Radio;
 use PinkCrab\Form_Fields\Fields\Input_Number;
 use PinkCrab\Perique_Settings_Page\Util\Hooks;
 use PinkCrab\Form_Fields\Fields\Input_Checkbox;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
 use PinkCrab\Form_Fields\Fields\Select as FieldsSelect;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Radio;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Colour;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater;
 use PinkCrab\Perique_Settings_Page\Setting\Field\WP_Editor;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Media_Library;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Selector;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group;
+use PinkCrab\Form_Fields\Fields\Checkbox_Group as Field_Checkbox_Group;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element_Default;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Query_Selector;
+use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Repeater_Builder;
+use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Repeater_Renderer;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\WP_Editor as Element_WP_Editor;
-use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Custom_Form_Field\Grouped_Checkbox;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Media_Library as Element_Media_Library;
 
 class Element_Factory {
@@ -73,47 +81,93 @@ class Element_Factory {
 		switch ( \get_class( $field ) ) {
 
 			case Number::class:
+				/** @var Number $field */
+				$field   = $field;
 				$element = $this->maybe_input_attributes( $field, Input_Number::create( $field->get_key() ) );
-				return $this->maybe_number_attributes( $field, $element );
+				return $this->maybe_number_attributes( $field, $element )
+					->options( $field->get_options() );
 
 			case Text::class:
-				return $this->maybe_input_attributes( $field, Input_Text::create( $field->get_key() ) );
+				/** @var Text $field */
+				$field = $field;
+				return $this->maybe_input_attributes( $field, Input_Text::create( $field->get_key() ) )
+					->options( $field->get_options() );
 
 			case Checkbox::class:
+				/** @var Checkbox $field */
+				$field = $field;
+				/** @var Input_Checkbox $element */
 				$element = $this->maybe_input_attributes( $field, Input_Checkbox::create( $field->get_key() ) );
 				$element->current( $field->get_checked_value() );
 				$element->checked( '' !== $field->get_value() );
 				return $element;
 
 			case Select::class:
+				/** @var Select $field */
+				$field   = $field;
 				$element = FieldsSelect::create( $field->get_key() )
 					->options( $field->get_options() );
+
 				return $this->maybe_multiple( $field, $element );
 
 			case Media_Library::class:
-				$element = Raw_HTML::create( $field->get_key() )
-					->current( $field->get_value() );
+				/** @var Media_Library $field */
+				$field   = $field;
+				$element = Raw_HTML::create( $field->get_key() )->current( $field->get_value() );
 				$element->content( array( new Element_Media_Library(), 'render_form_field_content' ) );
 				return $element;
 
 			case WP_Editor::class:
-				$element = Raw_HTML::create( $field->get_key() )
-					->current( $field->get_value() );
+				/** @var WP_Editor $field */
+				$field   = $field;
+				$element = Raw_HTML::create( $field->get_key() )->current( $field->get_value() );
 				$element->content( array( new Element_WP_Editor( $field ), 'render_form_field_content' ) );
 				return $element;
 
 			case Post_Selector::class:
+				/** @var Post_Selector $field */
+				$field   = $field;
 				$element = ( new Query_Selector( $field ) )
 					->post_selector_element( $field );
 				return $this->maybe_multiple( $field, $element );
 
 			case Checkbox_Group::class:
-				return Grouped_Checkbox::create( $field->get_key() )
-					->options( $field->get_options() )
-					->checked_value( $field->get_checked_value() );
+				/** @var Checkbox_Group $field */
+				$field = $field;
+				return Field_Checkbox_Group::create( $field->get_key() )
+					->checked_value( $field->get_checked_value() )
+					->current( array_keys( $field->get_value() ) )
+					->options( $field->get_options() );
+
+			case Radio::class:
+				/** @var Radio $field */
+				$field = $field;
+				return Input_Radio::create( $field->get_key() )
+					->show_label()
+					->label_position( Label_Config::AFTER_INPUT )
+					->current( $field->get_value() )
+					->options( $field->get_options() );
+
+			case Colour::class:
+				/** @var Colour $field */
+				$field = $field;
+				return $this->maybe_input_attributes( $field, Input_Color::create( $field->get_key() ) );
+
+			case Repeater::class:
+				/** @var Repeater $field */
+				$field            = $field;
+				$repeater = new Repeater_Builder( $field );
+				$element  = Raw_HTML::create( $field->get_key() )
+					->content(
+						function( $element ) use ( $repeater ) {
+							return $repeater->render_repeater();
+						}
+					);
+				return $element;
 
 			default:
 				$element = Raw_HTML::create( $field->get_key() );
+				dump( $field );
 				$element->content(
 					function( $element ) {
 						return print_r( $element, true );
@@ -141,7 +195,7 @@ class Element_Factory {
 		// Maybe add all data attributes.
 		$element = $this->add_data_attributes( $field, $element );
 
-		if ( ! is_a( $field, Checkbox::class ) ) {
+		if ( ! is_a( $field, Checkbox::class ) && ! is_a( $field, Checkbox_Group::class ) ) {
 			$element = $element->current( $field->get_value() );
 		}
 
@@ -173,6 +227,10 @@ class Element_Factory {
 	 */
 	private function element_classes( Field $field ): string {
 		$classes = \array_merge( Element_Default::INPUT_CLASSES, array( $field->get_type() ) );
+
+		if ( method_exists( $field, 'is_select2' ) && $field->is_select2() ) {
+			$classes[] = $field->select2_class();
+		}
 
 		/**
 		 * Filters the element wrapper classes.

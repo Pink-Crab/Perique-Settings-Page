@@ -28,24 +28,46 @@ use TypeError;
 use PinkCrab\Enqueue\Enqueue;
 use PinkCrab\Loader\Hook_Loader;
 use PinkCrab\Perique\Interfaces\Hookable;
-use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique\Interfaces\DI_Container;
+use PinkCrab\Perique_Settings_Page\Util\Hooks;
 use PinkCrab\Perique_Settings_Page\Util\File_Helper;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Settings_Page\Page\Setting_Page;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_View;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
+use PinkCrab\Perique_Admin_Menu\Hooks as Admin_Page_Hooks;
 use PinkCrab\Perique_Settings_Page\Application\Form_Handler;
 
 class Setting_Page_Controller implements Hookable {
 
-	public const PAGE_GLOBALS_SCRIPTS = 'pc_setting_page-scripts';
-	public const PAGE_GLOBALS_STYLES  = 'pc_setting_page-styles';
+	/**
+	 * Global scripts handle.
+	 */
+	public const PAGE_GLOBALS_SCRIPTS = 'pc_setting_page_scripts';
 
+	/**
+	 * Global styles handle.
+	 */
+	public const PAGE_GLOBALS_STYLES = 'pc_setting_page_styles';
+
+	/**
+	 * Script/style handle for select2.
+	 */
+	public const SELECT2_HANDLE = 'pc_select_2';
+
+	/**
+	 * View Generator
+	 *
+	 * @var Setting_View
+	 */
 	protected $setting_view_generator;
+
+	/**
+	 * DI Container
+	 *
+	 * @var DI_Container
+	 */
 	protected $di_container;
-
-
 
 	public function __construct(
 		Setting_View $setting_view_generator,
@@ -62,25 +84,20 @@ class Setting_Page_Controller implements Hookable {
 	 * @return void
 	 */
 	public function register( Hook_Loader $loader ): void {
-		$loader->admin_action( \PinkCrab\Perique_Admin_Menu\Hooks::PAGE_REGISTRAR_PRIMARY, array( $this, 'register_primary_page' ), 2 );
-		$loader->admin_action( \PinkCrab\Perique_Admin_Menu\Hooks::PAGE_REGISTRAR_SUB, array( $this, 'register_sub_page' ), 2 );
+		$loader->admin_action( Admin_Page_Hooks::PAGE_REGISTRAR_PRIMARY, array( $this, 'register_primary_page' ), 2 );
+		$loader->admin_action( Admin_Page_Hooks::PAGE_REGISTRAR_SUB, array( $this, 'register_sub_page' ), 2 );
 	}
 
 	/**
 	 * Registers the primary page.
 	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
+	 * @param Setting_Page $page
 	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
 	 * @throws Page_Exception (204) If page fails to be created.
 	 * @throws TypeError If not group passed.
 	 */
-	public function register_primary_page( Page $page, ?Abstract_Group $group ): void {
-
-		// Bail if a none setting page passed.
-		if ( ! is_a( $page, Setting_Page::class ) ) {
-			return;
-		}
+	public function register_primary_page( Setting_Page $page, ?Abstract_Group $group ): void {
 
 		if ( $group === null ) {
 			throw new TypeError( 'Valid group must be passed to create Setting_Page' );
@@ -105,22 +122,19 @@ class Setting_Page_Controller implements Hookable {
 
 		// Register callback for handling the settings page form.
 		add_action( "load-{$result}", $this->load_page_callback_generator( $page ) );
+		add_action( 'admin_enqueue_scripts', $this->enqueue_scripts( $page ) );
 	}
 
 	/**
 	 * Registers the sub page.
 	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
+	 * @param Setting_Page $page
 	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
 	 * @throws Page_Exception (204) If page fails to be created.
 	 * @throws TypeError If not group passed.
 	 */
-	public function register_sub_page( Page $page, string $parent_slug ): void {
-		// Bail if a none setting page passed.
-		if ( ! is_a( $page, Setting_Page::class ) ) {
-			return;
-		}
+	public function register_sub_page( Setting_Page $page, string $parent_slug ): void {
 
 		$page->construct_settings( $this->di_container );
 
@@ -172,12 +186,17 @@ class Setting_Page_Controller implements Hookable {
 
 			// Render global scripts.
 			if ( ! wp_script_is( self::PAGE_GLOBALS_SCRIPTS ) ) {
-				$this->global_page_scripts();
+				$this->global_page_scripts( $page );
 			}
 
 			// Render global styles.
 			if ( ! \wp_style_is( self::PAGE_GLOBALS_STYLES ) ) {
-				$this->global_page_styles();
+				$this->global_page_styles( $page );
+			}
+
+			// If the page uses select2 and the global scripts have not been enabled.
+			if ( $page->use_select2() && ! \wp_script_is( self::SELECT2_HANDLE ) ) {
+				$this->global_select2( $page );
 			}
 
 			// Render all page scripts
@@ -196,30 +215,69 @@ class Setting_Page_Controller implements Hookable {
 	/**
 	 * Registers the global scripts for the page.
 	 *
+	 * @param Setting_Page $page
 	 * @return void
 	 */
-	protected function global_page_scripts(): void {
+	protected function global_page_scripts( $page ): void {
 		// Include setting page JS.
-		Enqueue::script( self::PAGE_GLOBALS_SCRIPTS )
+		$script = Enqueue::script( self::PAGE_GLOBALS_SCRIPTS )
 			->src( File_Helper::assets_url() . '/script.js' )
-			->deps( 'jquery' )
+			->deps( 'jquery', 'jquery-ui-sortable' )
 			->localize(
 				array(
 					'mediaLibraryPreviewEndPoint'    => get_rest_url( null, 'wp/v2/media' ),
 					'mediaLibraryNoImagePlaceholder' => File_Helper::assets_url() . '/no-image.png',
 				)
-			)
-			->register();
+			);
+
+		// Filter for attributes.
+		$script = \apply_filters( Hooks::PAGE_GLOBAL_SCRIPT, $script, $page );
+
+		// If we still have a valid enqueue script.
+		if ( \is_a( $script, Enqueue::class ) ) {
+			$script->register();
+		}
 	}
 
 	/**
 	 * Registers the global styles for the page.
 	 *
+	 * @param Setting_Page $page
 	 * @return void
 	 */
-	protected function global_page_styles() {
-		Enqueue::style( self::PAGE_GLOBALS_STYLES )
-			->src( File_Helper::assets_url() . '/style.css' )
-			->register();
+	protected function global_page_styles( $page ) {
+		$style = Enqueue::style( self::PAGE_GLOBALS_STYLES )->src( File_Helper::assets_url() . '/style.css' );
+
+		// Filter for attributes.
+		$style = \apply_filters( Hooks::PAGE_GLOBAL_STYLE, $style, $page );
+
+		// If we still have a valid enqueue style.
+		if ( \is_a( $style, Enqueue::class ) ) {
+			$style->register();
+		}
+	}
+
+	/**
+	 * Registers the global select2 scripts and styles.
+	 *
+	 * @param Setting_Page $page
+	 * @return void
+	 */
+	protected function global_select2( $page ): void {
+		$script = Enqueue::script( self::SELECT2_HANDLE )
+			->src( 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js' )
+			->deps( 'jquery' )
+			->footer( false );
+		$script = \apply_filters( Hooks::PAGE_SELECT2_SCRIPT, $script, $page );
+		if ( \is_a( $script, Enqueue::class ) ) {
+			$script->register();
+		}
+
+		$style = Enqueue::style( self::SELECT2_HANDLE )
+			->src( 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css' );
+		$style = \apply_filters( Hooks::PAGE_SELECT2_STYLE, $style, $page );
+		if ( \is_a( $style, Enqueue::class ) ) {
+			$style->register();
+		}
 	}
 }

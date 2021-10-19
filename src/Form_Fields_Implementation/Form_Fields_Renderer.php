@@ -40,11 +40,12 @@ class Form_Fields_Renderer implements Setting_View {
 	/**
 	 * Renders the passed view as a callable.
 	 *
+	 * @param PinkCrab\Perique_Admin_Menu\Page\Page $page
 	 * @return callable
 	 */
 	public function generate_view_callback( Page $page ): callable {
 		return function() use ( $page ) {
-			print $this->parse_view( $page );
+			print $this->parse_view( $page ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		};
 	}
 
@@ -94,7 +95,7 @@ class Form_Fields_Renderer implements Setting_View {
 				 * @return array{title:string,header:string,page:string,nonce:string,fields:string,footer:string} $data
 				 */
 				$data = \apply_filters(
-					'foo',
+					Hooks::settings_page_view_data( $page->slug() ),
 					$this->compile_view_data( $page ),
 					$page,
 					$page->settings()
@@ -143,29 +144,31 @@ class Form_Fields_Renderer implements Setting_View {
 	 */
 	protected function parse_fields( Setting_Page $page ): array {
 		return array_map(
-			function( Field $field ): string {
+			function( Field $field ) use ( $page ): string {
 
 				// Set all parameters
 				$input           = Element_Factory::from_field( $field );
 				$wrapper_classes = $this->render_wrapper_classes( $field );
 				$icon            = $this->render_icon( $field );
 				$label           = $field->get_label();
+				$label_class     = apply_filters( Hooks::ELEMENT_LABEL_CLASS, 'settings-page-field__title', $field, $page );
 				$description     = $this->render_description( $field );
+				$inline_js       = $this->render_inline_js( $field );
 
 				// Generate the element.
 				return <<<HTML
-                <div class="$wrapper_classes">
-                    <div class="settings-page-field__title">
-                        $icon $label
-                    </div>
-                    <div class="settings-page-field__input">
-                        $input
-                        $description
-                    </div>
+<div class="$wrapper_classes">
+	<div class="$label_class">
+		$icon $label
+	</div>
+	<div class="settings-page-field__input">
+		$input
+		$description
+		$inline_js
+	</div>
+</div>
 
-                </div>
-
-    HTML;
+HTML;
 			},
 			$page->settings()->export()
 		);
@@ -178,8 +181,9 @@ class Form_Fields_Renderer implements Setting_View {
 	 * @return void
 	 */
 	protected function render_wrapper_classes( Field $field ) {
-		$classes = apply_filters( Hooks::ELEMENT_WRAPPER_CLASS, Element_Default::WRAPPER_CLASSES, $field );
-		return join( ' ', array_merge( $classes, array( $field->get_type() ) ) );
+		$classes = array_merge( Element_Default::WRAPPER_CLASSES, array( $field->get_type() ) );
+		$classes = apply_filters( Hooks::ELEMENT_WRAPPER_CLASS, $classes, $field );
+		return join( ' ', is_array( $classes ) ? $classes : array( $classes ) );
 	}
 
 	/**
@@ -210,5 +214,20 @@ class Form_Fields_Renderer implements Setting_View {
 			return \sprintf( "<p class='description'>%s</p>", $field->get_description() );
 		}
 		return '';
+	}
+
+	/**
+	 * Renders the field description.
+	 *
+	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Field $field
+	 * @return string
+	 */
+	public function render_inline_js( Field $field ): string {
+		$return = '';
+		// Maybe render select2
+		if ( \method_exists( $field, 'is_select2' ) ) {
+			$return .= \sprintf( '<script>%s</script>', $field->get_select2_script() );
+		}
+		return $return;
 	}
 }

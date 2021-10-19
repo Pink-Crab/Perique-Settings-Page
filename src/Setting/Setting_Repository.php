@@ -39,7 +39,7 @@ interface Setting_Repository {
 	 * Gets a value from the repository
 	 *
 	 * @param string $key
-	 * @return void
+	 * @return mixed
 	 */
 	public function get( string $key);
 

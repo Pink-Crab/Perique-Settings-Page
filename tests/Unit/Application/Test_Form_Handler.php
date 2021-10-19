@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Multiple attribute
+ * Unit tests for Form Handler
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,37 +20,36 @@ declare(strict_types=1);
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Perique_Settings_Page
+ *
+ * @group Unit
+ * @group Application
  */
 
-namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
+namespace PinkCrab\Perique_Settings_Page\Tests\Unit\Application;
 
-trait Multiple {
+use WP_UnitTestCase;
+use Gin0115\WPUnit_Helpers\Objects;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater;
+use PinkCrab\Perique_Settings_Page\Application\Form_Handler;
+use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater_Value;
 
-	/**
-	 * Sets the multiple for this input/select.
-	 *
-	 * @param string $multiple
-	 * @return self
-	 */
-	public function set_multiple( bool $multiple = true ):self {
+class Test_Form_Handler extends WP_UnitTestCase {
 
-		// Remove if set to false.
-		if ( false === $multiple && $this->is_multiple() ) {
-			$key = array_search( 'multiple', $this->flags, true );
-			unset( $this->flags[ $key ] );
-			return $this;
+	/** @var Form_Handler */
+	protected $form_handler;
+
+	public function tearDown(): void {
+		if ( array_key_exists( 'mock_repeater', $_POST ) ) {
+			unset( $_POST['mock_repeater'] );
 		}
-
-		$this->flags[] = 'multiple';
-		return $this;
 	}
 
-	/**
-	 * Checks if a multiple exists.
-	 *
-	 * @return bool
-	 */
-	public function is_multiple(): bool {
-		return \in_array( 'multiple', $this->get_flags() );
+	public function setUp(): void {
+		// $this->form_handler = new Form_Handler($this->createMock(Abstract_Settings::class), 'mock')
 	}
+
+
 }

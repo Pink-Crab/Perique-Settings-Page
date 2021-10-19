@@ -29,7 +29,7 @@ class Hooks {
 	/**
 	 * Prefix for all admin menu hook handles.
 	 */
-	protected const HOOK_PREFIX = 'pinkcrab/perique-admin-menu/';
+	protected const HOOK_PREFIX = 'pinkcrab/perique-settings/';
 
 	/**
 	 * Hook used to set the element label classes.
@@ -44,7 +44,27 @@ class Hooks {
 	/**
 	 * Hook used to set the element wrapper class.
 	 */
-	public const ELEMENT_WRAPPER_CLASS = self::HOOK_PREFIX . 'element-input-class';
+	public const ELEMENT_WRAPPER_CLASS = self::HOOK_PREFIX . 'element-wrapper-class';
+
+	/**
+	 * Hook used for the global scripts of the setting page.
+	 */
+	public const PAGE_GLOBAL_SCRIPT = self::HOOK_PREFIX . 'page/global-script';
+
+	/**
+	 * Hook used for the global styles of the setting page.
+	 */
+	public const PAGE_GLOBAL_STYLE = self::HOOK_PREFIX . 'page/global-style';
+
+	/**
+	 * Hook used for the global select2 scripts of a settings page that contains a select2 field.
+	 */
+	public const PAGE_SELECT2_SCRIPT = self::HOOK_PREFIX . 'page/select2-script';
+
+	/**
+	 * Hook used for the global select2 styles of a settings page that contains a select2 field.
+	 */
+	public const PAGE_SELECT2_STYLE = self::HOOK_PREFIX . 'page/select2-style';
 
 
 	/**
@@ -81,5 +101,15 @@ class Hooks {
 	 */
 	public static function settings_page_view_path( string $key ): string {
 		return \sprintf( '%ssettings-page-%s-view-path', self::HOOK_PREFIX, $key );
+	}
+
+	/**
+	 * Returns the populated action handle for a settings page view data.
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public static function settings_page_view_data( string $key ): string {
+		return \sprintf( '%ssettings-page-%s-view-data', self::HOOK_PREFIX, $key );
 	}
 }

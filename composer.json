@@ -38,8 +38,8 @@
     },
     "require": {
         "php": ">=7.1.0",
-        "pinkcrab/perique-admin-menu": "0.1.0-beta2",
-        "pinkcrab/collection": "^0.1.0",
+        "pinkcrab/perique-admin-menu": "0.1.*",
+        "pinkcrab/collection": "^0.2.0",
         "pinkcrab/form_fields": "^0.1.0",
         "pinkcrab/enqueue": "^1.1"
     },
@@ -49,5 +49,7 @@
         "analyse": "vendor/bin/phpstan analyse src -l8",
         "sniff": "./vendor/bin/phpcs src/ -v",
         "all": "composer test && composer analyse && composer sniff"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

@@ -27,6 +27,7 @@ namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Range;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Placeholder;
 
 class Number extends Field {
@@ -37,7 +38,9 @@ class Number extends Field {
 	public const TYPE = 'number';
 
 	// Attributes.
-	use Placeholder, Data, Range;
+	use Placeholder, Data, Range, Options;
+
+	protected $decimal_places = 0;
 
 	/**
 	 * Static constructor for text input.
@@ -51,5 +54,34 @@ class Number extends Field {
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
+
+		// Set the default sanitize method
+		$this->set_sanitize(
+			function( $e ) {
+				$e = sanitize_text_field( $e );
+				return $this->decimal_places <= 1
+					? \intval( $e )
+					: round( $e, $this->get_decimal_places() );
+			}
+		);
+	}
+
+	/**
+	 * Get the value of decimal_places
+	 * @return int
+	 */
+	public function get_decimal_places(): int {
+		return $this->decimal_places;
+	}
+
+	/**
+	 * Set the value of decimal_places
+	 *
+	 * @param int $decimal_places
+	 * @return self
+	 */
+	public function set_decimal_places( int $decimal_places ): self {
+		$this->decimal_places = $decimal_places;
+		return $this;
 	}
 }
