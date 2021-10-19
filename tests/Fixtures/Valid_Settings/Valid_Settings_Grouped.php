@@ -33,6 +33,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\Colour;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater;
 use PinkCrab\Perique_Settings_Page\Setting\Field\WP_Editor;
 use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
@@ -150,7 +151,28 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 			Colour::new( 'colour_picker' )
 				->set_label( 'Colourful' )
 				->set_description( 'This allows you to pick a colour' )
-				->set_autocomplete( '#fff' )
+				->set_autocomplete( '#fff' ),
+			//
+			Repeater::new( 'repeater' )
+				->set_add_to_group_label( 'Some Repeater' )
+				->add_field(
+					Number::new( 'RepNumber1' )
+					->set_label( 'RepNumber1' )
+				)
+				->add_field(
+					Number::new( 'RepNumber2' )
+					->set_label( 'RepNumber2' )
+					->set_description( 'You can pick as many or as little as you like' )
+				)
+				->add_field(
+					Radio::new( 'RepRadio' )
+					->set_label( 'Pick any radio' )
+					->set_description( 'You can pick as many or as little as you like' )
+					->set_option( 'a', 'Option A' )
+					->set_option( 'b', 'Option B' )
+					->set_option( 'c', 'Option C' )
+					->set_option( 'd', 'Option D' )
+				),
 		);
 	}
 

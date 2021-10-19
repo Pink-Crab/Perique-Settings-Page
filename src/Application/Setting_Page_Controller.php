@@ -222,7 +222,7 @@ class Setting_Page_Controller implements Hookable {
 		// Include setting page JS.
 		$script = Enqueue::script( self::PAGE_GLOBALS_SCRIPTS )
 			->src( File_Helper::assets_url() . '/script.js' )
-			->deps( 'jquery' )
+			->deps( 'jquery', 'jquery-ui-sortable' )
 			->localize(
 				array(
 					'mediaLibraryPreviewEndPoint'    => get_rest_url( null, 'wp/v2/media' ),

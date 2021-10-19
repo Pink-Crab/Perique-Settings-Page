@@ -52,5 +52,8 @@ class Select extends Field {
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
+
+		// Set the default sanitize method
+		$this->set_sanitize( 'sanitize_text_field' );
 	}
 }

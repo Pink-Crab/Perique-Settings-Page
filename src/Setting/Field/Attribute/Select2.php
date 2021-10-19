@@ -77,7 +77,12 @@ trait Select2 {
 	 * @return $string
 	 */
 	public function get_select2_script(): string {
-		return $this->select2_script ?? \sprintf( 'jQuery(document).ready(function($) {$(\'.%s\').select2({width: \'100%%\',});});', \esc_attr( $this->select2_class() ) );
+		$select2_class = $this->select2_class();
+		return $this->select2_script ??
+			// If we have no custom script, use default unless we have no valid class to use.
+			$select2_class
+				? \sprintf( 'jQuery(document).ready(function($) {$(\'.%s\').select2({width: \'100%%\',});});', \esc_attr( $this->select2_class() ) )
+				: '';
 	}
 
 	public function select2_class(): string {
