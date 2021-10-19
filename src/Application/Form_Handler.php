@@ -26,7 +26,9 @@ namespace PinkCrab\Perique_Settings_Page\Application;
 
 use PinkCrab\Perique_Settings_Page\Util\Form_Helper;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater;
 use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater_Value;
 
 class Form_Handler {
 
@@ -72,6 +74,14 @@ class Form_Handler {
 	public function process(): void {
 		if ( $this->valid_request() ) {
 			foreach ( $this->settings->get_keys() as $key ) {
+				$field = $this->settings->find( $key );
+
+				// Process
+				if ( is_object( $field ) && is_a( $field, Repeater::class ) ) {
+					$this->update_repeater( $field );
+					continue;
+				}
+
 				$this->update_setting( $key );
 			}
 		}
@@ -102,7 +112,7 @@ class Form_Handler {
 	 */
 	private function update_setting( string $key ): void {
 
-		$raw_value = array_key_exists( $key, $_POST ?: '' ) ? $_POST[ $key ] : '';
+		$raw_value = array_key_exists( $key, $_POST ?: array() ) ? $_POST[ $key ] : '';
 		$field     = $this->settings->find( $key );
 		if ( is_a( $field, Field::class ) && $field->validate( $raw_value ) ) {
 
@@ -114,6 +124,69 @@ class Form_Handler {
 				: $this->updated_settings;
 		}
 
+	}
+
+	/**
+	 * Updates the values in the data for a repeater.
+	 *
+	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Repeater $repeater
+	 * @return void
+	 */
+	protected function update_repeater( Repeater $repeater ): void {
+
+		$result = $this->settings->set(
+			$repeater->get_key(),
+			( new Repeater_Form_Value_Helper( $repeater ) )->process()
+		);
+
+		// Update settings, if not already set.
+		$this->updated_settings = $this->updated_settings === false
+			? $result
+			: $this->updated_settings;
+
+	}
+
+	/**
+	 * Gets a repeater sort order, either from the global post, or based on the number of values from the fields.
+	 *
+	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Repeater $repeater
+	 * @return array
+	 */
+	protected function get_sort_order_for_repeater( Repeater $repeater ): array {
+		# code...
+	}
+
+	/**
+	 * Sorts the values passed from the form, based on the sort order
+	 *
+	 * @param \PinkCrab\Perique_Settings_Page\Setting\Field\Repeater $repeater
+	 * @param array<string, array<string, string>> $values
+	 * @param int[]|string[] $sort_order
+	 * @return void
+	 */
+	protected function sort_repeater_values( Repeater $repeater, array $values, array $sort_order = array( 1 ) ) {
+		// Sanitize all values, using the sanitize method for field, set a null if value doesnt exists.
+		$sanitized = array();
+		foreach ( $repeater->get_fields()->to_array() as $key => $field ) {
+			$sanitized[ $key ] = array_key_exists( $key, $values )
+				? $field->sanitize( $values[ $key ] )
+				: null;
+		}
+
+		// Create an array with the original keys and null as the values.
+		$new_data = array_fill_keys( array_keys( $sanitized ), null );
+
+		// Create new sub arrays based on the sort order.
+		foreach ( $sort_order as $sort_index ) {
+			foreach ( $sanitized as $key => $value ) {
+				$new_data[ $key ][ (int) $sort_index ] =
+					is_array( $value ) && array_key_exists( (int) $sort_index, $value )
+						? $value[ (int) $sort_index ] : null;
+			}
+		}
+
+		// Reset all keys.
+		return array_map( 'array_values', $new_data );
 	}
 
 }

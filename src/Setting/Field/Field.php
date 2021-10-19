@@ -108,6 +108,18 @@ class Field {
 	}
 
 	/**
+	 * Creates a clone of the existing field, with a custom key
+	 *
+	 * @param string $key
+	 * @return static
+	 */
+	public function clone_as( string $key ) {
+		$clone      = $this;
+		$clone->key = $key;
+		return $clone;
+	}
+
+	/**
 	 * Get the fields key.
 	 *
 	 * @return string

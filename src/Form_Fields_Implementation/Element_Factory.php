@@ -41,6 +41,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\Colour;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater;
 use PinkCrab\Perique_Settings_Page\Setting\Field\WP_Editor;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Media_Library;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Selector;
@@ -48,6 +49,8 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group;
 use PinkCrab\Form_Fields\Fields\Checkbox_Group as Field_Checkbox_Group;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element_Default;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Query_Selector;
+use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Repeater_Builder;
+use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Repeater_Renderer;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\WP_Editor as Element_WP_Editor;
 use PinkCrab\Perique_Settings_Page\Form_Fields_Implementation\Element\Media_Library as Element_Media_Library;
 
@@ -150,8 +153,21 @@ class Element_Factory {
 				$field = $field;
 				return $this->maybe_input_attributes( $field, Input_Color::create( $field->get_key() ) );
 
+			case Repeater::class:
+				/** @var Repeater $field */
+				$field            = $field;
+				$repeater = new Repeater_Builder( $field );
+				$element  = Raw_HTML::create( $field->get_key() )
+					->content(
+						function( $element ) use ( $repeater ) {
+							return $repeater->render_repeater();
+						}
+					);
+				return $element;
+
 			default:
 				$element = Raw_HTML::create( $field->get_key() );
+				dump( $field );
 				$element->content(
 					function( $element ) {
 						return print_r( $element, true );
