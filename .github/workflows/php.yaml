@@ -53,7 +53,7 @@ jobs:
       - name: Run Tests
         env:
           environment_github: true
-        run: composer all
+        run: composer coverage
 
       - name: Codecov
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV }}
