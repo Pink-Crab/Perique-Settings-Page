@@ -160,7 +160,7 @@ class Picker_Rest_Controller {
 	/**
 	 * Searches posts by title.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request<array<string, mixed>> $request
 	 * @return WP_REST_Response
 	 */
 	public function search_posts( WP_REST_Request $request ): WP_REST_Response {
@@ -195,7 +195,7 @@ class Picker_Rest_Controller {
 	/**
 	 * Resolves post IDs to labels.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request<array<string, mixed>> $request
 	 * @return WP_REST_Response
 	 */
 	public function resolve_posts( WP_REST_Request $request ): WP_REST_Response {
@@ -232,7 +232,7 @@ class Picker_Rest_Controller {
 	/**
 	 * Searches users by name/email.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request<array<string, mixed>> $request
 	 * @return WP_REST_Response
 	 */
 	public function search_users( WP_REST_Request $request ): WP_REST_Response {
@@ -269,7 +269,7 @@ class Picker_Rest_Controller {
 	/**
 	 * Resolves user IDs to labels.
 	 *
-	 * @param WP_REST_Request $request
+	 * @param WP_REST_Request<array<string, mixed>> $request
 	 * @return WP_REST_Response
 	 */
 	public function resolve_users( WP_REST_Request $request ): WP_REST_Response {
