@@ -184,14 +184,27 @@ add_action(
 			$upload_dir  = wp_upload_dir();
 			$target_path = trailingslashit( $upload_dir['basedir'] ) . 'e2e-test-image.png';
 
+			error_log( '[settings-page-bootstrap] seeding E2E Test Image attachment' );
+			error_log( '[settings-page-bootstrap] uploads basedir: ' . $upload_dir['basedir'] );
+			error_log( '[settings-page-bootstrap] target path: ' . $target_path );
+			error_log( '[settings-page-bootstrap] uploads dir writable: ' . ( is_writable( $upload_dir['basedir'] ) ? 'YES' : 'NO' ) );
+			if ( ! empty( $upload_dir['error'] ) ) {
+				error_log( '[settings-page-bootstrap] wp_upload_dir error: ' . $upload_dir['error'] );
+			}
+
 			if ( ! file_exists( $target_path ) ) {
-				wp_mkdir_p( $upload_dir['basedir'] );
-				file_put_contents(
+				$mkdir_ok = wp_mkdir_p( $upload_dir['basedir'] );
+				error_log( '[settings-page-bootstrap] wp_mkdir_p: ' . ( $mkdir_ok ? 'OK' : 'FAILED' ) );
+
+				$bytes_written = file_put_contents(
 					$target_path,
 					base64_decode(
 						'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
 					)
 				);
+				error_log( '[settings-page-bootstrap] file_put_contents: ' . var_export( $bytes_written, true ) . ' bytes' );
+			} else {
+				error_log( '[settings-page-bootstrap] file already exists' );
 			}
 
 			$attachment_id = wp_insert_attachment(
@@ -204,13 +217,20 @@ add_action(
 				0
 			);
 
-			if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
+			if ( is_wp_error( $attachment_id ) ) {
+				error_log( '[settings-page-bootstrap] wp_insert_attachment WP_Error: ' . $attachment_id->get_error_message() );
+			} elseif ( ! $attachment_id ) {
+				error_log( '[settings-page-bootstrap] wp_insert_attachment returned 0 (failed)' );
+			} else {
+				error_log( '[settings-page-bootstrap] wp_insert_attachment OK, ID: ' . $attachment_id );
+
 				require_once ABSPATH . 'wp-admin/includes/image.php';
-				wp_update_attachment_metadata(
-					$attachment_id,
-					wp_generate_attachment_metadata( $attachment_id, $target_path )
-				);
+				$metadata = wp_generate_attachment_metadata( $attachment_id, $target_path );
+				error_log( '[settings-page-bootstrap] generated metadata keys: ' . implode( ',', array_keys( (array) $metadata ) ) );
+				wp_update_attachment_metadata( $attachment_id, $metadata );
 			}
+		} else {
+			error_log( '[settings-page-bootstrap] attachment already exists, ID: ' . $existing_attachment );
 		}
 
 		// Seed the theme showcase option if it doesn't exist yet.
