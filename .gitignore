@@ -5,3 +5,4 @@ coverage-report
 plugin.php
 .vscode
 node_modules
+artifacts/storage-states/admin.json
