@@ -4,3 +4,4 @@ composer.lock
 coverage-report
 plugin.php
 .vscode
+node_modules
