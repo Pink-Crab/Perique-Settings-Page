@@ -6,3 +6,5 @@ plugin.php
 .vscode
 node_modules
 artifacts/storage-states/admin.json
+tests/test-results
+tests/playwright-report
