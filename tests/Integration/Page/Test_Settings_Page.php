@@ -31,6 +31,19 @@ class Test_Settings_Page extends WP_UnitTestCase {
 		Mock_Abstract_Settings::$group_key       = 'mock_settings';
 	}
 
+	public function tearDown(): void {
+		// Ensure a clean WP styles/scripts state between tests — wp_deregister_*
+		// only removes from `registered`, so handles can leak into the `queue`.
+		foreach ( array( 'pc-settings-page-core', 'pc-settings-page-theme' ) as $handle ) {
+			wp_dequeue_style( $handle );
+			wp_deregister_style( $handle );
+		}
+		wp_dequeue_script( 'pc-settings-page' );
+		wp_deregister_script( 'pc-settings-page' );
+
+		parent::tearDown();
+	}
+
 	/** @testdox settings_class_name() returns the FQCN of the settings class. */
 	public function test_settings_class_name(): void {
 		$this->assertSame( Mock_Abstract_Settings::class, ( new Mock_Settings_Page() )->settings_class_name() );
