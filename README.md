@@ -226,41 +226,6 @@ class My_Settings extends Abstract_Settings {
 | `refresh_settings(): void` | Re-hydrate every field from the repository. |
 | `prefix_key( string $key ): string` | Returns `"{group_key}_{key}"`. |
 
-```php
-// Grab an injected instance anywhere in your plugin.
-$settings = $di_container->create( Acme_Settings::class );
-
-// Read — returns '' (or the saved value) for known keys.
-$site_name = $settings->get( 'site_name' );
-
-// Read with a fallback for missing keys.
-$limit = $settings->get( 'api_limit', 100 );
-
-// Write — persists through the configured repository.
-$settings->set( 'site_name', 'Acme Ltd.' );
-
-// Check before reading.
-if ( $settings->has( 'site_name' ) ) {
-    // ...
-}
-
-// Grab the Field object itself — useful for reading metadata (label, type…).
-$field = $settings->find( 'site_name' );
-
-// Remove a stored value.
-$settings->delete( 'api_limit' );
-
-// Introspection.
-$keys       = $settings->get_keys();        // ['site_name', 'api_limit', ...]
-$all_fields = $settings->get_all_fields();  // ['site_name' => Field, ...]
-$raw        = $settings->export();          // Collection → array (layouts intact)
-
-// Re-read every field from the repository (e.g. after an external update).
-$settings->refresh_settings();
-
-// Resolve a storage key.
-$option_name = $settings->prefix_key( 'site_name' ); // 'acme_settings_site_name'
-```
 
 ****
 
