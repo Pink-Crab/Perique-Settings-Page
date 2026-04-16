@@ -182,6 +182,35 @@ All settings classes extend `Abstract_Settings` and implement three required met
 | `is_grouped(): bool` | `true` to save under a single option key, `false` to save each field as its own option. |
 | `group_key(): string` | When grouped, the option name. When not grouped, the key prefix. |
 
+```php
+use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
+use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
+use PinkCrab\Perique_Settings_Page\Setting\Field\{ Text, Number };
+
+class My_Settings extends Abstract_Settings {
+
+    // true  → stored as one associative array under group_key().
+    // false → each field stored as its own option, prefixed with group_key().
+    protected function is_grouped(): bool {
+        return true;
+    }
+
+    // When grouped: the wp_options name that holds the whole array.
+    // When ungrouped: the prefix added to every field's option name.
+    public function group_key(): string {
+        return 'acme_settings';
+    }
+
+    // Build the field collection. Runs once at construction.
+    protected function fields( Setting_Collection $settings ): Setting_Collection {
+        return $settings->push(
+            Text::new( 'site_name' )->set_label( 'Site Name' )->set_required(),
+            Number::new( 'api_limit' )->set_label( 'API Limit' )->set_min( 1 )
+        );
+    }
+}
+```
+
 ### Value access methods
 
 | Method | Description |
@@ -196,6 +225,42 @@ All settings classes extend `Abstract_Settings` and implement three required met
 | `export(): array` | The full `Setting_Collection` as an array (layouts intact). |
 | `refresh_settings(): void` | Re-hydrate every field from the repository. |
 | `prefix_key( string $key ): string` | Returns `"{group_key}_{key}"`. |
+
+```php
+// Grab an injected instance anywhere in your plugin.
+$settings = $di_container->create( Acme_Settings::class );
+
+// Read — returns '' (or the saved value) for known keys.
+$site_name = $settings->get( 'site_name' );
+
+// Read with a fallback for missing keys.
+$limit = $settings->get( 'api_limit', 100 );
+
+// Write — persists through the configured repository.
+$settings->set( 'site_name', 'Acme Ltd.' );
+
+// Check before reading.
+if ( $settings->has( 'site_name' ) ) {
+    // ...
+}
+
+// Grab the Field object itself — useful for reading metadata (label, type…).
+$field = $settings->find( 'site_name' );
+
+// Remove a stored value.
+$settings->delete( 'api_limit' );
+
+// Introspection.
+$keys       = $settings->get_keys();        // ['site_name', 'api_limit', ...]
+$all_fields = $settings->get_all_fields();  // ['site_name' => Field, ...]
+$raw        = $settings->export();          // Collection → array (layouts intact)
+
+// Re-read every field from the repository (e.g. after an external update).
+$settings->refresh_settings();
+
+// Resolve a storage key.
+$option_name = $settings->prefix_key( 'site_name' ); // 'acme_settings_site_name'
+```
 
 ****
 
@@ -219,6 +284,37 @@ All pages extend `Settings_Page` (which extends `Menu_Page` from the Admin Menu 
 | `$pre_data` | `array` | Data passed to `$pre_template`. |
 | `$post_template` | `?string` | View template rendered inside `.wrap`, below the form. |
 | `$post_data` | `array` | Data passed to `$post_template`. |
+
+```php
+use PinkCrab\Perique_Settings_Page\Page\Settings_Page;
+
+class My_Settings_Page extends Settings_Page {
+
+    // From Menu_Page — where this page sits in the admin menu.
+    protected $parent_slug = 'options-general.php';
+    protected $page_slug   = 'acme_settings';
+    protected $menu_title  = 'Acme Settings';
+    protected $page_title  = 'Acme Plugin Settings';
+    protected $position    = 25;
+    protected $capability  = 'manage_options';
+
+    // Which bundled theme to load — STYLE_* constant, absolute path, or URL.
+    protected string $theme_stylesheet = Settings_Page::STYLE_MATERIAL;
+
+    // Form method. POST is the default and what you'll want 99% of the time.
+    protected string $method = 'POST';
+
+    // Optional view templates rendered inside .wrap (above and below the form).
+    protected ?string $pre_template = 'admin/intro';
+    protected array   $pre_data     = array( 'version' => '2.1' );
+    protected ?string $post_template = 'admin/footer';
+    protected array   $post_data     = array();
+
+    public function settings_class_name(): string {
+        return My_Settings::class;
+    }
+}
+```
 
 ### Theme constants
 
@@ -251,6 +347,73 @@ See [docs/themes.md](docs/themes.md) for the full visual guide.
 | `get_nonce_field_name(): string` | Nonce field name (`pc_settings_nonce`). |
 | `get_settings(): ?Abstract_Settings` | Access the injected settings instance. |
 | `get_theme_stylesheet(): string` | Current theme identifier. |
+
+```php
+use PinkCrab\Perique_Settings_Page\Page\Settings_Page;
+
+class My_Settings_Page extends Settings_Page {
+
+    protected $page_slug = 'acme_settings';
+
+    // Required — the Abstract_Settings subclass this page renders.
+    // Constructed via the DI container so you can type-hint dependencies.
+    public function settings_class_name(): string {
+        return My_Settings::class;
+    }
+
+    // Override the default 'Save Settings' label.
+    public function get_submit_label(): string {
+        return 'Save Acme Configuration';
+    }
+
+    // Send the form to a custom endpoint. Default '' posts to self.
+    public function get_form_action(): string {
+        return admin_url( 'admin-post.php?action=acme_save' );
+    }
+
+    // Enqueue extra scripts for this page.
+    protected function scripts(): void {
+        wp_enqueue_script(
+            'acme-admin',
+            plugins_url( 'assets/admin.js', __FILE__ ),
+            array( 'pc-settings-page' ),
+            '1.0.0',
+            true
+        );
+    }
+
+    // Enqueue extra styles for this page.
+    protected function styles(): void {
+        wp_enqueue_style(
+            'acme-admin',
+            plugins_url( 'assets/admin.css', __FILE__ ),
+            array( 'pc-settings-page-theme' ),
+            '1.0.0'
+        );
+    }
+
+    // Runs inside render_view(), before any HTML is emitted.
+    // Use it to populate the pre/post templates with runtime data.
+    protected function before_render(): void {
+        $settings = $this->get_settings();
+
+        $this->set_pre_template(
+            'admin/acme-intro',
+            array(
+                'site_name' => $settings?->get( 'site_name', 'Acme' ),
+            )
+        );
+
+        $this->set_post_template(
+            'admin/acme-footer',
+            array(
+                'nonce_name' => $this->get_nonce_field_name(),
+                'nonce_key'  => $this->get_nonce_handle(),
+            )
+        );
+    }
+}
+```
 
 See [docs/settings-facade-pattern.md](docs/settings-facade-pattern.md) for the rationale behind the split between `Abstract_Settings` (data) and `Settings_Page` (rendering).
 

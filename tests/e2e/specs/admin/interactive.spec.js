@@ -237,7 +237,7 @@ test.describe( 'Interactive Kitchen Sink', () => {
 	// Media Library
 	// ─────────────────────────────────────────────────────────────────
 	test.describe( 'Media Library', () => {
-		test( 'renders with select and clear buttons and empty hidden input', async ( {
+		test( 'renders with select button visible, clear button hidden, and empty hidden input', async ( {
 			page,
 		} ) => {
 			await expect(
@@ -248,11 +248,12 @@ test.describe( 'Interactive Kitchen Sink', () => {
 					'.pc-settings-media-select[data-key="media_image"]'
 				)
 			).toBeVisible();
+			// Clear button is hidden until a selection is made.
 			await expect(
 				page.locator(
 					'.pc-settings-media-clear[data-key="media_image"]'
 				)
-			).toBeVisible();
+			).toBeHidden();
 			await expect(
 				page.locator(
 					'input[type="hidden"][name="media_image"]'

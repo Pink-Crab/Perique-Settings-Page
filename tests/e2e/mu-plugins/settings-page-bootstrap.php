@@ -179,18 +179,37 @@ add_action(
 		);
 
 		if ( ! $existing_attachment ) {
+			// Write a real 1x1 transparent PNG to uploads so the media modal
+			// treats this as a full-fledged attachment (matters on fresh CI DBs).
+			$upload_dir  = wp_upload_dir();
+			$target_path = trailingslashit( $upload_dir['basedir'] ) . 'e2e-test-image.png';
+
+			if ( ! file_exists( $target_path ) ) {
+				wp_mkdir_p( $upload_dir['basedir'] );
+				file_put_contents(
+					$target_path,
+					base64_decode(
+						'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
+					)
+				);
+			}
+
 			$attachment_id = wp_insert_attachment(
 				array(
 					'post_title'     => 'E2E Test Image',
 					'post_mime_type' => 'image/png',
 					'post_status'    => 'inherit',
 				),
-				false,
+				$target_path,
 				0
 			);
 
 			if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
-				update_post_meta( $attachment_id, '_wp_attached_file', 'e2e-test-image.png' );
+				require_once ABSPATH . 'wp-admin/includes/image.php';
+				wp_update_attachment_metadata(
+					$attachment_id,
+					wp_generate_attachment_metadata( $attachment_id, $target_path )
+				);
 			}
 		}
 
