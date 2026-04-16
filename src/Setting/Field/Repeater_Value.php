@@ -32,10 +32,13 @@ class Repeater_Value implements JsonSerializable {
 	/**
 	 * Holds the raw representation of the values.
 	 *
-	 * @var array<string, string[]>
+	 * @var array<string, array<int, string>>
 	 */
 	protected $raw_data;
 
+	/**
+	 * @param array<string, array<int, string>> $raw_data
+	 */
 	public function __construct( array $raw_data ) {
 		$this->raw_data = $raw_data;
 	}
@@ -44,9 +47,9 @@ class Repeater_Value implements JsonSerializable {
 	 * Get all values for a key from field name.
 	 *
 	 * @param string $key
-	 * @return mixed[]
+	 * @return array<int, string>|null
 	 */
-	public function get( string $key ) {
+	public function get( string $key ): ?array {
 		if ( ! array_key_exists( $key, $this->raw_data ) ) {
 			return null;
 		}
@@ -58,9 +61,9 @@ class Repeater_Value implements JsonSerializable {
 	 * Magic method, calls get()
 	 *
 	 * @param string $key
-	 * @return void
+	 * @return array<int, string>|null
 	 */
-	public function __get( string $key ) {
+	public function __get( string $key ): ?array {
 		return $this->get( $key );
 	}
 
@@ -91,12 +94,14 @@ class Repeater_Value implements JsonSerializable {
 	 * @return int
 	 */
 	public function group_count(): int {
+		if ( empty( $this->raw_data ) ) {
+			return 0;
+		}
+
 		return (int) \max(
 			array_map(
-				function( $e ) {
-					return is_array( $e )
-					? count( $e )
-					: 0;
+				function( array $e ): int {
+					return count( $e );
 				},
 				$this->raw_data
 			)
@@ -132,11 +137,12 @@ class Repeater_Value implements JsonSerializable {
 	 *    {"key1":"value2", "key2":2},
 	 * ]
 	 *
-	 * @return array
+	 * @return array<int, \stdClass|null>
 	 */
 	public function as_indexed(): array {
 		$indexed = array();
-		for ( $i = 0; $i < $this->group_count(); $i++ ) {
+		$count   = $this->group_count();
+		for ( $i = 0; $i < $count; $i++ ) {
 			$indexed[ $i ] = $this->get_index( $i );
 		}
 		return $indexed;
@@ -160,7 +166,7 @@ class Repeater_Value implements JsonSerializable {
 	/**
 	 * Returns an array of all keys.
 	 *
-	 * @return array
+	 * @return array<int, string>
 	 */
 	public function field_keys(): array {
 		return array_keys( $this->raw_data );
@@ -171,7 +177,7 @@ class Repeater_Value implements JsonSerializable {
 	 *
 	 * @return array<string, string[]>
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize(): mixed {
 		return $this->raw_data;
 	}
 
@@ -182,6 +188,8 @@ class Repeater_Value implements JsonSerializable {
 	 * @return self
 	 */
 	public static function from_json( string $json ): self {
-		return new self( \json_decode( $json, true ) );
+		/** @var array<string, array<int, string>> $data */
+		$data = \json_decode( $json, true );
+		return new self( is_array( $data ) ? $data : array() );
 	}
 }

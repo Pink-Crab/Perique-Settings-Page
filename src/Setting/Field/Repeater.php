@@ -24,7 +24,6 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 
-use PinkCrab\Collection\Collection;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
@@ -41,7 +40,7 @@ class Repeater extends Field {
 	 *
 	 * @var string
 	 */
-	protected $add_to_group_label = 'Add';
+	protected string $add_to_group_label = 'Add';
 
 	/**
 	 * Denote the layout
@@ -49,21 +48,21 @@ class Repeater extends Field {
 	 *
 	 * @var string
 	 */
-	protected $layout = 'rows';
+	protected string $layout = 'rows';
 
 	/**
 	 * Customer wrapper class for the group.
 	 *
 	 * @var string
 	 */
-	protected $group_class = 'repeater-group';
+	protected string $group_class = 'repeater-group';
 
 	/**
 	 * Collection of fields
 	 *
-	 * @var Collection<Field>
+	 * @var Setting_Collection|null
 	 */
-	protected $fields;
+	protected ?Setting_Collection $fields = null;
 
 	// Attributes.
 	use Disabled, Data;
@@ -74,8 +73,8 @@ class Repeater extends Field {
 	 * @param string $key
 	 * @return static
 	 */
-	public static function new( string $key ): Repeater {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {
@@ -96,9 +95,9 @@ class Repeater extends Field {
 	 *
 	 * @param string $add_to_group_label  The label to show when adding a new row
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function set_add_to_group_label( string $add_to_group_label ): self {
+	public function set_add_to_group_label( string $add_to_group_label ): static {
 		$this->add_to_group_label = esc_html( $add_to_group_label );
 		return $this;
 	}
@@ -106,20 +105,20 @@ class Repeater extends Field {
 	/**
 	 * Get collection of fields
 	 *
-	 * @return Setting_Collection
+	 * @return Setting_Collection|null
 	 */
-	public function get_fields(): Setting_Collection {
+	public function get_fields(): ?Setting_Collection {
 		return $this->fields;
 	}
 
 	/**
 	 * Set collection of fields
 	 *
-	 * @param Fields $field  Collection of fields
+	 * @param Field $field  The field to add.
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function add_field( Field $field ): self {
+	public function add_field( Field $field ): static {
 
 		if ( is_a( $field, self::class ) ) {
 			throw new \Exception( 'A repeater can not be added as a repeater field.', 1 );
@@ -148,9 +147,9 @@ class Repeater extends Field {
 	 *
 	 * @param string $layout  Options ['row', 'columns']
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function set_layout( string $layout ): self {
+	public function set_layout( string $layout ): static {
 		if ( in_array( $layout, array( 'row', 'columns' ), true ) ) {
 			$this->layout = $layout;
 		}
@@ -171,9 +170,9 @@ class Repeater extends Field {
 	 *
 	 * @param string $group_class  Customer wrapper class for the group.
 	 *
-	 * @return self
+	 * @return static
 	 */
-	public function set_group_class( string $group_class ): self {
+	public function set_group_class( string $group_class ): static {
 		$this->group_class = esc_html( $group_class );
 		return $this;
 	}

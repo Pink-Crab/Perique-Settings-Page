@@ -29,10 +29,10 @@ trait Multiple {
 	/**
 	 * Sets the multiple for this input/select.
 	 *
-	 * @param string $multiple
+	 * @param bool $multiple
 	 * @return self
 	 */
-	public function set_multiple( bool $multiple = true ):self {
+	public function set_multiple( bool $multiple = true ): self {
 
 		// Remove if set to false.
 		if ( false === $multiple && $this->is_multiple() ) {
@@ -51,6 +51,6 @@ trait Multiple {
 	 * @return bool
 	 */
 	public function is_multiple(): bool {
-		return \in_array( 'multiple', $this->get_flags() );
+		return \in_array( 'multiple', $this->get_flags(), true );
 	}
 }

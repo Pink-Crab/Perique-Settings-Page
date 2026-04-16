@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
+use PinkCrab\Perique_Settings_Page\Util\Cast;
+
 trait Autocomplete {
 
 	/**
@@ -32,7 +34,7 @@ trait Autocomplete {
 	 * @param string $autocomplete
 	 * @return self
 	 */
-	public function set_autocomplete( string $autocomplete ):self {
+	public function set_autocomplete( string $autocomplete ): self {
 		$this->set_attribute( 'autocomplete', $autocomplete );
 		return $this;
 	}
@@ -53,7 +55,7 @@ trait Autocomplete {
 	 */
 	public function get_autocomplete(): ?string {
 		return $this->has_autocomplete()
-			? $this->get_attributes()['autocomplete']
+			? Cast::to_string( $this->get_attributes()['autocomplete'] )
 			: null;
 	}
 }

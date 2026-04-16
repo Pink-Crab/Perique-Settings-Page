@@ -56,16 +56,6 @@ class Hooks {
 	 */
 	public const PAGE_GLOBAL_STYLE = self::HOOK_PREFIX . 'page/global-style';
 
-	/**
-	 * Hook used for the global select2 scripts of a settings page that contains a select2 field.
-	 */
-	public const PAGE_SELECT2_SCRIPT = self::HOOK_PREFIX . 'page/select2-script';
-
-	/**
-	 * Hook used for the global select2 styles of a settings page that contains a select2 field.
-	 */
-	public const PAGE_SELECT2_STYLE = self::HOOK_PREFIX . 'page/select2-style';
-
 
 	/**
 	 *     ##    DYNAMIC HOOKS    ##

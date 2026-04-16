@@ -45,8 +45,8 @@ class Radio extends Field {
 	 * @param string $key
 	 * @return static
 	 */
-	public static function new( string $key ): Radio {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {

@@ -34,7 +34,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Number;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Repeater_Value;
-use PinkCrab\Perique_Settings_Page\Application\Repeater_Form_Value_Helper;
+use PinkCrab\Perique_Settings_Page\Handler\Repeater_Form_Value_Helper;
 
 class Test_Repeater_Form_Value_Helper extends WP_UnitTestCase {
 
@@ -84,31 +84,38 @@ class Test_Repeater_Form_Value_Helper extends WP_UnitTestCase {
 		$this->assertEquals( 4, $sort_order[4] );
 	}
 
-	/** @testdox When falling back to using the repeaters previous values, if none are set return [0] */
-	public function test_can_get_sort_order_of_just_0_if_not_set_in_post_and_no_previous_repeater_values(): void {
+	/** @testdox When falling back to using the repeaters previous values, if none are set return an empty array (no rows). */
+	public function test_can_get_sort_order_of_empty_if_not_set_in_post_and_no_previous_repeater_values(): void {
 		$helper     = new Repeater_Form_Value_Helper( Repeater::new( 'mock_repeater_no_values' ) );
 		$sort_order = Objects::invoke_method( $helper, 'get_sort_order', array() );
 
-		$this->assertCount( 1, $sort_order );
-		$this->assertEquals( 0, $sort_order[0] );
+		$this->assertCount( 0, $sort_order );
 	}
 
-	/** @testdox When falling back to using the repeater previous values, if the previoud values are empty, return [0] */
-	public function test_can_get_sort_order_of_just_0_if_not_set_in_post_and_empty_previous_repeater_values( Type $var = null ) {
+	/** @testdox When falling back to using the repeater previous values, if the previous values are empty, return an empty array (no rows). */
+	public function test_can_get_sort_order_of_empty_if_not_set_in_post_and_empty_previous_repeater_values(): void {
 		$repeater   = Repeater::new( 'mock_repeater_no_post_empty' )
 			->set_value(
 				new Repeater_Value(
-					array(
-						'one' => null,
-						'two' => null,
-					)
+					array()
 				)
 			);
 		$helper     = new Repeater_Form_Value_Helper( $repeater );
 		$sort_order = Objects::invoke_method( $helper, 'get_sort_order', array() );
 
-		$this->assertCount( 1, $sort_order );
-		$this->assertEquals( 0, $sort_order[0] );
+		$this->assertCount( 0, $sort_order );
+	}
+
+	/** @testdox When sortorder is present in POST but empty (form submitted with no rows), the result should be no rows. */
+	public function test_can_get_sort_order_of_empty_when_post_sortorder_is_empty_string(): void {
+		$_POST['empty_sortorder']['sortorder'] = '';
+
+		$helper     = new Repeater_Form_Value_Helper( Repeater::new( 'empty_sortorder' ) );
+		$sort_order = Objects::invoke_method( $helper, 'get_sort_order', array() );
+
+		$this->assertCount( 0, $sort_order );
+
+		$this->clear_post( 'empty_sortorder' );
 	}
 
 	/** @testdox When getting the data from the post, it should be run through the supplied sanitize callback for each value. */
@@ -346,6 +353,30 @@ class Test_Repeater_Form_Value_Helper extends WP_UnitTestCase {
 
 		// CLEAR POST.
 		$this->clear_post( 'mock_repeater' );
+	}
+
+	/** @testdox When the repeater has no child fields, get_sanitized_post_values returns an empty array. */
+	public function test_get_sanitized_values_with_no_fields(): void {
+		// Repeater with no add_field() calls — get_fields() returns null.
+		$repeater  = Repeater::new( 'no_fields' );
+		$helper    = new Repeater_Form_Value_Helper( $repeater );
+		$sanitized = Objects::invoke_method( $helper, 'get_sanitized_post_values', array() );
+		$this->assertSame( array(), $sanitized );
+	}
+
+	/** @testdox When sort order is empty, reorder_values returns the empty-initialised data. */
+	public function test_reorder_values_with_empty_sort_order(): void {
+		$repeater = Repeater::new( 'empty_sort' )->add_field( Text::new( 'name' ) );
+		$_POST['empty_sort'] = array( 'sortorder' => '' );
+
+		$helper   = new Repeater_Form_Value_Helper( $repeater );
+		$reordered = Objects::invoke_method( $helper, 'reorder_values', array() );
+
+		// With an empty sort_order, the per-key arrays should be empty.
+		$this->assertArrayHasKey( 'name', $reordered );
+		$this->assertSame( array(), $reordered['name'] );
+
+		$this->clear_post( 'empty_sort' );
 	}
 
 }

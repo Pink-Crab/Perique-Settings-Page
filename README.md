@@ -1,218 +1,399 @@
-# Perique Settings Page
+# Perique - Settings Page
 
-An extension for Perique Admin Menu module, part of the Perique Framework.
+Build admin settings pages for the Perique Framework with a fluent PHP API. Define fields, layouts, themes and validation in pure PHP; the library handles persistence, sanitisation and rendering via Form Components.
 
-Allows for the creation of injectable settings classes and the generation of a matching settings page, which can be used as part of a custom Admin Menu group, or as a subpage to any other admin menu grouping.
+<img src="PLACEHOLDER_LOGO_URL" alt="Perique Settings Page" />
 
-![alt text](https://img.shields.io/badge/Current_Version-0.1.0-yellow.svg?style=flat " ")
+[![Latest Stable Version](http://poser.pugx.org/pinkcrab/perique-settings-page/v)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![Total Downloads](http://poser.pugx.org/pinkcrab/perique-settings-page/downloads)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![Latest Unstable Version](http://poser.pugx.org/pinkcrab/perique-settings-page/v/unstable)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![License](http://poser.pugx.org/pinkcrab/perique-settings-page/license)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-settings-page/require/php)](https://packagist.org/packages/pinkcrab/perique-settings-page)
+![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique-Settings-Page?label=Contributors)
+![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique-Settings-Page)
+[![WordPress 6.6 Test Suite [PHP8.0-8.4]](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_6.yaml)
+[![WordPress 6.7 Test Suite [PHP8.0-8.4]](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_7.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_7.yaml)
+[![WordPress 6.8 Test Suite [PHP8.0-8.4]](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_8.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_8.yaml)
+[![WordPress 6.9 Test Suite [PHP8.0-8.4]](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_9.yaml)
+[![E2E Tests (Playwright)](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/E2E.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/E2E.yaml)
+[![codecov](https://codecov.io/gh/Pink-Crab/Perique-Settings-Page/graph/badge.svg?token=PLACEHOLDER_CODECOV_TOKEN)](https://codecov.io/gh/Pink-Crab/Perique-Settings-Page)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Settings-Page/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Settings-Page/?branch=master)
 
- 
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-![](https://github.com/Pink-Crab/Perique_Settings_Page/workflows/GitHub_CI/badge.svg " ")
-[![codecov](https://codecov.io/gh/Pink-Crab/Perique_Settings_Page/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Settings_Page)
+****
 
-## Installation
+> Requires Perique Framework **2.1.\*** or newer. Not compatible with older versions.
+
+## Setup
 
 ```bash
 $ composer require pinkcrab/perique-settings-page
 ```
 
-> Requires `pinkcrab/perique-admin-menu` module for the `Perique Framework`
+Register the module in your Perique bootstrap:
+
+```php
+use PinkCrab\Perique\Application\App_Factory;
+use PinkCrab\Perique_Admin_Menu\Module\Perique_Admin_Menu;
+use PinkCrab\Form_Components\Module\Form_Components;
+use PinkCrab\Perique_Settings_Page\Registration\Settings_Page_Module;
+
+( new App_Factory() )
+    ->default_setup()
+    ->module( Form_Components::class )
+    ->module( Perique_Admin_Menu::class )
+    ->module( Settings_Page_Module::class )
+    ->boot();
+```
 
 ### Depends on
 
-* [PinkCrab Perique](https://github.com/Pink-Crab/Perqiue-Framework)
-* [PinkCrab Perique Admin Menu](https://github.com/Pink-Crab/Perique_Admin_Menu)
-* [PinkCrab Enqueue](https://github.com/Pink-Crab/Enqueue)
-* [PinkCrab Form Fields](https://github.com/Pink-Crab/Form-Fields)
+* [PinkCrab Perique Framework](https://github.com/Pink-Crab/Perique-Framework) `2.1.*`
+* [PinkCrab Perique Admin Menu](https://github.com/Pink-Crab/Perique-Admin-Menu) `2.1.*`
+* [PinkCrab Form Components](https://github.com/Pink-Crab/Perique-Form-Components) `2.1.*`
 
-## Setup
+****
 
-There are a minimum of 2 classes which must be made to register a settings page and its matching settings object. The Settings class holds all of the settings details and the Page class is used to render the page as part of the Perique Admin Menu modules.
+## Quick Start
 
----
-## Settings
+Two classes are required: an `Abstract_Settings` subclass holding the field definitions, and a `Settings_Page` subclass that renders the admin page.
 
-
-The settings class, is extended form the `Abstract_Settings` class and has 3 methods which much be implemented.
----
-
-### is_grouped(): bool
+**Settings class:**
 
 ```php
-/**
- * Denotes of the settings is grouped
- *
- * @return bool
- */
-protected function is_grouped(): bool{
-    // If the settings are saved as single items (add_option('key', 'value'));
-    return false;
+use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
+use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Text;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Select;
 
-    // If the settings are saved as a grouped item (add_option('my_key', ['key'=>'value', 'key2'=>'value2'...]));
-    return true;
+class Acme_Settings extends Abstract_Settings {
+
+    protected function is_grouped(): bool {
+        return true;
+    }
+
+    public function group_key(): string {
+        return 'acme_settings';
+    }
+
+    protected function fields( Setting_Collection $settings ): Setting_Collection {
+        return $settings->push(
+            Text::new( 'site_name' )
+                ->set_label( 'Site Name' )
+                ->set_required(),
+
+            Select::new( 'theme' )
+                ->set_label( 'Default Theme' )
+                ->set_option( 'light', 'Light' )
+                ->set_option( 'dark', 'Dark' )
+        );
+    }
 }
 ```
 
-> If you are planning to use a separate repository (opposed to WP_Options), its probably better to use this as single (return false)   
-
----
-
-### group_key(): string
+**Page class:**
 
 ```php
-/**
- * Denotes the group key (can be used a prefix for key, or the key all settings are saved under)
- *
- * @return string
- */
-public function group_key(): string {
-    return 'achme_settings';
-}
-```
+use PinkCrab\Perique_Settings_Page\Page\Settings_Page;
 
-> When used as grouped, this is the group key the settings are saved under.  
-> When using single items, this is used as a prefix like `add_option('achme_settings_key', 'value)`
+class Acme_Settings_Page extends Settings_Page {
 
----
+    protected $parent_slug = 'options-general.php';
+    protected $page_slug   = 'acme_settings';
+    protected $menu_title  = 'Acme Settings';
+    protected $page_title  = 'Acme Plugin Settings';
 
-### fields(Setting_Collection $collection): Setting_Collection
+    protected string $theme_stylesheet = Settings_Page::STYLE_VANILLA;
 
-```php
-/**
- * Populates the settings group with all fields.
- *
- * @param \PinkCrab\Perique_Settings_Page\Setting\Setting_Collection $settings
- * @return \PinkCrab\Perique_Settings_Page\Setting\Setting_Collection
- */
-protected function fields( Setting_Collection $settings): Setting_Collection{
-    return $settings->push(
-        Text::new( 'my_key' )
-            ->set_label('Some Setting')
-            ->set_description( 'This is its description' )
-            ->set_data( 'foo', 'whatever is set here' ),
-        Select::new( 'my_select' )
-            ->set_label( 'Multiple Select' )
-            ->set_option( 'A', 'Apple', 'Fruit' )
-            ->set_option( 'B', 'Banana', 'Fruit' )
-            ->set_option( 'F', 'Fish', 'Animal' )
-            ->set_multiple(),
-       //... Add as many fields as needed
-    );
-}
-```
-
-> There are a number of settings fields that can be implemented. These share a collection of methods/properties and also some additional which are specific to certain types.  
-> [View all **Field Attributes**](docs/field-attributes.md)  
-> [View all **Field Types**](docs/fields/readme.md)
-
-
----
-## Page   
-
-The settings page, needs a few properties defining, most of these are documented in the Admin_Menu module
----
-g
-```php
-class My_Settings_Page extends Setting_Page{
-	
-    // Defined if a child page (See Admin_Menu Modules docs)
-    protected $parent_slug = 'tools.php';
-
-    // Denotes the page slug (See Admin_Menu Modules docs)
-    protected $page_slug = 'my_settings_page';
-
-    // Denotes the menu title (See Admin_Menu Modules docs)
-    protected $menu_title = 'Achme Settings';
-
-    // Denotes the pages title (See Admin_Menu Modules docs)
-    protected $page_title = 'Achme Plugin Settings';
-
-    // Denotes the menu position (See Admin_Menu Modules docs)
-    protected $position = 1;
-
-    // Returns the name of the class which holds our settings.
     public function settings_class_name(): string {
-		return 'Namespace\My_Settings_Class'; // or My_Setting_Class:class
-	}
+        return Acme_Settings::class;
+    }
 }
 ```
----  
 
-### settings_class_name(): string
-> @return class-string<Abstract_Settings>  
-> @required true (Is abstract method!)
+Register the page through the Admin Menu module as normal. The settings object is resolved via the DI container, so you can type-hint dependencies on the constructor.
+
+****
+
+## Building a Complete Settings Page
+
+A fuller example using layouts, a custom theme, a repeater and field validation.
 
 ```php
-/**
- * Returns the class name for the settings.
- *
- * @return class-string<Abstract_Settings>
- */
-protected function settings_class_name(): string{
-    // Can be returned as the full string representation of the class name.
-    return 'Namespace\My_Settings_Class';
+use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
+use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
+use PinkCrab\Perique_Settings_Page\Setting\Field\{ Text, Email, Phone, Select, Checkbox, Repeater, Media_Library, Colour };
+use PinkCrab\Perique_Settings_Page\Setting\Layout\{ Section, Row, Grid, Stack, Divider, Notice };
+use Respect\Validation\Validator as v;
 
-    // Or using the ::class constant.
-    return My_Settings_Class::class;
-    );
+class Contact_Settings extends Abstract_Settings {
+
+    protected function is_grouped(): bool {
+        return true;
+    }
+
+    public function group_key(): string {
+        return 'acme_contact';
+    }
+
+    protected function fields( Setting_Collection $settings ): Setting_Collection {
+        return $settings->push(
+            Notice::info( 'These details appear in the site footer.' ),
+
+            Section::of(
+                Row::of(
+                    Text::new( 'company_name' )->set_label( 'Company Name' )->set_required(),
+                    Email::new( 'support_email' )
+                        ->set_label( 'Support Email' )
+                        ->set_validate( v::email() )
+                )->sizes( 2, 1 ),
+
+                Phone::new( 'support_phone' )->set_label( 'Support Phone' )
+            )
+                ->title( 'Contact Information' )
+                ->description( 'Primary channels for customer support.' ),
+
+            Section::of(
+                Grid::of(
+                    Media_Library::new( 'logo' )->set_label( 'Brand Logo' ),
+                    Colour::new( 'brand_colour' )->set_label( 'Brand Colour' )
+                )->columns( 2 ),
+
+                Divider::make(),
+
+                Repeater::new( 'social_links' )
+                    ->set_label( 'Social Links' )
+                    ->add_field( Text::new( 'label' )->set_label( 'Label' ) )
+                    ->add_field( Text::new( 'url' )->set_label( 'URL' ) )
+            )
+                ->title( 'Branding' )
+                ->collapsible()
+        );
+    }
 }
 ```
 
-> This is constructed via the DI container, so this allows the passing of dependencies to the settings class if required.
+****
 
----
+## Settings API
 
-### enqueue_scripts(): ?Enqueue
-> @return Enqueue|null  
-> @required false  
-> @default `return null;`
+All settings classes extend `Abstract_Settings` and implement three required methods.
+
+### Required methods
+
+| Method | Description |
+|---|---|
+| `fields( Setting_Collection $settings ): Setting_Collection` | Return the collection with all fields and layouts pushed in. |
+| `is_grouped(): bool` | `true` to save under a single option key, `false` to save each field as its own option. |
+| `group_key(): string` | When grouped, the option name. When not grouped, the key prefix. |
+
+### Value access methods
+
+| Method | Description |
+|---|---|
+| `get( string $key, $fallback = null )` | Return the current value for a field, or the fallback. |
+| `set( string $key, $data ): bool` | Persist a new value for a field. Returns `true` on success. |
+| `has( string $key ): bool` | Whether a field with that key exists. |
+| `find( string $key ): Field\|Field_Group\|null` | Return the field instance, or `null`. |
+| `delete( string $key ): ?bool` | Remove the stored value. Returns `null` if the field doesn't exist. |
+| `get_keys(): array` | All field keys, including those nested inside layouts. |
+| `get_all_fields(): array` | All `Field` / `Field_Group` instances, flattened. |
+| `export(): array` | The full `Setting_Collection` as an array (layouts intact). |
+| `refresh_settings(): void` | Re-hydrate every field from the repository. |
+| `prefix_key( string $key ): string` | Returns `"{group_key}_{key}"`. |
+
+****
+
+## Settings Page API
+
+All pages extend `Settings_Page` (which extends `Menu_Page` from the Admin Menu module).
+
+### Properties
+
+| Property | Type | Description |
+|---|---|---|
+| `$parent_slug` | `string` | Parent menu slug (e.g. `options-general.php`). Inherited from `Menu_Page`. |
+| `$page_slug` | `string` | Unique page slug. Inherited from `Menu_Page`. |
+| `$menu_title` | `string` | Label in the admin menu. Inherited from `Menu_Page`. |
+| `$page_title` | `string` | `<title>` and `<h1>` for the page. Inherited from `Menu_Page`. |
+| `$position` | `int` | Menu position. Inherited from `Menu_Page`. |
+| `$capability` | `string` | Required capability. Inherited from `Menu_Page`. |
+| `$theme_stylesheet` | `string` | Theme identifier. One of the `STYLE_*` constants, or an absolute path / URL. Default `STYLE_VANILLA`. |
+| `$method` | `string` | `'POST'` or `'GET'`. Default `'POST'`. |
+| `$pre_template` | `?string` | View template rendered inside `.wrap`, above the form. |
+| `$pre_data` | `array` | Data passed to `$pre_template`. |
+| `$post_template` | `?string` | View template rendered inside `.wrap`, below the form. |
+| `$post_data` | `array` | Data passed to `$post_template`. |
+
+### Theme constants
+
+| Constant | File |
+|---|---|
+| `Settings_Page::STYLE_VANILLA` | `assets/themes/vanilla.css` |
+| `Settings_Page::STYLE_MATERIAL` | `assets/themes/material.css` |
+| `Settings_Page::STYLE_BOOTSTRAP` | `assets/themes/bootstrap.css` |
+| `Settings_Page::STYLE_BOOTSTRAP_CLASSIC` | `assets/themes/bootstrap-classic.css` |
+| `Settings_Page::STYLE_WP_ADMIN` | `assets/themes/wp-admin.css` |
+| `Settings_Page::STYLE_MINIMAL` | `assets/themes/minimal.css` |
+| `Settings_Page::STYLE_NONE` | No theme (structural CSS only). |
+
+See [docs/themes.md](docs/themes.md) for the full visual guide.
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `settings_class_name(): string` | **Abstract.** Fully qualified class name of the matching `Abstract_Settings` subclass. |
+| `scripts(): void` | Override to enqueue custom scripts. |
+| `styles(): void` | Override to enqueue custom styles. |
+| `before_render(): void` | Override to populate `$pre_template` / `$post_template` at render time. |
+| `set_pre_template( string $template, array $data = [] ): static` | Fluent setter for the above-form template. |
+| `set_post_template( string $template, array $data = [] ): static` | Fluent setter for the below-form template. |
+| `get_method(): string` | Current form method. |
+| `get_submit_label(): string` | Label on the submit button (override to change). |
+| `get_form_action(): string` | Form `action` attribute (defaults to empty — posts to self). |
+| `get_nonce_handle(): string` | Nonce handle used for form verification. |
+| `get_nonce_field_name(): string` | Nonce field name (`pc_settings_nonce`). |
+| `get_settings(): ?Abstract_Settings` | Access the injected settings instance. |
+| `get_theme_stylesheet(): string` | Current theme identifier. |
+
+See [docs/settings-facade-pattern.md](docs/settings-facade-pattern.md) for the rationale behind the split between `Abstract_Settings` (data) and `Settings_Page` (rendering).
+
+****
+
+## Layouts
+
+Layouts are composable containers that control how fields are arranged. All layouts implement `Renderable` and can be nested.
 
 ```php
-/**
- * Returns any scripts that should be enqueued.
- *
- * @return Enqueue|null
- */
-public function enqueue_scripts(): ?Enqueue {
-    return Enqueue::script('my_scripts')
-        ->src('path/to/file.js')
-        ->deps('jquery');
-}
+use PinkCrab\Perique_Settings_Page\Setting\Layout\{ Section, Row, Grid, Stack, Divider, Notice };
 ```
 
-> This should return an unregistered instance of the PinkCrab Enqueue object, please see [Enqueue](https://github.com/Pink-Crab/Enqueue) docs for more details.
+### Section
 
-
----
-
-
-### enqueue_styles(): ?Enqueue
-> @return Enqueue|null  
-> @required false  
-> @default `return null;`
+Visual grouping with title, description and optional collapse behaviour.
 
 ```php
-/**
- * Returns any styles that should be enqueued.
- *
- * @return Enqueue|null
- */
-public function enqueue_styles(): ?Enqueue {
-    return Enqueue::style('my_styles')
-        ->src('path/to/file.css');
-}
+Section::of( $field_a, $field_b )
+    ->title( 'General' )
+    ->description( 'Main configuration.' )
+    ->collapsible()         // allow collapse
+    ->collapsed()           // start collapsed (implies collapsible)
+    ->rtl()                 // right-to-left header layout
+    ->gap( '24px' );        // CSS gap between children
 ```
 
-> This should return an unregistered instance of the PinkCrab Enqueue object, please see [Enqueue](https://github.com/Pink-Crab/Enqueue) docs for more details.
+### Row
 
+Horizontal arrangement using CSS grid.
 
-## License ##
+```php
+Row::of( $field_a, $field_b, $field_c )
+    ->sizes( 1, 2, 1 )      // fractional column widths (1fr 2fr 1fr)
+    ->align( 'center' )     // 'start' | 'center' | 'end' | 'stretch'
+    ->gap( '16px' );
+```
 
-### MIT License ###
+### Grid
 
-http://www.opensource.org/licenses/mit-license.html 
+Fixed-column grid.
 
-## Change Log ##
+```php
+Grid::of( $a, $b, $c, $d )
+    ->columns( 2 )          // number of columns
+    ->gap( '16px' );
+```
 
-* 0.1.0 - Recreation of the old settings page module which made use of the native WP_Settings_API
+### Stack
+
+Vertical stack (default gap `0`).
+
+```php
+Stack::of( $a, $b, $c )
+    ->gap( '8px' );
+```
+
+### Divider
+
+Horizontal rule between fields.
+
+```php
+Divider::make();
+```
+
+### Notice
+
+Info, warning, error or success message inside the form.
+
+```php
+Notice::info( 'This page only appears on multisite installs.' );
+Notice::warning( 'These changes take effect immediately.' );
+Notice::error( 'API key is missing.' );
+Notice::success( 'Connection verified.' );
+```
+
+****
+
+## Field Types
+
+19 fields, all extending `Field`. See [docs/fields.md](docs/fields.md) for the full method reference.
+
+| Field | Class | Summary |
+|---|---|---|
+| Text | `Field\Text` | Single-line text input. |
+| Email | `Field\Email` | Email input with browser validation. |
+| Phone | `Field\Phone` | Tel input. |
+| Url | `Field\Url` | URL input. |
+| Password | `Field\Password` | Password input. |
+| Textarea | `Field\Textarea` | Multi-line text. |
+| Number | `Field\Number` | Numeric input with min/max/step. |
+| Hidden | `Field\Hidden` | Hidden value. |
+| Select | `Field\Select` | Dropdown, single or multiple. |
+| Checkbox | `Field\Checkbox` | Single on/off. |
+| Checkbox_Group | `Field\Checkbox_Group` | Multiple checkboxes sharing one key. |
+| Radio | `Field\Radio` | Radio group. |
+| Colour | `Field\Colour` | HTML5 colour picker. |
+| Media_Library | `Field\Media_Library` | WP media library selector. |
+| WP_Editor | `Field\WP_Editor` | Full TinyMCE / block editor instance. |
+| User_Picker | `Field\User_Picker` | Search and pick one or more users. |
+| Post_Picker | `Field\Post_Picker` | Search and pick one or more posts. |
+| Repeater | `Field\Repeater` | Repeating set of sub-fields. |
+| Field_Group | `Field\Field_Group` | Named group of related fields saved as an array. |
+
+****
+
+## Themes
+
+Six bundled themes, each a single CSS file layered over `core.css`.
+
+| Theme | Constant | Style |
+|---|---|---|
+| Vanilla | `STYLE_VANILLA` | Neutral default with static labels. |
+| Material | `STYLE_MATERIAL` | Material Design 3 with floating labels. |
+| Bootstrap | `STYLE_BOOTSTRAP` | Bootstrap 5 with floating labels. |
+| Bootstrap Classic | `STYLE_BOOTSTRAP_CLASSIC` | Bootstrap 5 with static labels. |
+| WP Admin | `STYLE_WP_ADMIN` | Native WordPress admin look. |
+| Minimal | `STYLE_MINIMAL` | Bare-bones, maximum density. |
+
+Custom themes can be loaded via absolute path or URL. See [docs/themes.md](docs/themes.md) for screenshots and details.
+
+****
+
+## Repositories
+
+Persistence is handled by an implementation of `Setting_Repository`. Four are bundled.
+
+| Repository | Purpose |
+|---|---|
+| `Repository\WP_Options_Settings_Repository` | Default. Stores each setting as its own row in `wp_options`, or as a grouped array when `is_grouped()` returns `true`. |
+| `Repository\WP_Options_Individual_Repository` | Always stores each field as its own option (ignores grouping). |
+| `Repository\WP_Options_Named_Groups_Repository` | Always groups all fields under a single option. |
+| `Repository\WP_Site_Options_Decorator` | Wraps another repository to read/write via `get_site_option()` / `update_site_option()` for multisite. |
+
+Implement `Setting_Repository` for a custom backend (transients, custom tables, remote API, etc.).
+
+****
+
+## Change Log
+
+* **2.1.0** — Full rewrite for Perique Framework 2.1. Rendering moved to [Form Components](https://github.com/Pink-Crab/Perique-Form-Components). New layout helpers (Section, Row, Grid, Stack, Divider, Notice). Six bundled themes. Pickers backed by a REST endpoint. Repeater with add / remove / drag-reorder. Full jQuery removal — everything runs on vanilla JS. 648+ unit and integration tests (100% coverage), 70+ Playwright end-to-end tests. Drops support for Perique Framework `< 2.1`.
+* 0.1.0 — Initial recreation of the legacy settings page module on top of `WP_Settings_API`.
+
+## License
+
+MIT — http://www.opensource.org/licenses/mit-license.html

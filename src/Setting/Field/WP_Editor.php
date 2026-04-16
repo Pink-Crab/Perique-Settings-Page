@@ -38,31 +38,29 @@ class WP_Editor extends Field {
 	 * The WP_Editor options.
 	 *
 	 * @see https://developer.wordpress.org/reference/classes/_wp_editors/parse_settings/
-	 * @var array<string, string>
+	 * @var array<string, mixed>
 	 */
-	protected $options = array();
+	protected array $options = array();
 
 	/**
 	 * Static constructor for field.
 	 *
 	 * @param string $key
-	 * @return Text
+	 * @return static
 	 */
-	public static function new( string $key ): WP_Editor {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
-
-		// Sets the default sanitize callback to use the wp post sanitizer.
-		$this->callbacks['sanitize'] = 'wp_kses_post';
+		$this->set_sanitize( 'wp_kses_post' );
 	}
 
 	/**
 	 * Get the WP_Editor options.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function get_options(): array {
 		return $this->options;
@@ -71,10 +69,10 @@ class WP_Editor extends Field {
 	/**
 	 * Set the WP_Editor options.
 	 *
-	 * @param array $options  The WP_Editor options.
-	 * @return self
+	 * @param array<string, mixed> $options
+	 * @return static
 	 */
-	public function set_options( array $options ): self {
+	public function set_options( array $options ): static {
 		$this->options = $options;
 		return $this;
 	}

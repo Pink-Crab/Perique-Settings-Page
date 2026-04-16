@@ -26,7 +26,6 @@ namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
-use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Placeholder;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Autocomplete;
 
 class Colour extends Field {
@@ -37,7 +36,7 @@ class Colour extends Field {
 	public const TYPE = 'colour';
 
 	// Attributes.
-	use Placeholder, Data, Autocomplete;
+	use Data, Autocomplete;
 
 	/**
 	 * Static constructor for field.
@@ -45,8 +44,8 @@ class Colour extends Field {
 	 * @param string $key
 	 * @return static
 	 */
-	public static function new( string $key ): Colour {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {

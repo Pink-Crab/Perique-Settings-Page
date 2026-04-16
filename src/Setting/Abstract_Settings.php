@@ -25,17 +25,20 @@ declare(strict_types=1);
 namespace PinkCrab\Perique_Settings_Page\Setting;
 
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Field_Group;
+use PinkCrab\Perique_Settings_Page\Setting\Renderable;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Repository;
+use PinkCrab\Perique_Settings_Page\Setting\Layout\Abstract_Layout;
 
 abstract class Abstract_Settings {
 
 	/**
 	 * The settings
 	 *
-	 * @var Setting_Collection;
+	 * @var Setting_Collection
 	 */
-	protected $settings;
+	protected Setting_Collection $settings;
 
 	/**
 	 * The settings repository.
@@ -47,7 +50,6 @@ abstract class Abstract_Settings {
 	public function __construct( Setting_Repository $settings_repository ) {
 		$this->settings_repository = $settings_repository;
 		$this->settings            = $this->fields( new Setting_Collection() );
-		$this->refresh_settings();
 	}
 
 	/**
@@ -56,7 +58,7 @@ abstract class Abstract_Settings {
 	 * @param \PinkCrab\Perique_Settings_Page\Setting\Setting_Collection $settings
 	 * @return \PinkCrab\Perique_Settings_Page\Setting\Setting_Collection
 	 */
-	abstract protected function fields( Setting_Collection $settings): Setting_Collection;
+	abstract protected function fields( Setting_Collection $settings ): Setting_Collection;
 
 	/**
 	 * Denotes of the settings is grouped
@@ -83,37 +85,36 @@ abstract class Abstract_Settings {
 	}
 
 	/**
-	 * Checks if a setting exists
+	 * Checks if a field exists (including nested in layouts).
 	 *
 	 * @param string $key
 	 * @return bool
 	 */
 	public function has( string $key ): bool {
-		return $this->settings->has( $key );
+		return array_key_exists( $key, $this->get_all_fields() );
 	}
 
 	/**
-	 * Finds a setting from the repository.
+	 * Finds a field or field group from the collection (including nested in layouts).
 	 *
 	 * @param string $key
-	 * @return Field|null
+	 * @return Field|Field_Group|null
 	 */
-	public function find( string $key ): ?Field {
-		return $this->settings->has( $key )
-			? $this->settings->get( $key )
-			: null;
+	public function find( string $key ): Field|Field_Group|null {
+		$fields = $this->get_all_fields();
+		return $fields[ $key ] ?? null;
 	}
 
 	/**
 	 * Gets a value from the settings, if not set will return default.
 	 *
 	 * @param string $key
-	 * @param mixed $default
+	 * @param mixed $fallback
 	 * @return mixed
 	 */
-	public function get( string $key, $default = null ) {
+	public function get( string $key, $fallback = null ) {
 		$field = $this->find( $key );
-		return $field ? $field->get_value() : $default;
+		return $field ? $field->get_value() : $fallback;
 	}
 
 	/**
@@ -124,40 +125,48 @@ abstract class Abstract_Settings {
 	 * @return bool
 	 */
 	public function set( string $key, $data ): bool {
-		if ( $this->is_grouped() && $this->settings_repository->allow_grouped() ) {
-			$this->set_grouped( $key, $data );
-		} else {
-			$this->set_single( $key, $data );
+		if ( ! $this->has( $key ) ) {
+			return false;
 		}
 
-		return $this->settings->has( $key );
+		if ( $this->is_grouped() && $this->settings_repository->allow_grouped() ) {
+			return $this->set_grouped( $key, $data );
+		}
+
+		return $this->set_single( $key, $data );
 	}
 
 	/**
 	 * Sets a value as a grouped data set.
 	 *
 	 * @param string $key
-	 * @param mixed $data
-	 * @return void
+	 * @param mixed  $data
+	 * @return bool
 	 */
-	protected function set_grouped( string $key, $data ): void {
-		$this->settings->set_value( $key, $data );
-		$this->store_grouped();
-		$this->refresh_settings();
+	protected function set_grouped( string $key, $data ): bool {
+		$field = $this->find( $key );
+		if ( null !== $field ) {
+			$field->set_value( $data );
+		}
+		return $this->store_grouped();
 	}
 
 	/**
 	 * Sets a value as a single data set.
 	 *
 	 * @param string $key
-	 * @param mixed $data
-	 * @return void
+	 * @param mixed  $data
+	 * @return bool
 	 */
-	protected function set_single( string $key, $data ): void {
+	protected function set_single( string $key, $data ): bool {
 		$updated = $this->settings_repository->set( $this->prefix_key( $key ), $data );
 		if ( $updated ) {
-			$this->settings->set_value( $key, $data );
+			$field = $this->find( $key );
+			if ( null !== $field ) {
+				$field->set_value( $data );
+			}
 		}
+		return $updated;
 	}
 
 	/**
@@ -167,7 +176,7 @@ abstract class Abstract_Settings {
 	 * @return bool
 	 */
 	public function delete( string $key ): ?bool {
-		if ( ! $this->settings->has( $key ) ) {
+		if ( ! $this->has( $key ) ) {
 			return null;
 		}
 
@@ -177,7 +186,7 @@ abstract class Abstract_Settings {
 			$this->delete_single( $key );
 		}
 
-		return ! $this->settings->has( $key );
+		return true;
 	}
 
 	/**
@@ -189,7 +198,10 @@ abstract class Abstract_Settings {
 	protected function delete_single( string $key ): void {
 		$removed = $this->settings_repository->delete( $this->prefix_key( $key ) );
 		if ( $removed ) {
-			$this->settings->set_value( $key, null );
+			$field = $this->find( $key );
+			if ( null !== $field ) {
+				$field->set_value( null );
+			}
 		}
 	}
 
@@ -200,44 +212,50 @@ abstract class Abstract_Settings {
 	 * @return void
 	 */
 	protected function delete_grouped( string $key ): void {
-		$this->settings->set_value( $key, null );
-			$this->store_grouped();
-			$this->refresh_settings();
+		$field = $this->find( $key );
+		if ( null !== $field ) {
+			$field->set_value( null );
+		}
+		$this->store_grouped();
 	}
 
 	/**
-	 * Sets the value of the settings.
+	 * Hydrates field values from the persistence layer.
+	 *
+	 * Called by Settings_Page::set_settings() after DI injection,
+	 * and on every export() to ensure values are fresh.
 	 *
 	 * @return void
 	 */
-	protected function refresh_settings(): void {
+	public function refresh_settings(): void {
+		$all_fields = $this->get_all_fields();
 
 		if ( $this->is_grouped() && $this->settings_repository->allow_grouped() ) {
 			$settings = $this->get_grouped_values();
-			foreach ( $this->settings->get_keys() as $key ) {
-				$this->settings->set_value( $key, array_key_exists( $key, $settings ) ? $settings[ $key ] : null );
+			foreach ( $all_fields as $key => $field ) {
+				$field->set_value( array_key_exists( $key, $settings ) ? $settings[ $key ] : null );
 			}
 		} else {
-			foreach ( $this->settings->get_keys() as $key ) {
-				$this->settings->set_value( $key, $this->settings_repository->get( $this->prefix_key( $key ) ) );
+			foreach ( $all_fields as $key => $field ) {
+				$field->set_value( $this->settings_repository->get( $this->prefix_key( $key ) ) );
 			}
 		}
-
 	}
 
 	/**
 	 * Gets the grouped values.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function get_grouped_values(): array {
-		return $this->settings_repository->get( $this->group_key() );
+		$values = $this->settings_repository->get( $this->group_key() );
+		return is_array( $values ) ? $values : array();
 	}
 
 	/**
 	 * Returns the settings collection as an array.
 	 *
-	 * @return Field[]
+	 * @return array<int|string, mixed>
 	 */
 	public function export(): array {
 		// Update values from repository.
@@ -251,21 +269,54 @@ abstract class Abstract_Settings {
 	 * @return array<string>
 	 */
 	public function get_keys(): array {
-		return array_values( $this->settings->get_keys() );
+		return array_keys( $this->get_all_fields() );
+	}
+
+	/**
+	 * Returns all Field and Field_Group instances, including those nested in layouts.
+	 *
+	 * @return array<string, Field|Field_Group>
+	 */
+	public function get_all_fields(): array {
+		/** @var array<Renderable> $items */
+		$items = $this->settings->to_array();
+		return self::extract_fields( $items );
+	}
+
+	/**
+	 * Recursively extracts Field and Field_Group instances from a mixed array.
+	 *
+	 * @param array<Renderable> $items
+	 * @return array<string, Field|Field_Group>
+	 */
+	protected static function extract_fields( array $items ): array {
+		$fields = array();
+		foreach ( $items as $item ) {
+			if ( $item instanceof Field_Group ) {
+				$fields[ $item->get_key() ] = $item;
+			} elseif ( $item instanceof Field ) {
+				$fields[ $item->get_key() ] = $item;
+			} elseif ( $item instanceof Abstract_Layout ) {
+				foreach ( self::extract_fields( $item->get_children() ) as $key => $field ) {
+					$fields[ $key ] = $field;
+				}
+			}
+		}
+		return $fields;
 	}
 
 	/**
 	 * Updates the options as a single, grouped value.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	protected function store_grouped(): void {
+	protected function store_grouped(): bool {
 		$settings = array_map(
-			function( $e ) {
-				return $e->get_value();
+			function ( $field ) {
+				return $field->get_value();
 			},
-			$this->settings->to_array()
+			$this->get_all_fields()
 		);
-		$this->settings_repository->set( $this->group_key(), $settings );
+		return $this->settings_repository->set( $this->group_key(), $settings );
 	}
 }

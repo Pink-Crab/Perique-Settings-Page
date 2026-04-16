@@ -31,13 +31,13 @@ trait Disabled {
 	/**
 	 * Sets the disabled for this input.
 	 *
-	 * @param string $disabled
-	 * @return Field
+	 * @param bool $disabled
+	 * @return static
 	 */
-	public function set_disabled( bool $disabled = true ): Field {
+	public function set_disabled( bool $disabled = true ): static {
 
 		// Remove if set to false.
-		if ( false === $disabled && $this->has_disabled() ) {
+		if ( false === $disabled && $this->is_disabled() ) {
 			$key = array_search( 'disabled', $this->flags, true );
 			unset( $this->flags[ $key ] );
 			return $this;
@@ -53,6 +53,6 @@ trait Disabled {
 	 * @return bool
 	 */
 	public function is_disabled(): bool {
-		return \in_array( 'disabled', $this->get_flags() );
+		return \in_array( 'disabled', $this->get_flags(), true );
 	}
 }

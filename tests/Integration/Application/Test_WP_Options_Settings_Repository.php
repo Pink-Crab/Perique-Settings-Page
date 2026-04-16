@@ -29,7 +29,7 @@ declare(strict_types=1);
 namespace PinkCrab\Perique_Settings_Page\Tests\Integration\Application;
 
 use WP_UnitTestCase;
-use PinkCrab\Perique_Settings_Page\Application\WP_Options_Settings_Repository;
+use PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Settings_Repository;
 
 class Test_WP_Options_Settings_Repository extends WP_UnitTestCase {
 

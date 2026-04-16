@@ -38,7 +38,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\WP_Editor;
 use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Media_Library;
-use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Selector;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Picker;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group;
 
 class Valid_Settings_Grouped extends Abstract_Settings {
@@ -82,12 +82,6 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 				->set_data( 'foo', 'bar' )
 				->set_option( 'Z', 'Zurp' )
 				->set_multiple(),
-			Select::new( 'select2' )
-				->set_label( 'Select2' )
-				->set_data( 'foo', 'bar' )
-				->set_option( 'Z', 'Zurp' )
-				->set_option( 'A', 'Add' )
-				->use_select2(),
 			//
 			Media_Library::new( 'media_upload' )
 				->set_label( 'Some Upload' )
@@ -110,26 +104,18 @@ class Valid_Settings_Grouped extends Abstract_Settings {
 					)
 				),
 			//
-			Post_Selector::new( 'posts' )
+			Post_Picker::new( 'posts' )
 				->set_label( 'Select a post' )
 				->set_description( 'You can pick a post from the selection.' )
-				->set_query_args(
-					array(
-						'post_type' => array( 'page' ),
-					)
-				)
+				->set_post_type( 'page' )
 				->set_data( 'foo', 'bar' ),
 			//
-			Post_Selector::new( 'posts_select2' )
-				->set_label( 'Select a post with Select2' )
-				->set_description( 'You can pick a post from the selection.' )
-				->set_query_args(
-					array(
-						'post_type' => array( 'page' ),
-					)
-				)
-				->set_data( 'foo', 'bar' )
-				->use_select2(),
+			Post_Picker::new( 'posts_multi' )
+				->set_label( 'Select multiple posts' )
+				->set_description( 'You can pick multiple posts.' )
+				->set_post_type( 'page' )
+				->set_multiple()
+				->set_data( 'foo', 'bar' ),
 			//
 			Checkbox_Group::new( 'checkbox_group' )
 				->set_label( 'Pick any checkboxes' )
