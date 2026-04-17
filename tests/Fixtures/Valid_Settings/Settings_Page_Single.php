@@ -28,6 +28,7 @@ namespace PinkCrab\Perique_Settings_Page\Tests\Fixtures\Valid_Settings;
 
 use PinkCrab\Perique_Settings_Page\Page\Setting_Page;
 use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
+use PinkCrab\Perique_Settings_Page\Tests\Fixtures\Valid_Settings\Valid_Settings_Grouped;
 
 class Settings_Page_Single extends Setting_Page {
 
@@ -79,7 +80,7 @@ class Settings_Page_Single extends Setting_Page {
 	 * @return class-string<Abstract_Settings>
 	 */
 	public function settings_class_name(): string {
-		return Valid_Settings::class;
+		return Valid_Settings_Grouped::class;
 	}
 
 }

@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
+use PinkCrab\Perique_Settings_Page\Util\Cast;
+
 trait Pattern {
 
 	/**
@@ -34,7 +36,7 @@ trait Pattern {
 	 * @param string $pattern
 	 * @return self
 	 */
-	public function set_pattern( string $pattern ):self {
+	public function set_pattern( string $pattern ): self {
 		$this->set_attribute( 'pattern', $pattern );
 		return $this;
 	}
@@ -55,7 +57,7 @@ trait Pattern {
 	 */
 	public function get_pattern(): ?string {
 		return $this->has_pattern()
-			? $this->get_attributes()['pattern']
+			? Cast::to_string( $this->get_attributes()['pattern'] )
 			: null;
 	}
 }

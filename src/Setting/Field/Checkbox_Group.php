@@ -40,18 +40,27 @@ class Checkbox_Group extends Field {
 	// Attributes.
 	use Disabled, Data, Options, Checked_Value;
 
-		/**
+	/**
 	 * Static constructor for field.
 	 *
 	 * @param string $key
 	 * @return static
 	 */
-	public static function new( string $key ): Checkbox_Group {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
+	}
+
+	/**
+	 * Get the data for this option.
+	 *
+	 * @return mixed
+	 */
+	public function get_value() {
+		return is_array( $this->value ) ? $this->value : array( $this->value );
 	}
 
 }

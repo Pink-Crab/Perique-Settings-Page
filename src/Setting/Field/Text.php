@@ -26,6 +26,7 @@ namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Pattern;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Placeholder;
 
@@ -37,19 +38,20 @@ class Text extends Field {
 	public const TYPE = 'text';
 
 	// Attributes.
-	use Placeholder, Data, Pattern;
+	use Placeholder, Data, Pattern, Options;
 
 	/**
 	 * Static constructor for text input.
 	 *
 	 * @param string $key
-	 * @return Text
+	 * @return static
 	 */
-	public static function new( string $key ): Text {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
+		$this->set_sanitize( 'sanitize_text_field' );
 	}
 }

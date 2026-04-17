@@ -33,15 +33,15 @@ interface Setting_Repository {
 	 * @param mixed $data
 	 * @return bool
 	 */
-	public function set( string $key, $data): bool;
+	public function set( string $key, $data ): bool;
 
 	/**
 	 * Gets a value from the repository
 	 *
 	 * @param string $key
-	 * @return void
+	 * @return mixed
 	 */
-	public function get( string $key);
+	public function get( string $key );
 
 	/**
 	 * Deletes and item from the repository
@@ -49,7 +49,7 @@ interface Setting_Repository {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function delete( string $key): bool;
+	public function delete( string $key ): bool;
 
 	/**
 	 * Checks if key exists in repository
@@ -57,7 +57,7 @@ interface Setting_Repository {
 	 * @param string $key
 	 * @return bool
 	 */
-	public function has( string $key): bool;
+	public function has( string $key ): bool;
 
 	/**
 	 * Does repository allow grouped data.

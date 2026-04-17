@@ -57,6 +57,6 @@ class File_Helper {
 	 * @return string
 	 */
 	public static function assets_url(): string {
-		return self::get_file_url( self::assets_path() );
+		return self::get_file_url( self::assets_path() ) ?? '';
 	}
 }

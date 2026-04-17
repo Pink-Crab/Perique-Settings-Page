@@ -39,7 +39,7 @@ trait Query {
 	 * @param array<string, mixed> $query_args
 	 * @return self
 	 */
-	public function set_query_args( array $query_args ):self {
+	public function set_query_args( array $query_args ): self {
 		$this->query_args = $query_args;
 		return $this;
 	}

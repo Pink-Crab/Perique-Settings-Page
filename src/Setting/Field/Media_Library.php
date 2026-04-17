@@ -34,13 +34,13 @@ class Media_Library extends Field {
 	public const TYPE = 'media_library';
 
 	/**
-	 * Static constructor for text input.
+	 * Static constructor for field.
 	 *
 	 * @param string $key
-	 * @return Text
+	 * @return static
 	 */
-	public static function new( string $key ): Media_Library {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {

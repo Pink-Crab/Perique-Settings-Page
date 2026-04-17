@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 
+use PinkCrab\Perique_Settings_Page\Util\Cast;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options;
@@ -40,16 +41,35 @@ class Select extends Field {
 	use Multiple, Data, Options;
 
 	/**
-	 * Static constructor for text input.
+	 * Static constructor for select field.
 	 *
 	 * @param string $key
-	 * @return Text
+	 * @return static
 	 */
-	public static function new( string $key ): Select {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
+
+		// Default sanitiser. WP's sanitize_text_field() returns '' for
+		// arrays, which would wipe multi-select values on save — so we
+		// map over arrays instead of delegating them directly. Values
+		// are run through Util\Cast::to_string() to satisfy phpstan's
+		// mixed-to-string narrowing.
+		$this->set_sanitize(
+			static function ( $data ) {
+				if ( is_array( $data ) ) {
+					return array_values(
+						array_map(
+							static fn( $v ): string => sanitize_text_field( Cast::to_string( $v, '' ) ?? '' ),
+							$data
+						)
+					);
+				}
+				return sanitize_text_field( Cast::to_string( $data, '' ) ?? '' );
+			}
+		);
 	}
 }

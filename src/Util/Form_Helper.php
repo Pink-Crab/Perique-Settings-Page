@@ -38,7 +38,7 @@ class Form_Helper {
 			function() use ( $contents ): void {
 				printf(
 					'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
-					$contents
+					esc_html( $contents )
 				);
 			}
 		);
@@ -56,7 +56,7 @@ class Form_Helper {
 			function() use ( $contents ): void {
 				printf(
 					'<div class="notice notice-error is-dismissible"><p>%s</p></div>',
-					$contents
+					esc_html( $contents )
 				);
 			}
 		);

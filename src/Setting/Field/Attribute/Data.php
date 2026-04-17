@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
+use PinkCrab\Perique_Settings_Page\Util\Cast;
+
 trait Data {
 
 	/**
@@ -32,7 +34,7 @@ trait Data {
 	 * @param string $key
 	 * @return self
 	 */
-	public function set_data( string $key, string $value ):self {
+	public function set_data( string $key, string $value ): self {
 		$this->set_attribute( 'data-' . $key, $value );
 		return $this;
 	}
@@ -52,8 +54,8 @@ trait Data {
 	 * @return string|null
 	 */
 	public function get_data( string $key ): ?string {
-		return $this->has_placeholder( $key )
-			? $this->get_attributes()[ 'data-' . $key ]
+		return $this->has_data( $key )
+			? Cast::to_string( $this->get_attributes()[ 'data-' . $key ] )
 			: null;
 	}
 }
