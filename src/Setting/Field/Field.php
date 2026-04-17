@@ -1,9 +1,13 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 /**
  * Base field model.
+ *
+ * All settings field types extend this class. Provides the core
+ * properties and fluent API for defining a field's key, label,
+ * value, description, validation and sanitisation callbacks.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,83 +28,141 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field;
 
-class Field {
+use Respect\Validation\Validator;
+use PinkCrab\Perique_Settings_Page\Setting\Renderable;
+
+class Field implements Renderable {
 
 	/**
-	 * The fields key.
+	 * The field's unique key (used for storage and form name).
 	 *
 	 * @var string
 	 */
-	protected $key;
+	protected string $key;
 
 	/**
-	 * Field type
+	 * The field type identifier.
 	 *
 	 * @var string
 	 */
-	protected $type;
+	protected string $type;
 
 	/**
-	 * field label
+	 * The field label.
 	 *
 	 * @var string
 	 */
-	protected $label;
+	protected string $label = '';
 
 	/**
-	 * The data for this option.
+	 * The current field value.
 	 *
 	 * @var mixed
 	 */
-	protected $value;
+	protected $value = null;
 
 	/**
-	 * Description
+	 * Help text / description displayed below the field.
 	 *
 	 * @var string
 	 */
-	protected $description;
+	protected string $description = '';
 
 	/**
-	 * Is field read only
+	 * Whether the field is read-only.
 	 *
 	 * @var bool
 	 */
-	protected $disabled = false;
+	protected bool $read_only = false;
 
 	/**
-	 * Is field readonly.
+	 * Whether the field is required.
 	 *
 	 * @var bool
 	 */
-	protected $read_only = false;
+	protected bool $required = false;
 
 	/**
-	 * The fields icon
+	 * The field's icon (URL or dashicon class).
 	 *
 	 * @var string|null
 	 */
-	protected $icon;
+	protected ?string $icon = null;
 
 	/**
-	 * An array of all field attributes
+	 * The field's HTML ID attribute.
+	 *
+	 * @var string|null
+	 */
+	protected ?string $id = null;
+
+	/**
+	 * CSS classes for the field element.
+	 *
+	 * @var array<int, string>
+	 */
+	protected array $classes = array();
+
+	/**
+	 * Label position relative to the input.
+	 *
+	 * Options: 'before', 'after'
+	 *
+	 * @var string
+	 */
+	protected string $label_position = 'before';
+
+	/**
+	 * Field width within the form grid.
+	 *
+	 * Options: 'full', 'half', 'third', 'two-third'
+	 *
+	 * @var string
+	 */
+	protected string $width = 'full';
+
+	/**
+	 * Content to render before the field.
+	 *
+	 * @var string|null
+	 */
+	protected ?string $before = null;
+
+	/**
+	 * Content to render after the field.
+	 *
+	 * @var string|null
+	 */
+	protected ?string $after = null;
+
+	/**
+	 * Custom HTML attributes.
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $attributes = array();
+	protected array $attributes = array();
 
 	/**
-	 * An array of all field flags
+	 * Arbitrary flags.
 	 *
-	 * @var array<string, mixed>
+	 * @var array<int, string>
 	 */
-	protected $flags = array();
+	protected array $flags = array();
 
-	protected $callbacks = array(
+	/**
+	 * General-purpose callbacks bag.
+	 *
+	 * Used by traits and subclasses for additional callbacks
+	 * (e.g. option_label). Sanitise and validate have dedicated
+	 * properties but are also accessible here for backwards compat.
+	 *
+	 * @var array<string, callable|null>
+	 */
+	protected array $callbacks = array(
 		'sanitize' => null,
 		'validate' => null,
+		'config'   => null,
 	);
-
 
 	public function __construct( string $key, string $type ) {
 		$this->key  = $key;
@@ -108,19 +170,30 @@ class Field {
 	}
 
 	/**
-	 * Creates a clone of the existing field, with a custom key
+	 * Static constructor.
 	 *
 	 * @param string $key
 	 * @return static
 	 */
-	public function clone_as( string $key ) {
-		$clone      = $this;
+	public static function make( string $key ): static {
+		/** @phpstan-ignore-next-line -- TYPE is defined on subclasses */
+		return new static( $key, defined( 'static::TYPE' ) ? static::TYPE : 'text' );
+	}
+
+	/**
+	 * Creates a clone of the existing field with a new key.
+	 *
+	 * @param string $key
+	 * @return static
+	 */
+	public function clone_as( string $key ): static {
+		$clone      = clone $this;
 		$clone->key = $key;
 		return $clone;
 	}
 
 	/**
-	 * Get the fields key.
+	 * Get the field's key.
 	 *
 	 * @return string
 	 */
@@ -129,7 +202,7 @@ class Field {
 	}
 
 	/**
-	 * Get field type
+	 * Get the field type.
 	 *
 	 * @return string
 	 */
@@ -138,27 +211,27 @@ class Field {
 	}
 
 	/**
-	 * Get field label
+	 * Get the field label.
 	 *
 	 * @return string
 	 */
 	public function get_label(): string {
-		return $this->label ?? '';
+		return $this->label;
 	}
 
 	/**
-	 * Set field label
+	 * Set the field label.
 	 *
-	 * @param string $label  label variable
-	 * @return self
+	 * @param string $label
+	 * @return static
 	 */
-	public function set_label( string $label ): self {
+	public function set_label( string $label ): static {
 		$this->label = $label;
 		return $this;
 	}
 
 	/**
-	 * Get the data for this option.
+	 * Get the current field value.
 	 *
 	 * @return mixed
 	 */
@@ -167,101 +240,90 @@ class Field {
 	}
 
 	/**
-	 * Set the data for this option.
+	 * Set the field value.
 	 *
-	 * @param mixed $value  The data for this option.
-	 * @return self
+	 * @param mixed $value
+	 * @return static
 	 */
-	public function set_value( $value ): self {
+	public function set_value( $value ): static {
 		$this->value = $value;
 		return $this;
 	}
 
 	/**
-	 * Get description
+	 * Get the description / help text.
 	 *
 	 * @return string
 	 */
 	public function get_description(): string {
-		return $this->description ?? '';
+		return $this->description;
 	}
 
 	/**
-	 * Set description
+	 * Set the description / help text.
 	 *
-	 * @param string $description  Description
-	 *
-	 * @return self
+	 * @param string $description
+	 * @return static
 	 */
-	public function set_description( string $description ): self {
+	public function set_description( string $description ): static {
 		$this->description = $description;
 		return $this;
 	}
 
 	/**
-	 * Get attributes
+	 * Get all custom attributes.
 	 *
-	 * @return array<string, string>
+	 * @return array<string, mixed>
 	 */
 	public function get_attributes(): array {
 		return $this->attributes;
 	}
 
 	/**
-	 * Set single attribute
+	 * Set a single attribute.
 	 *
 	 * @param string $attribute
-	 * @param string $value
-	 * @return self
+	 * @param mixed  $value
+	 * @return static
 	 */
-	public function set_attribute( string $attribute, string $value ): self {
+	public function set_attribute( string $attribute, $value ): static {
 		$this->attributes[ $attribute ] = $value;
 		return $this;
 	}
 
-		/**
-	 * Get flags
+	/**
+	 * Get all flags.
 	 *
-	 * @return array<string, string>
+	 * @return array<int, string>
 	 */
 	public function get_flags(): array {
 		return $this->flags;
 	}
 
 	/**
-	 * Set single flag
+	 * Add a flag.
 	 *
 	 * @param string $flag
-	 * @param string $value
-	 * @return self
+	 * @return static
 	 */
-	public function set_flag( string $flag ): self {
+	public function set_flag( string $flag ): static {
 		$this->flags[] = $flag;
 		return $this;
 	}
 
 	/**
-	 * Sets if field is is disabled.
+	 * Set read-only state.
 	 *
-	 * @param bool $disabled
-	 * @return self
+	 * @param bool $read_only
+	 * @return static
 	 */
-	public function set_disabled( bool $disabled = true ):self {
-		$this->disabled = $disabled;
+	public function set_read_only( bool $read_only = true ): static {
+		$this->read_only = $read_only;
 		return $this;
 	}
 
 	/**
-	 * Checks if a disabled exists.
-	 *
-	 * @return bool
-	 */
-	public function is_disabled(): bool {
-		return $this->disabled;
-	}
-
-	/**
-	 * Get is field readonly.
+	 * Check if the field is read-only.
 	 *
 	 * @return bool
 	 */
@@ -270,18 +332,27 @@ class Field {
 	}
 
 	/**
-	 * Set is field readonly.
+	 * Set required state.
 	 *
-	 * @param bool $read_only  Is field readonly.
-	 * @return self
+	 * @param bool $required
+	 * @return static
 	 */
-	public function set_read_only( bool $read_only = true ): self {
-		$this->read_only = $read_only;
+	public function set_required( bool $required = true ): static {
+		$this->required = $required;
 		return $this;
 	}
 
 	/**
-	 * Get the fields icon
+	 * Check if the field is required.
+	 *
+	 * @return bool
+	 */
+	public function is_required(): bool {
+		return $this->required;
+	}
+
+	/**
+	 * Get the field icon.
 	 *
 	 * @return string|null
 	 */
@@ -290,62 +361,215 @@ class Field {
 	}
 
 	/**
-	 * Set the fields icon
+	 * Set the field icon.
 	 *
-	 * @param string|null $icon  The fields icon
-	 *
-	 * @return self
+	 * @param string $icon
+	 * @return static
 	 */
-	public function set_icon( string $icon ): self {
+	public function set_icon( string $icon ): static {
 		$this->icon = $icon;
 		return $this;
 	}
 
 	/**
-	 * Sets the sanitize callback.
+	 * Get the label position.
+	 *
+	 * @return string
+	 */
+	public function get_label_position(): string {
+		return $this->label_position;
+	}
+
+	/**
+	 * Set the label position.
+	 *
+	 * @param string $position 'before' or 'after'
+	 * @return static
+	 */
+	public function set_label_position( string $position ): static {
+		$this->label_position = $position;
+		return $this;
+	}
+
+	/**
+	 * Shorthand: set label after input.
+	 *
+	 * @return static
+	 */
+	public function label_after(): static {
+		$this->label_position = 'after';
+		return $this;
+	}
+
+	/**
+	 * Shorthand: set label before input (default).
+	 *
+	 * @return static
+	 */
+	public function label_before(): static {
+		$this->label_position = 'before';
+		return $this;
+	}
+
+	/**
+	 * Get the field's HTML ID.
+	 *
+	 * @return string|null
+	 */
+	public function get_id(): ?string {
+		return $this->id;
+	}
+
+	/**
+	 * Set the field's HTML ID.
+	 *
+	 * @param string $id
+	 * @return static
+	 */
+	public function set_id( string $id ): static {
+		$this->id = $id;
+		return $this;
+	}
+
+	/**
+	 * Get the CSS classes.
+	 *
+	 * @return array<int, string>
+	 */
+	public function get_classes(): array {
+		return $this->classes;
+	}
+
+	/**
+	 * Add a CSS class.
+	 *
+	 * @param string $class_name
+	 * @return static
+	 */
+	public function add_class( string $class_name ): static {
+		$this->classes[] = $class_name;
+		return $this;
+	}
+
+	/**
+	 * Get the before content.
+	 *
+	 * @return string|null
+	 */
+	public function get_before(): ?string {
+		return $this->before;
+	}
+
+	/**
+	 * Set content to render before the field.
+	 *
+	 * @param string $before
+	 * @return static
+	 */
+	public function set_before( string $before ): static {
+		$this->before = $before;
+		return $this;
+	}
+
+	/**
+	 * Get the after content.
+	 *
+	 * @return string|null
+	 */
+	public function get_after(): ?string {
+		return $this->after;
+	}
+
+	/**
+	 * Set content to render after the field.
+	 *
+	 * @param string $after
+	 * @return static
+	 */
+	public function set_after( string $after ): static {
+		$this->after = $after;
+		return $this;
+	}
+
+	/**
+	 * Get the config callback.
+	 *
+	 * @return callable|null
+	 */
+	public function get_config(): ?callable {
+		return $this->callbacks['config'] ?? null;
+	}
+
+	/**
+	 * Set the config callback.
+	 *
+	 * Called at render time with the Form Component element. Acts as a
+	 * final filter for any customisation that can't be expressed
+	 * through the Field API.
+	 *
+	 * @param callable $config
+	 * @return static
+	 */
+	public function set_config( callable $config ): static {
+		$this->callbacks['config'] = $config;
+		return $this;
+	}
+
+	/**
+	 * Set the sanitisation callback.
 	 *
 	 * @param callable $func
-	 * @return self
+	 * @return static
 	 */
-	public function set_sanitize( callable $func ): self {
+	public function set_sanitize( callable $func ): static {
 		$this->callbacks['sanitize'] = $func;
 		return $this;
 	}
 
 	/**
-	 * Sets the validate callback.
+	 * Set the validation callback or Respect\Validation Validator.
 	 *
-	 * @param callable $func
-	 * @return self
+	 * @param callable|Validator $func
+	 * @return static
 	 */
-	public function set_validate( callable $func ): self {
+	public function set_validate( callable|Validator $func ): static {
 		$this->callbacks['validate'] = $func;
 		return $this;
 	}
 
 	/**
-	 * Gets the sanitize callback.
+	 * Sanitise a value using this field's sanitisation callback.
 	 *
 	 * @param mixed $data
 	 * @return mixed
 	 */
 	public function sanitize( $data ) {
-		$func = $this->callbacks['sanitize'] ?? function( $e ) {
-			return $e;
-		};
-
-		return $func( $data );
-
+		$func = $this->callbacks['sanitize'] ?? null;
+		if ( null !== $func ) {
+			return $func( $data );
+		}
+		return $data;
 	}
 
 	/**
-	 * Gets the validate callback.
+	 * Validate a value using this field's validation callback.
+	 *
+	 * Returns true if valid, false if not.
 	 *
 	 * @param mixed $data
 	 * @return bool
 	 */
-	public function validate( $data ) {
-		$func = $this->callbacks['validate'] ?? '__return_true';
+	public function validate( $data ): bool {
+		$func = $this->callbacks['validate'] ?? null;
+
+		if ( null === $func ) {
+			return true;
+		}
+
+		if ( $func instanceof Validator ) {
+			return $func->validate( $data );
+		}
+
 		return (bool) $func( $data );
 	}
 }

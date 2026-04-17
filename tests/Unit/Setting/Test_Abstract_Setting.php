@@ -53,6 +53,13 @@ class Test_Abstract_Setting extends WP_UnitTestCase {
 		$this->settings   = new Valid_Settings_Not_Grouped( $this->repository );
 	}
 
+	public function tearDown(): void {
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$grouped   = false;
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$group_key = 'mock_settings';
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$injected_fields = array();
+		parent::tearDown();
+	}
+
 	public function setting_collection(): Setting_Collection {
 		return Objects::get_property( $this->settings, 'settings' );
 	}
@@ -128,7 +135,7 @@ class Test_Abstract_Setting extends WP_UnitTestCase {
 		$this->assertContains( $values['Media_Library'], $keys );
 		$this->assertContains( $values['Checkbox'], $keys );
 		$this->assertContains( $values['WP_Editor'], $keys );
-		$this->assertContains( $values['Post_Selector'], $keys );
+		$this->assertContains( $values['Post_Picker'], $keys );
 		$this->assertContains( $values['Checkbox_Group'], $keys );
 		$this->assertContains( $values['Radio'], $keys );
 		$this->assertContains( $values['Colour'], $keys );
@@ -147,4 +154,83 @@ class Test_Abstract_Setting extends WP_UnitTestCase {
 		$this->assertFalse( $this->settings->find( Valid_Settings_Not_Grouped::FIELD_KEYS['Number'] )->validate( 41 ) );
 	}
 
+	/** @testdox When grouped, set() persists all fields under a single key via store_grouped(). */
+	public function test_grouped_set_persists_under_single_key(): void {
+		$repo                                = new \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Object_Setting_Repository();
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$grouped = true;
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$group_key = 'group_test';
+
+		$settings = \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::with_fields(
+			$repo,
+			\PinkCrab\Perique_Settings_Page\Setting\Field\Text::new( 'name' )
+		);
+
+		$result = $settings->set( 'name', 'value' );
+		$this->assertTrue( $result );
+		$this->assertArrayHasKey( 'group_test', $repo->store );
+		$this->assertSame( 'value', $repo->store['group_test']['name'] );
+
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$grouped = false;
+	}
+
+	/** @testdox When grouped, delete() removes the value via delete_grouped(). */
+	public function test_grouped_delete(): void {
+		$repo                                = new \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Object_Setting_Repository();
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$grouped = true;
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$group_key = 'group_delete';
+
+		$settings = \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::with_fields(
+			$repo,
+			\PinkCrab\Perique_Settings_Page\Setting\Field\Text::new( 'name' )
+		);
+
+		$settings->set( 'name', 'value' );
+		$result = $settings->delete( 'name' );
+		$this->assertTrue( $result );
+
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$grouped = false;
+	}
+
+	/** @testdox delete() returns null when the key does not exist. */
+	public function test_delete_unknown_key(): void {
+		$this->assertNull( $this->settings->delete( 'missing_key' ) );
+	}
+
+	/** @testdox set() returns false when the key does not exist. */
+	public function test_set_unknown_key(): void {
+		$this->assertFalse( $this->settings->set( 'missing_key', 'value' ) );
+	}
+
+	/** @testdox get_all_fields() recursively flattens fields nested in layouts. */
+	public function test_get_all_fields_with_nested_layout(): void {
+		$repo = new \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Object_Setting_Repository();
+		$settings = \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::with_fields(
+			$repo,
+			\PinkCrab\Perique_Settings_Page\Setting\Layout\Section::of(
+				\PinkCrab\Perique_Settings_Page\Setting\Field\Text::new( 'inside_section' )
+			),
+			\PinkCrab\Perique_Settings_Page\Setting\Field\Text::new( 'top_level' )
+		);
+
+		$all_fields = $settings->get_all_fields();
+		$this->assertArrayHasKey( 'inside_section', $all_fields );
+		$this->assertArrayHasKey( 'top_level', $all_fields );
+	}
+
+	/** @testdox When grouped, refresh_settings hydrates fields from the grouped option. */
+	public function test_grouped_refresh_hydrates_fields(): void {
+		$repo                                                                            = new \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Object_Setting_Repository();
+		$repo->store['group_refresh']                                                    = array( 'name' => 'stored' );
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$grouped  = true;
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$group_key = 'group_refresh';
+
+		$settings = \PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::with_fields(
+			$repo,
+			\PinkCrab\Perique_Settings_Page\Setting\Field\Text::new( 'name' )
+		);
+		$settings->refresh_settings();
+		$this->assertSame( 'stored', $settings->get( 'name' ) );
+
+		\PinkCrab\Perique_Settings_Page\Tests\Fixtures\Mock_Abstract_Settings::$grouped = false;
+	}
 }

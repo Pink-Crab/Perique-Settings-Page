@@ -29,17 +29,19 @@ trait Options {
 	/**
 	 * The options array.
 	 *
-	 * @var array
+	 * @var array<string, array<string, string>>
 	 */
 	protected $options = array();
 
 	/**
 	 * Sets the option for this input.
 	 *
-	 * @param string $option
+	 * @param string $value
+	 * @param string $label
+	 * @param string $group
 	 * @return self
 	 */
-	public function set_option( string $value, string $label, string $group = '' ):self {
+	public function set_option( string $value, string $label, string $group = '' ): self {
 		if ( ! array_key_exists( $group, $this->options ) ) {
 			$this->options[ $group ] = array();
 		}

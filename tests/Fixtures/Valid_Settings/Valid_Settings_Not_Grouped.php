@@ -39,7 +39,7 @@ use PinkCrab\Perique_Settings_Page\Setting\Field\WP_Editor;
 use PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Collection;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Media_Library;
-use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Selector;
+use PinkCrab\Perique_Settings_Page\Setting\Field\Post_Picker;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group;
 
 class Valid_Settings_Not_Grouped extends Abstract_Settings {
@@ -51,7 +51,7 @@ class Valid_Settings_Not_Grouped extends Abstract_Settings {
 		'Media_Library'  => 'media_upload',
 		'Checkbox'       => 'checkbox',
 		'WP_Editor'      => 'wp_editor',
-		'Post_Selector'  => 'posts',
+		'Post_Picker'  => 'posts',
 		'Checkbox_Group' => 'checkbox_group',
 		'Radio'          => 'radio',
 		'Colour'         => 'colour_picker'
@@ -70,10 +70,9 @@ class Valid_Settings_Not_Grouped extends Abstract_Settings {
 			Number::new( self::FIELD_KEYS['Number'] )
 				->set_sanitize( Func\always( 15 ) )
 				->set_validate( // Must be numeric and even.
-					Comp\all(
-						'is_numeric',
-						Func\pipe( Num\remainderBy( 2 ), Comp\isEqualTo( 0.0 ) )
-					)
+					function( $value ): bool {
+						return is_numeric( $value ) && (int) $value % 2 === 0;
+					}
 				),
 			Text::new( self::FIELD_KEYS['Text'] )
 				->set_sanitize( 'sanitize_text_field' ),
@@ -90,7 +89,7 @@ class Valid_Settings_Not_Grouped extends Abstract_Settings {
 			WP_Editor::new( self::FIELD_KEYS['WP_Editor'] )
 				->set_sanitize( Func\always( 15 ) ),
 			//
-			Post_Selector::new( self::FIELD_KEYS['Post_Selector'] )
+			Post_Picker::new( self::FIELD_KEYS['Post_Picker'] )
 				->set_sanitize( Func\always( 15 ) ),
 			//
 			Checkbox_Group::new( self::FIELD_KEYS['Checkbox_Group'] )

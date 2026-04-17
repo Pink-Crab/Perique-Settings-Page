@@ -48,4 +48,36 @@ class Test_Setting_Collection extends WP_UnitTestCase {
 		$collection->set( 'invalid', 'not a field' );
 		$this->assertCount( 1, $collection );
 	}
+
+	/** @testdox get_keys() returns the field keys from the collection. */
+	public function test_get_keys(): void {
+		$collection = new Setting_Collection(
+			array(
+				Text::new( 'name' ),
+				Text::new( 'email' ),
+				Text::new( 'phone' ),
+			)
+		);
+
+		$keys = $collection->get_keys();
+		$this->assertContains( 'name', $keys );
+		$this->assertContains( 'email', $keys );
+		$this->assertContains( 'phone', $keys );
+	}
+
+	/** @testdox set_value() updates an existing field's value. */
+	public function test_set_value(): void {
+		$field      = Text::new( 'name' );
+		$collection = new Setting_Collection();
+		$collection->push( $field );
+		$collection->set_value( 'name', 'updated' );
+		$this->assertSame( 'updated', $field->get_value() );
+	}
+
+	/** @testdox set_value() does nothing for an unknown key. */
+	public function test_set_value_unknown_key(): void {
+		$collection = new Setting_Collection();
+		$collection->set_value( 'missing', 'value' );
+		$this->assertCount( 0, $collection );
+	}
 }

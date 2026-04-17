@@ -44,16 +44,14 @@ class Text extends Field {
 	 * Static constructor for text input.
 	 *
 	 * @param string $key
-	 * @return Text
+	 * @return static
 	 */
-	public static function new( string $key ): Text {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
-
-		// Set the default sanitize method
 		$this->set_sanitize( 'sanitize_text_field' );
 	}
 }

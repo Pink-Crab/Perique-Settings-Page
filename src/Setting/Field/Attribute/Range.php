@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
+use PinkCrab\Perique_Settings_Page\Util\Cast;
+
 trait Range {
 
 	/**
@@ -32,7 +34,7 @@ trait Range {
 	 * @param string $min
 	 * @return self
 	 */
-	public function set_min( $min ):self {
+	public function set_min( $min ): self {
 		$this->set_attribute( 'min', (string) $min );
 		return $this;
 	}
@@ -53,7 +55,7 @@ trait Range {
 	 */
 	public function get_min(): ?string {
 		return $this->has_min()
-			? $this->get_attributes()['min']
+			? Cast::to_string( $this->get_attributes()['min'] )
 			: null;
 	}
 
@@ -63,7 +65,7 @@ trait Range {
 	 * @param string $max
 	 * @return self
 	 */
-	public function set_max( $max ):self {
+	public function set_max( $max ): self {
 		$this->set_attribute( 'max', (string) $max );
 		return $this;
 	}
@@ -84,7 +86,7 @@ trait Range {
 	 */
 	public function get_max(): ?string {
 		return $this->has_max()
-			? $this->get_attributes()['max']
+			? Cast::to_string( $this->get_attributes()['max'] )
 			: null;
 	}
 
@@ -94,7 +96,7 @@ trait Range {
 	 * @param string $step
 	 * @return self
 	 */
-	public function set_step( $step ):self {
+	public function set_step( $step ): self {
 		$this->set_attribute( 'step', (string) $step );
 		return $this;
 	}
@@ -115,7 +117,7 @@ trait Range {
 	 */
 	public function get_step(): ?string {
 		return $this->has_step()
-			? $this->get_attributes()['step']
+			? Cast::to_string( $this->get_attributes()['step'] )
 			: null;
 	}
 }

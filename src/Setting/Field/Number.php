@@ -40,34 +40,34 @@ class Number extends Field {
 	// Attributes.
 	use Placeholder, Data, Range, Options;
 
-	protected $decimal_places = 0;
+	protected int $decimal_places = 0;
 
 	/**
-	 * Static constructor for text input.
+	 * Static constructor for number input.
 	 *
 	 * @param string $key
-	 * @return Text
+	 * @return static
 	 */
-	public static function new( string $key ): Number {
-		return new self( $key );
+	public static function new( string $key ): static {
+		return new static( $key );
 	}
 
 	public function __construct( string $key ) {
 		parent::__construct( $key, self::TYPE );
 
-		// Set the default sanitize method
 		$this->set_sanitize(
 			function( $e ) {
 				$e = sanitize_text_field( $e );
 				return $this->decimal_places <= 1
 					? \intval( $e )
-					: round( $e, $this->get_decimal_places() );
+					: round( (float) $e, $this->get_decimal_places() );
 			}
 		);
 	}
 
 	/**
-	 * Get the value of decimal_places
+	 * Get the value of decimal_places.
+	 *
 	 * @return int
 	 */
 	public function get_decimal_places(): int {
@@ -75,12 +75,12 @@ class Number extends Field {
 	}
 
 	/**
-	 * Set the value of decimal_places
+	 * Set the value of decimal_places.
 	 *
 	 * @param int $decimal_places
-	 * @return self
+	 * @return static
 	 */
-	public function set_decimal_places( int $decimal_places ): self {
+	public function set_decimal_places( int $decimal_places ): static {
 		$this->decimal_places = $decimal_places;
 		return $this;
 	}

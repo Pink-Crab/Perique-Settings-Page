@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Settings_Page\Setting\Field\Attribute;
 
+use PinkCrab\Perique_Settings_Page\Util\Cast;
+
 trait Placeholder {
 
 	/**
@@ -32,7 +34,7 @@ trait Placeholder {
 	 * @param string $placeholder
 	 * @return self
 	 */
-	public function set_placeholder( string $placeholder ):self {
+	public function set_placeholder( string $placeholder ): self {
 		$this->set_attribute( 'placeholder', $placeholder );
 		return $this;
 	}
@@ -53,7 +55,7 @@ trait Placeholder {
 	 */
 	public function get_placeholder(): ?string {
 		return $this->has_placeholder()
-			? $this->get_attributes()['placeholder']
+			? Cast::to_string( $this->get_attributes()['placeholder'] )
 			: null;
 	}
 }

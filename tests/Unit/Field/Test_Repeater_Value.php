@@ -155,6 +155,22 @@ class Test_Repeater_Value extends WP_UnitTestCase {
 
 	}
 
+	/** @testdox get_index() returns null for fields that don't have a value at the requested index. */
+	public function test_get_index_with_uneven_fields(): void {
+		// 'str' has 3 entries, 'num' has only 1.
+		$value = new Repeater_Value(
+			array(
+				'str' => array( 'a', 'b', 'c' ),
+				'num' => array( 1 ),
+			)
+		);
+
+		$group = $value->get_index( 1 );
+		$this->assertInstanceOf( stdClass::class, $group );
+		$this->assertSame( 'b', $group->str );
+		$this->assertNull( $group->num );
+	}
+
 	/** @testdox It should be possible to get all the field keys */
 	public function test_field_keys(): void {
 		$value = ( new Repeater_Value(

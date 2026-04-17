@@ -26,6 +26,7 @@ namespace PinkCrab\Perique_Settings_Page\Setting;
 
 use PinkCrab\Collection\Collection;
 use PinkCrab\Collection\Traits\Indexed;
+use PinkCrab\Perique_Settings_Page\Setting\Renderable;
 use PinkCrab\Perique_Settings_Page\Setting\Field\Field;
 
 class Setting_Collection extends Collection {
@@ -41,8 +42,8 @@ class Setting_Collection extends Collection {
 	protected function map_construct( array $data ): array {
 		return array_filter(
 			$data,
-			function( $e ) {
-				return is_a( $e, Field::class );
+			function( $e ): bool {
+				return $e instanceof Renderable;
 			}
 		);
 	}
@@ -57,9 +58,11 @@ class Setting_Collection extends Collection {
 	 */
 	public function set_value( string $key, $data ): self {
 		if ( $this->has( $key ) ) {
-			$field = $this->get( $key );
-			$field->set_value( $data );
-			$this->set( $key, $field );
+			$item = $this->get( $key );
+			if ( $item instanceof Field ) {
+				$item->set_value( $data );
+				$this->set( $key, $item );
+			}
 		}
 		return $this;
 	}
@@ -67,12 +70,13 @@ class Setting_Collection extends Collection {
 	/**
 	 * Returns an array of all keys.
 	 *
-	 * @return array
+	 * @return array<int|string, string>
 	 */
 	public function get_keys(): array {
 		return array_map(
-			function( Field $field ):string {
-				return $field->get_key();
+			function( $item ): string {
+				/** @var Renderable $item */
+				return $item->get_key();
 			},
 			$this->data
 		);
@@ -86,6 +90,7 @@ class Setting_Collection extends Collection {
 	 */
 	public function push( ...$data ): Collection {
 		foreach ( $this->map_construct( $data ) as $datum ) {
+			/** @var Renderable $datum */
 			$this->data[ $datum->get_key() ] = $datum;
 		}
 		return $this;
