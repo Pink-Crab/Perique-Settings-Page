@@ -2,9 +2,9 @@
 
 Build admin settings pages for the Perique Framework with a fluent PHP API. Define fields, layouts, themes and validation in pure PHP; the library handles persistence, sanitisation and rendering via Form Components.
 
-<img src="PLACEHOLDER_LOGO_URL" alt="Perique Settings Page" />
+<img src="docs/perique-settings-page.png" alt="Perique Settings Page" />
 
-[![Latest Stable Version](http://poser.pugx.org/pinkcrab/perique-settings-page/v)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![Total Downloads](http://poser.pugx.org/pinkcrab/perique-settings-page/downloads)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![Latest Unstable Version](http://poser.pugx.org/pinkcrab/perique-settings-page/v/unstable)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![License](http://poser.pugx.org/pinkcrab/perique-settings-page/license)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-settings-page/require/php)](https://packagist.org/packages/pinkcrab/perique-settings-page)
+[![Latest Stable Version](https://poser.pugx.org/pinkcrab/perique-settings-page/v)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![Total Downloads](https://poser.pugx.org/pinkcrab/perique-settings-page/downloads)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![Latest Unstable Version](https://poser.pugx.org/pinkcrab/perique-settings-page/v/unstable)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![License](https://poser.pugx.org/pinkcrab/perique-settings-page/license)](https://packagist.org/packages/pinkcrab/perique-settings-page) [![PHP Version Require](https://poser.pugx.org/pinkcrab/perique-settings-page/require/php)](https://packagist.org/packages/pinkcrab/perique-settings-page)
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique-Settings-Page?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique-Settings-Page)
 [![WordPress 6.6 Test Suite [PHP8.0-8.4]](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Settings-Page/actions/workflows/WP_6_6.yaml)
