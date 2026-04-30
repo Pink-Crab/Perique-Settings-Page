@@ -291,6 +291,11 @@ test.describe( 'Interactive Kitchen Sink', () => {
 			const modal = page.locator( '.media-modal' );
 			await expect( modal ).toBeVisible( { timeout: 5000 } );
 
+			// Modal opens on the "Upload files" tab by default; switch to the library.
+			await modal
+				.locator( '.media-router .media-menu-item:has-text("Media Library")' )
+				.click();
+
 			// Log the AJAX response for CI debugging.
 			const ajaxResponse = await ajaxPromise;
 			if ( ajaxResponse ) {
@@ -327,6 +332,9 @@ test.describe( 'Interactive Kitchen Sink', () => {
 			);
 			const modal = page.locator( '.media-modal' );
 			await expect( modal ).toBeVisible( { timeout: 5000 } );
+			await modal
+				.locator( '.media-router .media-menu-item:has-text("Media Library")' )
+				.click();
 			await modal.locator( '.attachment' ).first().click();
 			await page.click( '.media-button-select' );
 			await expect( modal ).not.toBeVisible();
@@ -346,6 +354,9 @@ test.describe( 'Interactive Kitchen Sink', () => {
 			);
 			const modal = page.locator( '.media-modal' );
 			await expect( modal ).toBeVisible( { timeout: 5000 } );
+			await modal
+				.locator( '.media-router .media-menu-item:has-text("Media Library")' )
+				.click();
 			await modal.locator( '.attachment' ).first().click();
 			await page.click( '.media-button-select' );
 			await expect( modal ).not.toBeVisible();
