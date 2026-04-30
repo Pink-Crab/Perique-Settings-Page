@@ -277,12 +277,6 @@ test.describe( 'Interactive Kitchen Sink', () => {
 		test( 'selecting an attachment sets the hidden input and shows a preview', async ( {
 			page,
 		} ) => {
-			// Intercept the query-attachments AJAX to diagnose CI empty-grid issue.
-			const ajaxPromise = page.waitForResponse(
-				( r ) => r.url().includes( 'query-attachments' ) || r.url().includes( 'wp/v2/media' ),
-				{ timeout: 10000 }
-			).catch( () => null );
-
 			await page.click(
 				'.pc-settings-media-select[data-key="media_image"]'
 			);
@@ -296,17 +290,6 @@ test.describe( 'Interactive Kitchen Sink', () => {
 				.locator( '.media-router .media-menu-item:has-text("Media Library")' )
 				.click();
 
-			// Log the AJAX response for CI debugging.
-			const ajaxResponse = await ajaxPromise;
-			if ( ajaxResponse ) {
-				const body = await ajaxResponse.text().catch( () => '(unreadable)' );
-				console.log( `[DIAG] query-attachments status=${ ajaxResponse.status() } url=${ ajaxResponse.url() }` );
-				console.log( `[DIAG] response body (first 500 chars): ${ body.substring( 0, 500 ) }` );
-			} else {
-				console.log( '[DIAG] No query-attachments or wp/v2/media response intercepted within 10s' );
-			}
-
-			// The seeded attachment should appear in the library.
 			// Click the first attachment in the grid.
 			const attachment = modal.locator( '.attachment' ).first();
 			await expect( attachment ).toBeVisible( { timeout: 10000 } );
