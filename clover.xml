@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1776373472">
-  <project timestamp="1776373472">
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Handler/Form_Handler.php">
+<coverage generated="1777563587">
+  <project timestamp="1777563587">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Handler/Form_Handler.php">
       <class name="PinkCrab\Perique_Settings_Page\Handler\Form_Handler" namespace="global">
         <metrics complexity="37" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="96" coveredstatements="96" elements="104" coveredelements="104"/>
       </class>
@@ -111,7 +111,7 @@
       <line num="296" type="stmt" count="1"/>
       <metrics loc="299" ncloc="201" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="96" coveredstatements="96" elements="104" coveredelements="104"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Handler/Notice_Handler.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Handler/Notice_Handler.php">
       <class name="PinkCrab\Perique_Settings_Page\Handler\Notice_Handler" namespace="global">
         <metrics complexity="7" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="39" elements="42" coveredelements="42"/>
       </class>
@@ -159,7 +159,7 @@
       <line num="96" type="stmt" count="3"/>
       <metrics loc="99" ncloc="65" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="39" coveredstatements="39" elements="42" coveredelements="42"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Handler/Repeater_Form_Value_Helper.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Handler/Repeater_Form_Value_Helper.php">
       <class name="PinkCrab\Perique_Settings_Page\Handler\Repeater_Form_Value_Helper" namespace="global">
         <metrics complexity="21" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="35" coveredstatements="35" elements="40" coveredelements="40"/>
       </class>
@@ -205,7 +205,7 @@
       <line num="145" type="stmt" count="6"/>
       <metrics loc="148" ncloc="85" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="35" coveredstatements="35" elements="40" coveredelements="40"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Handler/Submission_Result.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Handler/Submission_Result.php">
       <class name="PinkCrab\Perique_Settings_Page\Handler\Submission_Result" namespace="global">
         <metrics complexity="11" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="24" coveredelements="24"/>
       </class>
@@ -235,7 +235,7 @@
       <line num="140" type="stmt" count="2"/>
       <metrics loc="143" ncloc="62" classes="1" methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="24" coveredelements="24"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Mapper/Element_Mapper.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Mapper/Element_Mapper.php">
       <class name="PinkCrab\Perique_Settings_Page\Mapper\Element_Mapper" namespace="global">
         <metrics complexity="137" methods="34" coveredmethods="34" conditionals="0" coveredconditionals="0" statements="397" coveredstatements="397" elements="431" coveredelements="431"/>
       </class>
@@ -672,7 +672,7 @@
       <line num="1004" type="stmt" count="1"/>
       <metrics loc="1007" ncloc="724" classes="1" methods="34" coveredmethods="34" conditionals="0" coveredconditionals="0" statements="397" coveredstatements="397" elements="431" coveredelements="431"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Mapper/Repeater_Renderer.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Mapper/Repeater_Renderer.php">
       <class name="PinkCrab\Perique_Settings_Page\Mapper\Repeater_Renderer" namespace="global">
         <metrics complexity="29" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="80" coveredstatements="80" elements="85" coveredelements="85"/>
       </class>
@@ -763,13 +763,13 @@
       <line num="212" type="stmt" count="1"/>
       <metrics loc="216" ncloc="155" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="80" coveredstatements="80" elements="85" coveredelements="85"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Page/Settings_Page.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Page/Settings_Page.php">
       <class name="PinkCrab\Perique_Settings_Page\Page\Settings_Page" namespace="global">
         <metrics complexity="40" methods="18" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="127" coveredstatements="127" elements="145" coveredelements="145"/>
       </class>
-      <line num="141" type="method" name="set_settings" visibility="public" complexity="1" crap="1" count="11"/>
-      <line num="142" type="stmt" count="11"/>
-      <line num="143" type="stmt" count="11"/>
+      <line num="141" type="method" name="set_settings" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="142" type="stmt" count="12"/>
+      <line num="143" type="stmt" count="12"/>
       <line num="151" type="method" name="get_method" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="152" type="stmt" count="1"/>
       <line num="160" type="method" name="get_settings" visibility="public" complexity="1" crap="1" count="2"/>
@@ -914,165 +914,170 @@
       <line num="504" type="stmt" count="1"/>
       <metrics loc="507" ncloc="280" classes="1" methods="18" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="127" coveredstatements="127" elements="145" coveredelements="145"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Registration/Settings_Page_Middleware.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Registration/Settings_Page_Middleware.php">
       <class name="PinkCrab\Perique_Settings_Page\Registration\Settings_Page_Middleware" namespace="global">
         <metrics complexity="6" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="22" coveredelements="22"/>
       </class>
-      <line num="44" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="5"/>
-      <line num="45" type="stmt" count="5"/>
-      <line num="57" type="method" name="process" visibility="public" complexity="3" crap="3" count="4"/>
-      <line num="59" type="stmt" count="4"/>
+      <line num="44" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="12"/>
+      <line num="45" type="stmt" count="12"/>
+      <line num="57" type="method" name="process" visibility="public" complexity="3" crap="3" count="5"/>
+      <line num="59" type="stmt" count="5"/>
       <line num="60" type="stmt" count="1"/>
-      <line num="64" type="stmt" count="3"/>
-      <line num="67" type="stmt" count="3"/>
-      <line num="69" type="stmt" count="3"/>
-      <line num="71" type="stmt" count="3"/>
-      <line num="77" type="stmt" count="2"/>
-      <line num="78" type="stmt" count="2"/>
-      <line num="79" type="stmt" count="2"/>
-      <line num="80" type="stmt" count="2"/>
-      <line num="81" type="stmt" count="2"/>
-      <line num="82" type="stmt" count="2"/>
-      <line num="83" type="stmt" count="2"/>
-      <line num="84" type="stmt" count="2"/>
-      <line num="85" type="stmt" count="2"/>
-      <line num="86" type="stmt" count="2"/>
-      <line num="87" type="stmt" count="2"/>
-      <line num="88" type="stmt" count="2"/>
-      <line num="91" type="stmt" count="3"/>
+      <line num="64" type="stmt" count="4"/>
+      <line num="67" type="stmt" count="4"/>
+      <line num="69" type="stmt" count="4"/>
+      <line num="71" type="stmt" count="4"/>
+      <line num="77" type="stmt" count="3"/>
+      <line num="78" type="stmt" count="3"/>
+      <line num="79" type="stmt" count="3"/>
+      <line num="80" type="stmt" count="3"/>
+      <line num="81" type="stmt" count="3"/>
+      <line num="82" type="stmt" count="3"/>
+      <line num="83" type="stmt" count="3"/>
+      <line num="84" type="stmt" count="3"/>
+      <line num="85" type="stmt" count="3"/>
+      <line num="86" type="stmt" count="3"/>
+      <line num="87" type="stmt" count="3"/>
+      <line num="88" type="stmt" count="3"/>
+      <line num="91" type="stmt" count="4"/>
       <metrics loc="100" ncloc="55" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="22" coveredelements="22"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Registration/Settings_Page_Module.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Registration/Settings_Page_Module.php">
       <class name="PinkCrab\Perique_Settings_Page\Registration\Settings_Page_Module" namespace="global">
-        <metrics complexity="4" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
+        <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
       </class>
-      <line num="36" type="method" name="get_middleware" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="37" type="stmt" count="1"/>
-      <line num="44" type="method" name="pre_register" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="45" type="stmt" count="1"/>
-      <metrics loc="51" ncloc="25" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
+      <line num="38" type="method" name="get_middleware" visibility="public" complexity="1" crap="1" count="8"/>
+      <line num="39" type="stmt" count="8"/>
+      <line num="43" type="method" name="pre_boot" visibility="public" complexity="1" crap="1" count="7"/>
+      <line num="51" type="stmt" count="7"/>
+      <line num="52" type="stmt" count="7"/>
+      <line num="53" type="stmt" count="7"/>
+      <line num="54" type="stmt" count="7"/>
+      <line num="58" type="method" name="pre_register" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="59" type="stmt" count="2"/>
+      <metrics loc="65" ncloc="32" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Rest/Picker_Rest_Controller.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Rest/Picker_Rest_Controller.php">
       <class name="PinkCrab\Perique_Settings_Page\Rest\Picker_Rest_Controller" namespace="global">
         <metrics complexity="12" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="203" coveredstatements="203" elements="208" coveredelements="208"/>
       </class>
-      <line num="34" type="method" name="register" visibility="public" complexity="5" crap="5" count="12"/>
-      <line num="36" type="stmt" count="12"/>
-      <line num="37" type="stmt" count="12"/>
-      <line num="38" type="stmt" count="12"/>
-      <line num="39" type="stmt" count="12"/>
-      <line num="40" type="stmt" count="12"/>
-      <line num="41" type="stmt" count="12"/>
-      <line num="42" type="stmt" count="12"/>
+      <line num="34" type="method" name="register" visibility="public" complexity="5" crap="5" count="13"/>
+      <line num="36" type="stmt" count="13"/>
+      <line num="37" type="stmt" count="13"/>
+      <line num="38" type="stmt" count="13"/>
+      <line num="39" type="stmt" count="13"/>
+      <line num="40" type="stmt" count="13"/>
+      <line num="41" type="stmt" count="13"/>
+      <line num="42" type="stmt" count="13"/>
       <line num="43" type="stmt" count="4"/>
-      <line num="44" type="stmt" count="12"/>
-      <line num="45" type="stmt" count="12"/>
-      <line num="46" type="stmt" count="12"/>
-      <line num="47" type="stmt" count="12"/>
-      <line num="48" type="stmt" count="12"/>
-      <line num="49" type="stmt" count="12"/>
-      <line num="50" type="stmt" count="12"/>
+      <line num="44" type="stmt" count="13"/>
+      <line num="45" type="stmt" count="13"/>
+      <line num="46" type="stmt" count="13"/>
+      <line num="47" type="stmt" count="13"/>
+      <line num="48" type="stmt" count="13"/>
+      <line num="49" type="stmt" count="13"/>
+      <line num="50" type="stmt" count="13"/>
       <line num="51" type="stmt" count="5"/>
-      <line num="52" type="stmt" count="12"/>
-      <line num="53" type="stmt" count="12"/>
-      <line num="54" type="stmt" count="12"/>
-      <line num="55" type="stmt" count="12"/>
-      <line num="56" type="stmt" count="12"/>
-      <line num="57" type="stmt" count="12"/>
-      <line num="58" type="stmt" count="12"/>
-      <line num="59" type="stmt" count="12"/>
-      <line num="60" type="stmt" count="12"/>
-      <line num="61" type="stmt" count="12"/>
-      <line num="62" type="stmt" count="12"/>
-      <line num="63" type="stmt" count="12"/>
-      <line num="64" type="stmt" count="12"/>
-      <line num="65" type="stmt" count="12"/>
+      <line num="52" type="stmt" count="13"/>
+      <line num="53" type="stmt" count="13"/>
+      <line num="54" type="stmt" count="13"/>
+      <line num="55" type="stmt" count="13"/>
+      <line num="56" type="stmt" count="13"/>
+      <line num="57" type="stmt" count="13"/>
+      <line num="58" type="stmt" count="13"/>
+      <line num="59" type="stmt" count="13"/>
+      <line num="60" type="stmt" count="13"/>
+      <line num="61" type="stmt" count="13"/>
+      <line num="62" type="stmt" count="13"/>
+      <line num="63" type="stmt" count="13"/>
+      <line num="64" type="stmt" count="13"/>
+      <line num="65" type="stmt" count="13"/>
       <line num="66" type="stmt" count="5"/>
       <line num="67" type="stmt" count="5"/>
-      <line num="68" type="stmt" count="12"/>
-      <line num="69" type="stmt" count="12"/>
-      <line num="70" type="stmt" count="12"/>
-      <line num="71" type="stmt" count="12"/>
-      <line num="72" type="stmt" count="12"/>
-      <line num="75" type="stmt" count="12"/>
-      <line num="76" type="stmt" count="12"/>
-      <line num="77" type="stmt" count="12"/>
-      <line num="78" type="stmt" count="12"/>
-      <line num="79" type="stmt" count="12"/>
-      <line num="80" type="stmt" count="12"/>
-      <line num="81" type="stmt" count="12"/>
+      <line num="68" type="stmt" count="13"/>
+      <line num="69" type="stmt" count="13"/>
+      <line num="70" type="stmt" count="13"/>
+      <line num="71" type="stmt" count="13"/>
+      <line num="72" type="stmt" count="13"/>
+      <line num="75" type="stmt" count="13"/>
+      <line num="76" type="stmt" count="13"/>
+      <line num="77" type="stmt" count="13"/>
+      <line num="78" type="stmt" count="13"/>
+      <line num="79" type="stmt" count="13"/>
+      <line num="80" type="stmt" count="13"/>
+      <line num="81" type="stmt" count="13"/>
       <line num="82" type="stmt" count="2"/>
-      <line num="83" type="stmt" count="12"/>
-      <line num="84" type="stmt" count="12"/>
-      <line num="85" type="stmt" count="12"/>
-      <line num="86" type="stmt" count="12"/>
-      <line num="87" type="stmt" count="12"/>
-      <line num="88" type="stmt" count="12"/>
-      <line num="89" type="stmt" count="12"/>
+      <line num="83" type="stmt" count="13"/>
+      <line num="84" type="stmt" count="13"/>
+      <line num="85" type="stmt" count="13"/>
+      <line num="86" type="stmt" count="13"/>
+      <line num="87" type="stmt" count="13"/>
+      <line num="88" type="stmt" count="13"/>
+      <line num="89" type="stmt" count="13"/>
       <line num="90" type="stmt" count="2"/>
-      <line num="91" type="stmt" count="12"/>
-      <line num="92" type="stmt" count="12"/>
-      <line num="93" type="stmt" count="12"/>
-      <line num="94" type="stmt" count="12"/>
-      <line num="95" type="stmt" count="12"/>
-      <line num="98" type="stmt" count="12"/>
-      <line num="99" type="stmt" count="12"/>
-      <line num="100" type="stmt" count="12"/>
-      <line num="101" type="stmt" count="12"/>
-      <line num="102" type="stmt" count="12"/>
-      <line num="103" type="stmt" count="12"/>
-      <line num="104" type="stmt" count="12"/>
+      <line num="91" type="stmt" count="13"/>
+      <line num="92" type="stmt" count="13"/>
+      <line num="93" type="stmt" count="13"/>
+      <line num="94" type="stmt" count="13"/>
+      <line num="95" type="stmt" count="13"/>
+      <line num="98" type="stmt" count="13"/>
+      <line num="99" type="stmt" count="13"/>
+      <line num="100" type="stmt" count="13"/>
+      <line num="101" type="stmt" count="13"/>
+      <line num="102" type="stmt" count="13"/>
+      <line num="103" type="stmt" count="13"/>
+      <line num="104" type="stmt" count="13"/>
       <line num="105" type="stmt" count="3"/>
-      <line num="106" type="stmt" count="12"/>
-      <line num="107" type="stmt" count="12"/>
-      <line num="108" type="stmt" count="12"/>
-      <line num="109" type="stmt" count="12"/>
-      <line num="110" type="stmt" count="12"/>
-      <line num="111" type="stmt" count="12"/>
-      <line num="112" type="stmt" count="12"/>
+      <line num="106" type="stmt" count="13"/>
+      <line num="107" type="stmt" count="13"/>
+      <line num="108" type="stmt" count="13"/>
+      <line num="109" type="stmt" count="13"/>
+      <line num="110" type="stmt" count="13"/>
+      <line num="111" type="stmt" count="13"/>
+      <line num="112" type="stmt" count="13"/>
       <line num="113" type="stmt" count="3"/>
-      <line num="114" type="stmt" count="12"/>
-      <line num="115" type="stmt" count="12"/>
-      <line num="116" type="stmt" count="12"/>
-      <line num="117" type="stmt" count="12"/>
-      <line num="118" type="stmt" count="12"/>
-      <line num="119" type="stmt" count="12"/>
-      <line num="120" type="stmt" count="12"/>
-      <line num="121" type="stmt" count="12"/>
-      <line num="122" type="stmt" count="12"/>
-      <line num="123" type="stmt" count="12"/>
-      <line num="124" type="stmt" count="12"/>
-      <line num="125" type="stmt" count="12"/>
-      <line num="126" type="stmt" count="12"/>
-      <line num="127" type="stmt" count="12"/>
+      <line num="114" type="stmt" count="13"/>
+      <line num="115" type="stmt" count="13"/>
+      <line num="116" type="stmt" count="13"/>
+      <line num="117" type="stmt" count="13"/>
+      <line num="118" type="stmt" count="13"/>
+      <line num="119" type="stmt" count="13"/>
+      <line num="120" type="stmt" count="13"/>
+      <line num="121" type="stmt" count="13"/>
+      <line num="122" type="stmt" count="13"/>
+      <line num="123" type="stmt" count="13"/>
+      <line num="124" type="stmt" count="13"/>
+      <line num="125" type="stmt" count="13"/>
+      <line num="126" type="stmt" count="13"/>
+      <line num="127" type="stmt" count="13"/>
       <line num="128" type="stmt" count="3"/>
       <line num="129" type="stmt" count="3"/>
-      <line num="130" type="stmt" count="12"/>
-      <line num="131" type="stmt" count="12"/>
-      <line num="132" type="stmt" count="12"/>
-      <line num="133" type="stmt" count="12"/>
-      <line num="134" type="stmt" count="12"/>
-      <line num="137" type="stmt" count="12"/>
-      <line num="138" type="stmt" count="12"/>
-      <line num="139" type="stmt" count="12"/>
-      <line num="140" type="stmt" count="12"/>
-      <line num="141" type="stmt" count="12"/>
-      <line num="142" type="stmt" count="12"/>
-      <line num="143" type="stmt" count="12"/>
+      <line num="130" type="stmt" count="13"/>
+      <line num="131" type="stmt" count="13"/>
+      <line num="132" type="stmt" count="13"/>
+      <line num="133" type="stmt" count="13"/>
+      <line num="134" type="stmt" count="13"/>
+      <line num="137" type="stmt" count="13"/>
+      <line num="138" type="stmt" count="13"/>
+      <line num="139" type="stmt" count="13"/>
+      <line num="140" type="stmt" count="13"/>
+      <line num="141" type="stmt" count="13"/>
+      <line num="142" type="stmt" count="13"/>
+      <line num="143" type="stmt" count="13"/>
       <line num="144" type="stmt" count="2"/>
-      <line num="145" type="stmt" count="12"/>
-      <line num="146" type="stmt" count="12"/>
-      <line num="147" type="stmt" count="12"/>
-      <line num="148" type="stmt" count="12"/>
-      <line num="149" type="stmt" count="12"/>
-      <line num="150" type="stmt" count="12"/>
-      <line num="151" type="stmt" count="12"/>
+      <line num="145" type="stmt" count="13"/>
+      <line num="146" type="stmt" count="13"/>
+      <line num="147" type="stmt" count="13"/>
+      <line num="148" type="stmt" count="13"/>
+      <line num="149" type="stmt" count="13"/>
+      <line num="150" type="stmt" count="13"/>
+      <line num="151" type="stmt" count="13"/>
       <line num="152" type="stmt" count="2"/>
-      <line num="153" type="stmt" count="12"/>
-      <line num="154" type="stmt" count="12"/>
-      <line num="155" type="stmt" count="12"/>
-      <line num="156" type="stmt" count="12"/>
-      <line num="157" type="stmt" count="12"/>
+      <line num="153" type="stmt" count="13"/>
+      <line num="154" type="stmt" count="13"/>
+      <line num="155" type="stmt" count="13"/>
+      <line num="156" type="stmt" count="13"/>
+      <line num="157" type="stmt" count="13"/>
       <line num="166" type="method" name="search_posts" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="167" type="stmt" count="2"/>
       <line num="168" type="stmt" count="2"/>
@@ -1166,13 +1171,13 @@
       <line num="301" type="stmt" count="1"/>
       <metrics loc="304" ncloc="256" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="203" coveredstatements="203" elements="208" coveredelements="208"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Abstract_Settings.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Abstract_Settings.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Abstract_Settings" namespace="global">
         <metrics complexity="42" methods="18" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="69" elements="87" coveredelements="87"/>
       </class>
-      <line num="50" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="46"/>
-      <line num="51" type="stmt" count="46"/>
-      <line num="52" type="stmt" count="46"/>
+      <line num="50" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="51"/>
+      <line num="51" type="stmt" count="51"/>
+      <line num="52" type="stmt" count="51"/>
       <line num="83" type="method" name="prefix_key" visibility="public" complexity="1" crap="1" count="25"/>
       <line num="84" type="stmt" count="25"/>
       <line num="93" type="method" name="has" visibility="public" complexity="1" crap="1" count="18"/>
@@ -1219,36 +1224,36 @@
       <line num="216" type="stmt" count="1"/>
       <line num="217" type="stmt" count="1"/>
       <line num="219" type="stmt" count="1"/>
-      <line num="230" type="method" name="refresh_settings" visibility="public" complexity="6" crap="6" count="13"/>
-      <line num="231" type="stmt" count="13"/>
-      <line num="233" type="stmt" count="13"/>
-      <line num="234" type="stmt" count="1"/>
-      <line num="235" type="stmt" count="1"/>
-      <line num="236" type="stmt" count="1"/>
+      <line num="230" type="method" name="refresh_settings" visibility="public" complexity="6" crap="6" count="14"/>
+      <line num="231" type="stmt" count="14"/>
+      <line num="233" type="stmt" count="14"/>
+      <line num="234" type="stmt" count="2"/>
+      <line num="235" type="stmt" count="2"/>
+      <line num="236" type="stmt" count="2"/>
       <line num="239" type="stmt" count="12"/>
       <line num="240" type="stmt" count="12"/>
-      <line num="250" type="method" name="get_grouped_values" visibility="protected" complexity="2" crap="2" count="1"/>
-      <line num="251" type="stmt" count="1"/>
-      <line num="252" type="stmt" count="1"/>
+      <line num="250" type="method" name="get_grouped_values" visibility="protected" complexity="2" crap="2" count="2"/>
+      <line num="251" type="stmt" count="2"/>
+      <line num="252" type="stmt" count="2"/>
       <line num="260" type="method" name="export" visibility="public" complexity="1" crap="1" count="8"/>
       <line num="262" type="stmt" count="8"/>
       <line num="263" type="stmt" count="8"/>
       <line num="271" type="method" name="get_keys" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="272" type="stmt" count="1"/>
-      <line num="280" type="method" name="get_all_fields" visibility="public" complexity="1" crap="1" count="39"/>
-      <line num="282" type="stmt" count="39"/>
-      <line num="283" type="stmt" count="39"/>
-      <line num="292" type="method" name="extract_fields" visibility="protected" complexity="6" crap="6" count="39"/>
-      <line num="293" type="stmt" count="39"/>
-      <line num="294" type="stmt" count="39"/>
-      <line num="295" type="stmt" count="38"/>
+      <line num="280" type="method" name="get_all_fields" visibility="public" complexity="1" crap="1" count="40"/>
+      <line num="282" type="stmt" count="40"/>
+      <line num="283" type="stmt" count="40"/>
+      <line num="292" type="method" name="extract_fields" visibility="protected" complexity="6" crap="6" count="40"/>
+      <line num="293" type="stmt" count="40"/>
+      <line num="294" type="stmt" count="40"/>
+      <line num="295" type="stmt" count="39"/>
       <line num="296" type="stmt" count="2"/>
-      <line num="297" type="stmt" count="36"/>
-      <line num="298" type="stmt" count="36"/>
+      <line num="297" type="stmt" count="37"/>
+      <line num="298" type="stmt" count="37"/>
       <line num="299" type="stmt" count="1"/>
       <line num="300" type="stmt" count="1"/>
       <line num="301" type="stmt" count="1"/>
-      <line num="305" type="stmt" count="39"/>
+      <line num="305" type="stmt" count="40"/>
       <line num="313" type="method" name="store_grouped" visibility="protected" complexity="1" crap="1" count="2"/>
       <line num="314" type="stmt" count="2"/>
       <line num="315" type="stmt" count="2"/>
@@ -1259,7 +1264,7 @@
       <line num="320" type="stmt" count="2"/>
       <metrics loc="323" ncloc="173" classes="1" methods="18" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="69" coveredstatements="69" elements="87" coveredelements="87"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Autocomplete.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Autocomplete.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Autocomplete" namespace="global">
         <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
       </class>
@@ -1274,7 +1279,7 @@
       <line num="59" type="stmt" count="4"/>
       <metrics loc="62" ncloc="27" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Checked_Value.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Checked_Value.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Checked_Value" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
@@ -1285,7 +1290,7 @@
       <line num="53" type="stmt" count="4"/>
       <metrics loc="56" ncloc="21" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Data.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Data.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Data" namespace="global">
         <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
       </class>
@@ -1300,7 +1305,7 @@
       <line num="59" type="stmt" count="3"/>
       <metrics loc="62" ncloc="27" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Disabled.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Disabled.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Disabled" namespace="global">
         <metrics complexity="4" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
       </class>
@@ -1315,7 +1320,7 @@
       <line num="56" type="stmt" count="18"/>
       <metrics loc="59" ncloc="28" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Multiple.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Multiple.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Multiple" namespace="global">
         <metrics complexity="4" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
       </class>
@@ -1330,7 +1335,7 @@
       <line num="54" type="stmt" count="13"/>
       <metrics loc="57" ncloc="26" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="9" coveredelements="9"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Options.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Options.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Options" namespace="global">
         <metrics complexity="7" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="12" coveredelements="12"/>
       </class>
@@ -1348,7 +1353,7 @@
       <line num="74" type="stmt" count="4"/>
       <metrics loc="78" ncloc="35" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="12" coveredelements="12"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Pattern.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Pattern.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Pattern" namespace="global">
         <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
       </class>
@@ -1363,7 +1368,7 @@
       <line num="61" type="stmt" count="32"/>
       <metrics loc="64" ncloc="27" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Placeholder.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Placeholder.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Placeholder" namespace="global">
         <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
       </class>
@@ -1378,7 +1383,7 @@
       <line num="59" type="stmt" count="46"/>
       <metrics loc="62" ncloc="27" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="9" coveredelements="9"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Query.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Query.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Query" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="8" coveredelements="8"/>
       </class>
@@ -1392,7 +1397,7 @@
       <line num="65" type="stmt" count="2"/>
       <metrics loc="82" ncloc="31" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="8" coveredelements="8"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Range.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Attribute/Range.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Attribute\Range" namespace="global">
         <metrics complexity="12" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="27" coveredelements="27"/>
       </class>
@@ -1425,7 +1430,7 @@
       <line num="121" type="stmt" count="4"/>
       <metrics loc="124" ncloc="57" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="27" coveredelements="27"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Checkbox.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Checkbox.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
       </class>
@@ -1435,7 +1440,7 @@
       <line num="53" type="stmt" count="32"/>
       <metrics loc="57" ncloc="28" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Checkbox_Group.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Checkbox_Group.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Checkbox_Group" namespace="global">
         <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="6" coveredelements="6"/>
       </class>
@@ -1447,7 +1452,7 @@
       <line num="63" type="stmt" count="5"/>
       <metrics loc="67" ncloc="33" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="6" coveredelements="6"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Colour.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Colour.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Colour" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
@@ -1458,7 +1463,7 @@
       <line num="55" type="stmt" count="28"/>
       <metrics loc="58" ncloc="28" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Email.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Email.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Email" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
@@ -1469,33 +1474,33 @@
       <line num="32" type="stmt" count="13"/>
       <metrics loc="35" ncloc="28" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Field.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Field.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Field" namespace="global">
         <metrics complexity="43" methods="39" coveredmethods="39" conditionals="0" coveredconditionals="0" statements="68" coveredstatements="68" elements="107" coveredelements="107"/>
       </class>
-      <line num="167" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="457"/>
-      <line num="168" type="stmt" count="457"/>
-      <line num="169" type="stmt" count="457"/>
+      <line num="167" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="462"/>
+      <line num="168" type="stmt" count="462"/>
+      <line num="169" type="stmt" count="462"/>
       <line num="178" type="method" name="make" visibility="public" complexity="2" crap="2" count="42"/>
       <line num="180" type="stmt" count="42"/>
       <line num="189" type="method" name="clone_as" visibility="public" complexity="1" crap="1" count="19"/>
       <line num="190" type="stmt" count="19"/>
       <line num="191" type="stmt" count="19"/>
       <line num="192" type="stmt" count="19"/>
-      <line num="200" type="method" name="get_key" visibility="public" complexity="1" crap="1" count="176"/>
-      <line num="201" type="stmt" count="176"/>
+      <line num="200" type="method" name="get_key" visibility="public" complexity="1" crap="1" count="181"/>
+      <line num="201" type="stmt" count="181"/>
       <line num="209" type="method" name="get_type" visibility="public" complexity="1" crap="1" count="31"/>
       <line num="210" type="stmt" count="31"/>
       <line num="218" type="method" name="get_label" visibility="public" complexity="1" crap="1" count="96"/>
       <line num="219" type="stmt" count="96"/>
-      <line num="228" type="method" name="set_label" visibility="public" complexity="1" crap="1" count="27"/>
-      <line num="229" type="stmt" count="27"/>
-      <line num="230" type="stmt" count="27"/>
+      <line num="228" type="method" name="set_label" visibility="public" complexity="1" crap="1" count="32"/>
+      <line num="229" type="stmt" count="32"/>
+      <line num="230" type="stmt" count="32"/>
       <line num="238" type="method" name="get_value" visibility="public" complexity="1" crap="1" count="99"/>
       <line num="239" type="stmt" count="99"/>
-      <line num="248" type="method" name="set_value" visibility="public" complexity="1" crap="1" count="64"/>
-      <line num="249" type="stmt" count="64"/>
-      <line num="250" type="stmt" count="64"/>
+      <line num="248" type="method" name="set_value" visibility="public" complexity="1" crap="1" count="65"/>
+      <line num="249" type="stmt" count="65"/>
+      <line num="250" type="stmt" count="65"/>
       <line num="258" type="method" name="get_description" visibility="public" complexity="1" crap="1" count="81"/>
       <line num="259" type="stmt" count="81"/>
       <line num="268" type="method" name="set_description" visibility="public" complexity="1" crap="1" count="21"/>
@@ -1562,9 +1567,9 @@
       <line num="513" type="method" name="set_config" visibility="public" complexity="1" crap="1" count="3"/>
       <line num="514" type="stmt" count="3"/>
       <line num="515" type="stmt" count="3"/>
-      <line num="524" type="method" name="set_sanitize" visibility="public" complexity="1" crap="1" count="278"/>
-      <line num="525" type="stmt" count="278"/>
-      <line num="526" type="stmt" count="278"/>
+      <line num="524" type="method" name="set_sanitize" visibility="public" complexity="1" crap="1" count="283"/>
+      <line num="525" type="stmt" count="283"/>
+      <line num="526" type="stmt" count="283"/>
       <line num="535" type="method" name="set_validate" visibility="public" complexity="1" crap="1" count="22"/>
       <line num="536" type="stmt" count="22"/>
       <line num="537" type="stmt" count="22"/>
@@ -1582,7 +1587,7 @@
       <line num="573" type="stmt" count="6"/>
       <metrics loc="576" ncloc="242" classes="1" methods="39" coveredmethods="39" conditionals="0" coveredconditionals="0" statements="68" coveredstatements="68" elements="107" coveredelements="107"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Field_Group.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Field_Group.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Field_Group" namespace="global">
         <metrics complexity="21" methods="14" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="38" coveredstatements="38" elements="52" coveredelements="52"/>
       </class>
@@ -1640,7 +1645,7 @@
       <line num="211" type="stmt" count="4"/>
       <metrics loc="214" ncloc="109" classes="1" methods="14" coveredmethods="14" conditionals="0" coveredconditionals="0" statements="38" coveredstatements="38" elements="52" coveredelements="52"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Hidden.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Hidden.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Hidden" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
@@ -1651,7 +1656,7 @@
       <line num="27" type="stmt" count="11"/>
       <metrics loc="30" ncloc="23" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Media_Library.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Media_Library.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Media_Library" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
       </class>
@@ -1661,7 +1666,7 @@
       <line num="47" type="stmt" count="29"/>
       <metrics loc="50" ncloc="22" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Number.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Number.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Number" namespace="global">
         <metrics complexity="5" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="17" coveredelements="17"/>
       </class>
@@ -1684,7 +1689,7 @@
       <line num="85" type="stmt" count="4"/>
       <metrics loc="88" ncloc="48" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="17" coveredelements="17"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Password.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Password.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Password" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
@@ -1695,7 +1700,7 @@
       <line num="31" type="stmt" count="12"/>
       <metrics loc="34" ncloc="27" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Phone.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Phone.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Phone" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
@@ -1706,7 +1711,7 @@
       <line num="32" type="stmt" count="12"/>
       <metrics loc="35" ncloc="28" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Post_Picker.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Post_Picker.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Post_Picker" namespace="global">
         <metrics complexity="7" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="20" coveredelements="20"/>
       </class>
@@ -1732,7 +1737,7 @@
       <line num="90" type="stmt" count="1"/>
       <metrics loc="93" ncloc="53" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="20" coveredelements="20"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Radio.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Radio.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Radio" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
       </class>
@@ -1742,7 +1747,7 @@
       <line num="53" type="stmt" count="29"/>
       <metrics loc="57" ncloc="28" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="4" coveredelements="4"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Repeater.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Repeater.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Repeater" namespace="global">
         <metrics complexity="13" methods="10" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="29" coveredelements="29"/>
       </class>
@@ -1777,7 +1782,7 @@
       <line num="177" type="stmt" count="1"/>
       <metrics loc="180" ncloc="81" classes="1" methods="10" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="29" coveredelements="29"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Repeater_Value.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Repeater_Value.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Repeater_Value" namespace="global">
         <metrics complexity="21" methods="12" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="37" elements="49" coveredelements="49"/>
       </class>
@@ -1832,7 +1837,7 @@
       <line num="193" type="stmt" count="1"/>
       <metrics loc="196" ncloc="98" classes="1" methods="12" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="37" coveredstatements="37" elements="49" coveredelements="49"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Select.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Select.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Select" namespace="global">
         <metrics complexity="3" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="16" coveredelements="16"/>
       </class>
@@ -1854,18 +1859,18 @@
       <line num="73" type="stmt" count="34"/>
       <metrics loc="76" ncloc="42" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="14" coveredstatements="14" elements="16" coveredelements="16"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Text.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Text.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Text" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
-      <line num="49" type="method" name="new" visibility="public" complexity="1" crap="1" count="114"/>
-      <line num="50" type="stmt" count="114"/>
-      <line num="53" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="139"/>
-      <line num="54" type="stmt" count="139"/>
-      <line num="55" type="stmt" count="139"/>
+      <line num="49" type="method" name="new" visibility="public" complexity="1" crap="1" count="119"/>
+      <line num="50" type="stmt" count="119"/>
+      <line num="53" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="144"/>
+      <line num="54" type="stmt" count="144"/>
+      <line num="55" type="stmt" count="144"/>
       <metrics loc="58" ncloc="29" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Textarea.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Textarea.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Textarea" namespace="global">
         <metrics complexity="6" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="15" coveredelements="15"/>
       </class>
@@ -1886,7 +1891,7 @@
       <line num="85" type="stmt" count="4"/>
       <metrics loc="88" ncloc="49" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="15" coveredelements="15"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/Url.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/Url.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\Url" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
       </class>
@@ -1897,7 +1902,7 @@
       <line num="32" type="stmt" count="12"/>
       <metrics loc="35" ncloc="28" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/User_Picker.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/User_Picker.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\User_Picker" namespace="global">
         <metrics complexity="8" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="15" elements="23" coveredelements="23"/>
       </class>
@@ -1926,7 +1931,7 @@
       <line num="115" type="stmt" count="1"/>
       <metrics loc="118" ncloc="61" classes="1" methods="8" coveredmethods="8" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="15" elements="23" coveredelements="23"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Field/WP_Editor.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Field/WP_Editor.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Field\WP_Editor" namespace="global">
         <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="10" coveredelements="10"/>
       </class>
@@ -1942,7 +1947,7 @@
       <line num="77" type="stmt" count="2"/>
       <metrics loc="80" ncloc="35" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="10" coveredelements="10"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Layout/Abstract_Layout.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Layout/Abstract_Layout.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Layout\Abstract_Layout" namespace="global">
         <metrics complexity="9" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="27" coveredelements="27"/>
       </class>
@@ -1975,7 +1980,7 @@
       <line num="108" type="stmt" count="11"/>
       <metrics loc="111" ncloc="58" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="21" elements="27" coveredelements="27"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Layout/Divider.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Layout/Divider.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Layout\Divider" namespace="global">
         <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="8" coveredelements="8"/>
       </class>
@@ -1989,7 +1994,7 @@
       <line num="53" type="stmt" count="1"/>
       <metrics loc="56" ncloc="32" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="8" coveredelements="8"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Layout/Grid.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Layout/Grid.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Layout\Grid" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="7" coveredelements="7"/>
       </class>
@@ -2002,7 +2007,7 @@
       <line num="46" type="stmt" count="4"/>
       <metrics loc="49" ncloc="25" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="7" coveredelements="7"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Layout/Notice.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Layout/Notice.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Layout\Notice" namespace="global">
         <metrics complexity="9" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="11" elements="20" coveredelements="20"/>
       </class>
@@ -2028,7 +2033,7 @@
       <line num="118" type="stmt" count="1"/>
       <metrics loc="121" ncloc="58" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="11" elements="20" coveredelements="20"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Layout/Row.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Layout/Row.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Layout\Row" namespace="global">
         <metrics complexity="7" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="16" coveredelements="16"/>
       </class>
@@ -2050,7 +2055,7 @@
       <line num="85" type="stmt" count="2"/>
       <metrics loc="88" ncloc="43" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="10" coveredstatements="10" elements="16" coveredelements="16"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Layout/Section.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Layout/Section.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Layout\Section" namespace="global">
         <metrics complexity="13" methods="12" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="32" coveredelements="32"/>
       </class>
@@ -2088,7 +2093,7 @@
       <line num="163" type="stmt" count="5"/>
       <metrics loc="166" ncloc="77" classes="1" methods="12" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="20" coveredstatements="20" elements="32" coveredelements="32"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Layout/Stack.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Layout/Stack.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Layout\Stack" namespace="global">
         <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
       </class>
@@ -2096,15 +2101,15 @@
       <line num="21" type="stmt" count="3"/>
       <metrics loc="24" ncloc="16" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Renderable.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Renderable.php">
       <metrics loc="34" ncloc="14" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Options_Individual_Repository.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Options_Individual_Repository.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Individual_Repository" namespace="global">
         <metrics complexity="7" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="15" coveredelements="15"/>
       </class>
-      <line num="32" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="9"/>
-      <line num="33" type="stmt" count="9"/>
+      <line num="32" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="11"/>
+      <line num="33" type="stmt" count="11"/>
       <line num="42" type="method" name="prefixed" visibility="protected" complexity="1" crap="1" count="7"/>
       <line num="43" type="stmt" count="7"/>
       <line num="47" type="method" name="set" visibility="public" complexity="1" crap="1" count="2"/>
@@ -2120,7 +2125,7 @@
       <line num="73" type="stmt" count="2"/>
       <metrics loc="76" ncloc="43" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="15" coveredelements="15"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Options_Named_Groups_Repository.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Options_Named_Groups_Repository.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Named_Groups_Repository" namespace="global">
         <metrics complexity="15" methods="10" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="30" coveredstatements="30" elements="40" coveredelements="40"/>
       </class>
@@ -2166,29 +2171,29 @@
       <line num="148" type="stmt" count="1"/>
       <metrics loc="151" ncloc="84" classes="1" methods="10" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="30" coveredstatements="30" elements="40" coveredelements="40"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Options_Settings_Repository.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Options_Settings_Repository.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Settings_Repository" namespace="global">
         <metrics complexity="5" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="11" coveredelements="11"/>
       </class>
       <line num="38" type="method" name="set" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="39" type="stmt" count="1"/>
-      <line num="48" type="method" name="get" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="49" type="stmt" count="1"/>
+      <line num="48" type="method" name="get" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="49" type="stmt" count="2"/>
       <line num="58" type="method" name="delete" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="59" type="stmt" count="1"/>
       <line num="68" type="method" name="has" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="69" type="stmt" count="1"/>
       <line num="71" type="stmt" count="1"/>
-      <line num="79" type="method" name="allow_grouped" visibility="public" complexity="1" crap="1" count="2"/>
-      <line num="80" type="stmt" count="2"/>
+      <line num="79" type="method" name="allow_grouped" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="80" type="stmt" count="3"/>
       <metrics loc="83" ncloc="34" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="6" elements="11" coveredelements="11"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Site_Options_Decorator.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Repository/WP_Site_Options_Decorator.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Site_Options_Decorator" namespace="global">
         <metrics complexity="6" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="13" coveredelements="13"/>
       </class>
-      <line num="38" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="7"/>
-      <line num="39" type="stmt" count="7"/>
+      <line num="38" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="9"/>
+      <line num="39" type="stmt" count="9"/>
       <line num="43" type="method" name="set" visibility="public" complexity="1" crap="1" count="1"/>
       <line num="44" type="stmt" count="1"/>
       <line num="48" type="method" name="get" visibility="public" complexity="1" crap="1" count="2"/>
@@ -2202,17 +2207,17 @@
       <line num="69" type="stmt" count="1"/>
       <metrics loc="72" ncloc="39" classes="1" methods="6" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="13" coveredelements="13"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Setting_Collection.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Setting_Collection.php">
       <class name="PinkCrab\Perique_Settings_Page\Setting\Setting_Collection" namespace="global">
         <metrics complexity="8" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="22" elements="27" coveredelements="27"/>
       </class>
-      <line num="42" type="method" name="map_construct" visibility="protected" complexity="1" crap="1" count="69"/>
-      <line num="43" type="stmt" count="69"/>
-      <line num="44" type="stmt" count="69"/>
-      <line num="45" type="stmt" count="69"/>
-      <line num="46" type="stmt" count="65"/>
-      <line num="47" type="stmt" count="69"/>
-      <line num="48" type="stmt" count="69"/>
+      <line num="42" type="method" name="map_construct" visibility="protected" complexity="1" crap="1" count="74"/>
+      <line num="43" type="stmt" count="74"/>
+      <line num="44" type="stmt" count="74"/>
+      <line num="45" type="stmt" count="74"/>
+      <line num="46" type="stmt" count="70"/>
+      <line num="47" type="stmt" count="74"/>
+      <line num="48" type="stmt" count="74"/>
       <line num="59" type="method" name="set_value" visibility="public" complexity="3" crap="3" count="3"/>
       <line num="60" type="stmt" count="3"/>
       <line num="61" type="stmt" count="2"/>
@@ -2227,18 +2232,18 @@
       <line num="80" type="stmt" count="1"/>
       <line num="81" type="stmt" count="1"/>
       <line num="82" type="stmt" count="1"/>
-      <line num="91" type="method" name="push" visibility="public" complexity="2" crap="2" count="64"/>
-      <line num="92" type="stmt" count="64"/>
-      <line num="94" type="stmt" count="63"/>
-      <line num="96" type="stmt" count="64"/>
+      <line num="91" type="method" name="push" visibility="public" complexity="2" crap="2" count="69"/>
+      <line num="92" type="stmt" count="69"/>
+      <line num="94" type="stmt" count="68"/>
+      <line num="96" type="stmt" count="69"/>
       <line num="108" type="method" name="set" visibility="public" complexity="1" crap="1" count="3"/>
       <line num="109" type="stmt" count="3"/>
       <metrics loc="112" ncloc="57" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="22" elements="27" coveredelements="27"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Setting/Setting_Repository.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Setting/Setting_Repository.php">
       <metrics loc="69" ncloc="20" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Util/Buffer.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Util/Buffer.php">
       <class name="PinkCrab\Perique_Settings_Page\Util\Buffer" namespace="global">
         <metrics complexity="3" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="7" coveredelements="7"/>
       </class>
@@ -2251,7 +2256,7 @@
       <line num="45" type="stmt" count="6"/>
       <metrics loc="48" ncloc="23" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="7" coveredelements="7"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Util/Cast.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Util/Cast.php">
       <class name="PinkCrab\Perique_Settings_Page\Util\Cast" namespace="global">
         <metrics complexity="6" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="10" coveredelements="10"/>
       </class>
@@ -2267,7 +2272,7 @@
       <line num="57" type="stmt" count="15"/>
       <metrics loc="60" ncloc="28" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="7" elements="10" coveredelements="10"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Util/File_Helper.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Util/File_Helper.php">
       <class name="PinkCrab\Perique_Settings_Page\Util\File_Helper" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="11" coveredelements="11"/>
       </class>
@@ -2284,7 +2289,7 @@
       <line num="60" type="stmt" count="5"/>
       <metrics loc="63" ncloc="28" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="8" elements="11" coveredelements="11"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Util/Form_Helper.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Util/Form_Helper.php">
       <class name="PinkCrab\Perique_Settings_Page\Util\Form_Helper" namespace="global">
         <metrics complexity="3" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="22" coveredelements="22"/>
       </class>
@@ -2312,7 +2317,7 @@
       <line num="72" type="stmt" count="28"/>
       <metrics loc="75" ncloc="38" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="19" elements="22" coveredelements="22"/>
     </file>
-    <file name="/shared/httpd/php/htdocs/Perique-Settings-Page/src/Util/Hooks.php">
+    <file name="/shared/httpd/perique-sandbox/htdocs/Perique-Settings-Page/src/Util/Hooks.php">
       <class name="PinkCrab\Perique_Settings_Page\Util\Hooks" namespace="global">
         <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="8" coveredelements="8"/>
       </class>
@@ -2326,6 +2331,6 @@
       <line num="103" type="stmt" count="2"/>
       <metrics loc="106" ncloc="40" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="8" coveredelements="8"/>
     </file>
-    <metrics files="61" loc="7692" ncloc="4264" classes="59" methods="361" coveredmethods="361" conditionals="0" coveredconditionals="0" statements="1604" coveredstatements="1604" elements="1965" coveredelements="1965"/>
+    <metrics files="61" loc="7706" ncloc="4271" classes="59" methods="362" coveredmethods="362" conditionals="0" coveredconditionals="0" statements="1608" coveredstatements="1608" elements="1970" coveredelements="1970"/>
   </project>
 </coverage>

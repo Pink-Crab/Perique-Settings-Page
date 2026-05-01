@@ -29,6 +29,8 @@ use PinkCrab\Perique\Interfaces\Module;
 use PinkCrab\Perique\Application\App_Config;
 use PinkCrab\Perique\Interfaces\DI_Container;
 use PinkCrab\Perique_Settings_Page\Rest\Picker_Rest_Controller;
+use PinkCrab\Perique_Settings_Page\Setting\Setting_Repository;
+use PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Settings_Repository;
 
 class Settings_Page_Module implements Module {
 
@@ -38,7 +40,19 @@ class Settings_Page_Module implements Module {
 	}
 
 	/** @inheritDoc */
-	public function pre_boot( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void {} // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
+	public function pre_boot( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
+		// Default binding for the Setting_Repository interface. Consumers
+		// override per Settings class by adding a `substitutions` rule, e.g.:
+		//   $di->addRule( My_Settings::class, [
+		//       'substitutions' => [
+		//           Setting_Repository::class => Other_Repo::class,
+		//       ],
+		//   ] );
+		$di_container->addRule(
+			Setting_Repository::class,
+			array( 'instanceOf' => WP_Options_Settings_Repository::class )
+		);
+	}
 
 	/** @inheritDoc */
 	public function pre_register( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
