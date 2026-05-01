@@ -28,6 +28,9 @@ use PinkCrab\Loader\Hook_Loader;
 use PinkCrab\Perique\Interfaces\Module;
 use PinkCrab\Perique\Application\App_Config;
 use PinkCrab\Perique\Interfaces\DI_Container;
+use PinkCrab\Perique_Admin_Menu\Hooks as Admin_Menu_Hooks;
+use PinkCrab\Perique_Admin_Menu\Registry\Group_Page_Registry;
+use PinkCrab\Perique_Settings_Page\Page\Settings_Page;
 use PinkCrab\Perique_Settings_Page\Rest\Picker_Rest_Controller;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Repository;
 use PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Settings_Repository;
@@ -57,6 +60,31 @@ class Settings_Page_Module implements Module {
 	/** @inheritDoc */
 	public function pre_register( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
 		$loader->action( 'rest_api_init', array( new Picker_Rest_Controller(), 'register' ) );
+
+		// Subscribe to admin-menu's GROUPS_PROCESSED hook so Settings_Page subclasses
+		// declared only inside an Abstract_Group's $pages (never reaching our middleware
+		// process()) still get DI rules wired before Page_Dispatcher materialises them.
+		// add_action() rather than $loader->action() — the loader's queue isn't flushed
+		// until after process_middleware() finishes, by which time GROUPS_PROCESSED has
+		// already fired from Page_Middleware::tear_down() and a queued listener would
+		// have missed it.
+		add_action(
+			Admin_Menu_Hooks::GROUPS_PROCESSED,
+			function ( Group_Page_Registry $registry ) use ( $di_container ): void {
+				foreach ( array_keys( $registry->all_for_subclass( Settings_Page::class ) ) as $page_class ) {
+					/** @var class-string<Settings_Page> $page_class */
+					$page_instance = $di_container->create( $page_class );
+					if ( ! $page_instance instanceof Settings_Page ) {
+						continue;
+					}
+					Settings_Page_Middleware::wire_settings_page_rules(
+						$di_container,
+						$page_class,
+						$page_instance->settings_class_name()
+					);
+				}
+			}
+		);
 	}
 
 	/** @inheritDoc */

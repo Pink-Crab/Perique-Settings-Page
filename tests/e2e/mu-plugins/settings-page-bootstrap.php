@@ -70,6 +70,16 @@ require_once __DIR__ . '/fixtures/showcase/Theme_Showcase_Bootstrap_Classic_Page
 require_once __DIR__ . '/fixtures/showcase/Theme_Showcase_Wp_Admin_Page.php';
 require_once __DIR__ . '/fixtures/showcase/Theme_Showcase_Minimal_Page.php';
 
+// Group discovery — exercises Hooks::GROUPS_PROCESSED listener + issue #58 dedupe.
+require_once __DIR__ . '/fixtures/Test_Discovery_Settings_A.php';
+require_once __DIR__ . '/fixtures/Test_Discovery_Page_A.php';
+require_once __DIR__ . '/fixtures/Test_Discovery_Settings_B.php';
+require_once __DIR__ . '/fixtures/Test_Discovery_Page_B.php';
+require_once __DIR__ . '/fixtures/Test_Discovery_Settings_C.php';
+require_once __DIR__ . '/fixtures/Test_Discovery_Page_C.php';
+require_once __DIR__ . '/fixtures/Test_Discovery_Plain_Page.php';
+require_once __DIR__ . '/fixtures/Test_Discovery_Group.php';
+
 /*
  * E2E reset endpoint.
  *
@@ -269,5 +279,10 @@ use PinkCrab\Perique_Settings_Page\Registration\Settings_Page_Module;
 		Theme_Showcase_Bootstrap_Classic_Page::class,
 		Theme_Showcase_Wp_Admin_Page::class,
 		Theme_Showcase_Minimal_Page::class,
+
+		// Group discovery scenarios.
+		Test_Discovery_Page_A::class,    // Settings_Page registered as a single (no Group involvement).
+		Test_Discovery_Page_C::class,    // Duplicate — also declared inside Test_Discovery_Group's $pages.
+		Test_Discovery_Group::class,     // Group: primary=Page_B, pages=[Page_B, Page_C, Plain_Page].
 	) )
 	->boot();

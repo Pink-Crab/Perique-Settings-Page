@@ -21,18 +21,26 @@ namespace PinkCrab\Perique_Settings_Page\Tests\Integration\Registration;
 
 use ReflectionObject;
 use Spy_REST_Server;
+use stdClass;
 use WP_UnitTestCase;
+use PinkCrab\Loader\Hook_Loader;
+use PinkCrab\Perique\Application\App_Config;
 use PinkCrab\Perique\Application\App_Factory;
+use PinkCrab\Perique\Interfaces\DI_Container;
 use PinkCrab\Form_Components\Module\Form_Components;
+use PinkCrab\Perique_Admin_Menu\Hooks as Admin_Menu_Hooks;
 use PinkCrab\Perique_Admin_Menu\Module\Admin_Menu;
+use PinkCrab\Perique_Admin_Menu\Registry\Group_Page_Registry;
 use PinkCrab\Perique_Settings_Page\Registration\Settings_Page_Module;
 use PinkCrab\Perique_Settings_Page\Registration\Settings_Page_Middleware;
 use PinkCrab\Perique_Settings_Page\Setting\Setting_Repository;
 use PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Settings_Repository;
 use PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Options_Individual_Repository;
 use PinkCrab\Perique_Settings_Page\Setting\Repository\WP_Site_Options_Decorator;
+use PinkCrab\Perique_Settings_Page\Tests\Fixtures\DI_Default_Page;
 use PinkCrab\Perique_Settings_Page\Tests\Fixtures\DI_Default_Settings;
 use PinkCrab\Perique_Settings_Page\Tests\Fixtures\DI_Override_Settings;
+use PinkCrab\Perique_Settings_Page\Tests\Fixtures\Group_With_Settings_Page;
 use PinkCrab\Perique_Settings_Page\Tests\Integration\Helper_Factory;
 
 class Test_Settings_Page_Module extends WP_UnitTestCase {
@@ -239,6 +247,38 @@ class Test_Settings_Page_Module extends WP_UnitTestCase {
 			}
 		}
 		$this->assertTrue( $matched, 'Expected a /pc-settings/v1 REST route to be registered.' );
+	}
+
+	/**
+	 * @testdox The GROUPS_PROCESSED listener tolerates a DI container that returns a non-Settings_Page (e.g. stdClass) for a registered page class — it skips that entry without calling addRule.
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_listener_skips_when_di_returns_non_settings_page(): void {
+		$registry = new Group_Page_Registry();
+		$registry->record( DI_Default_Page::class, new Group_With_Settings_Page() );
+
+		// Mocked container returns a stdClass for any create() call, including
+		// the Settings_Page subclass key — exercises the defensive guard branch.
+		$di = $this->createMock( DI_Container::class );
+		$di->method( 'create' )->willReturn( new stdClass() );
+		$di->expects( $this->never() )
+			->method( 'addRule' );
+
+		// Wire the listener via pre_register, with a Hook_Loader mock so the
+		// rest_api_init queueing doesn't hit anything real. App_Config is
+		// final so we instantiate it (constructor accepts an empty settings array).
+		$loader = $this->createMock( Hook_Loader::class );
+		$config = new App_Config();
+
+		( new Settings_Page_Module() )->pre_register( $config, $loader, $di );
+
+		// Fire the action — listener iterates the registry, hits the guard, continues.
+		do_action( Admin_Menu_Hooks::GROUPS_PROCESSED, $registry );
+
+		// If we reach this point without an exception and addRule was never
+		// called (mock expectation), the guard worked.
+		$this->assertTrue( true );
 	}
 
 	/**

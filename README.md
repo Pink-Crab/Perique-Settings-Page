@@ -108,6 +108,27 @@ class Acme_Settings_Page extends Settings_Page {
 
 Register the page through the Admin Menu module as normal. The settings object is resolved via the DI container, so you can type-hint dependencies on the constructor.
 
+### Registering inside an Abstract_Group
+
+A `Settings_Page` may live inside an [`Abstract_Group`](https://github.com/Pink-Crab/Perique_Admin_Menu/blob/master/docs/group.md) (`$primary_page` or `$pages`) without also being listed in `App::registration_classes()`. The module subscribes to admin-menu's `Hooks::GROUPS_PROCESSED` action and auto-wires the same DI rules (`shared` settings instance + `set_settings()` call rule) for every `Settings_Page` subclass it discovers inside a Group.
+
+```php
+use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
+
+class Acme_Group extends Abstract_Group {
+    protected $group_title  = 'Acme';
+    protected $primary_page = Acme_Settings_Page::class;
+    protected $pages        = array( Acme_Settings_Page::class, Acme_Help_Page::class );
+}
+
+// In your plugin bootstrap — only the Group needs to be registered.
+$app->registration_classes( array( Acme_Group::class ) );
+```
+
+A page may appear in both `registration_classes()` AND inside a Group's `$pages` without registering twice — admin-menu's `Group_Page_Registry` (introduced in `pinkcrab/perique-admin-menu` 2.1.1) claims the page on the Group's behalf and the single-page registration path short-circuits.
+
+> Requires `pinkcrab/perique-admin-menu` 2.1.1 or later. Plain `Menu_Page` subclasses inside a Group are unaffected — only `Settings_Page` subclasses receive the auto-wiring.
+
 ****
 
 ## Building a Complete Settings Page
@@ -547,7 +568,8 @@ If a settings class needs a repository with required constructor args (e.g. `WP_
 
 ## Change Log
 
-* **2.1.0** — Full rewrite for Perique Framework 2.1. Rendering moved to [Form Components](https://github.com/Pink-Crab/Perique-Form-Components). New layout helpers (Section, Row, Grid, Stack, Divider, Notice). Six bundled themes. Pickers backed by a REST endpoint. Repeater with add / remove / drag-reorder. Full jQuery removal — everything runs on vanilla JS. 648+ unit and integration tests (100% coverage), 70+ Playwright end-to-end tests. Drops support for Perique Framework `< 2.1`.
+* **2.1.1** — Default DI binding for `Setting_Repository` → `WP_Options_Settings_Repository` in `Settings_Page_Module::pre_boot()` (per-class `substitutions` remain the override path). Subscribes to `pinkcrab/perique-admin-menu` 2.1.1's `Hooks::GROUPS_PROCESSED` action so a `Settings_Page` declared only inside an `Abstract_Group`'s `$pages` is auto-wired with `set_settings()` and no longer renders the "Settings not initialised" fallback. Suppresses the WP 6.8 `wp_is_block_theme` notice in the test harness so integration boots stop crashing.
+* 2.1.0 — Full rewrite for Perique Framework 2.1. Rendering moved to [Form Components](https://github.com/Pink-Crab/Perique-Form-Components). New layout helpers (Section, Row, Grid, Stack, Divider, Notice). Six bundled themes. Pickers backed by a REST endpoint. Repeater with add / remove / drag-reorder. Full jQuery removal — everything runs on vanilla JS. 648+ unit and integration tests (100% coverage), 70+ Playwright end-to-end tests. Drops support for Perique Framework `< 2.1`.
 * 0.1.0 — Initial recreation of the legacy settings page module on top of `WP_Settings_API`.
 
 ## License
