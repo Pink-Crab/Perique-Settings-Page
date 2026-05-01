@@ -515,6 +515,34 @@ Persistence is handled by an implementation of `Setting_Repository`. Four are bu
 
 Implement `Setting_Repository` for a custom backend (transients, custom tables, remote API, etc.).
 
+### Default binding & per-class overrides
+
+`Settings_Page_Module` binds `Setting_Repository` to `WP_Options_Settings_Repository` as the default in `pre_boot()`, so a settings class with no constructor override (the example at the top of this README) gets it auto-injected.
+
+Override per settings class via a DI `substitutions` rule — that wins over the default for that one class only:
+
+```php
+$container->addRule( My_Settings::class, array(
+    'substitutions' => array(
+        Setting_Repository::class => WP_Options_Individual_Repository::class,
+    ),
+) );
+```
+
+Decorator stacks compose naturally — substituting `WP_Site_Options_Decorator` for one settings class injects it with the default repo as its inner:
+
+```php
+$container->addRule( My_Multisite_Settings::class, array(
+    'substitutions' => array(
+        Setting_Repository::class => WP_Site_Options_Decorator::class,
+    ),
+) );
+```
+
+If a settings class needs a repository with required constructor args (e.g. `WP_Options_Named_Groups_Repository`), or a hand-built decorator chain, the alternative is to override the settings class's own `__construct()` and pass the built repo to `parent::__construct()`.
+
+> Re-binding `Setting_Repository` itself (`addRule( Setting_Repository::class, [...] )`) is **not** the override path — `pre_boot` runs after consumer DI rules, so an interface-level rebinding gets clobbered. Use per-class `substitutions` instead.
+
 ****
 
 ## Change Log
